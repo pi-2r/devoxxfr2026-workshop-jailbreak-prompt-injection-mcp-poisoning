@@ -35,5 +35,6 @@ Conversation Gemini : https://docs.google.com/document/d/1ZKF8DCiaAFb6NBF6SwTe_s
 * https://arxiv.org/pdf/2504.08623
 * https://on24static.akamaized.net/event/51/28/51/0/rt/1/documents/resourceList1767626748225/securingmcpservers11767626748225.pdf
 * https://m.devoxx.com/events/devoxxfr2026/talks/12085/les-gardiens-du-prompt-menaces-et-recettes-de-scurit-pour-une-production-zen
+* https://on24static.akamaized.net/event/49/99/10/0/rt/1/documents/resourceList1756309091089/createaiagentswithmodelcontextprotocol1756309091089.pdf
 
 
