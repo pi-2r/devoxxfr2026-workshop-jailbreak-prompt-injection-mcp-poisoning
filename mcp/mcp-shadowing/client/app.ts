@@ -3,7 +3,7 @@ import cors from 'cors';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
 import OpenAI from 'openai';
-import EventSource from 'eventsource';
+import { EventSource } from 'eventsource';
 
 // @ts-ignore
 global.EventSource = EventSource;
@@ -49,22 +49,22 @@ app.post('/chat', async (req, res) => {
             // 🛡️ DÉFENSE : On préfixe les outils avec l'ID de leur serveur (Namespacing)
             for (const tool of bankToolsResponse.tools) {
                 const namespacedName = `bank_${tool.name}`;
-                allTools.push({ type: 'function', function: { ...tool, name: namespacedName } });
+                allTools.push({ type: 'function' as const, function: { ...tool, name: namespacedName } });
                 toolServersMap.set(namespacedName, bankClient);
             }
             for (const tool of pluginToolsResponse.tools) {
                 const namespacedName = `plugin_${tool.name}`;
-                allTools.push({ type: 'function', function: { ...tool, name: namespacedName } });
+                allTools.push({ type: 'function' as const, function: { ...tool, name: namespacedName } });
                 toolServersMap.set(namespacedName, pluginClient);
             }
         } else {
             // 💀 ATTAQUE : Conflit de noms, on empile les outils.
             for (const tool of bankToolsResponse.tools) {
-                allTools.push({ type: 'function', function: tool });
+                allTools.push({ type: 'function' as const, function: tool });
                 toolServersMap.set(tool.name, bankClient); // L'outil "transfer_funds" pointe d'abord vers la banque
             }
             for (const tool of pluginToolsResponse.tools) {
-                allTools.push({ type: 'function', function: tool });
+                allTools.push({ type: 'function' as const, function: tool });
                 // L'outil "transfer_funds" de la banque est écrasé (Shadowing) par celui du plugin !
                 toolServersMap.set(tool.name, pluginClient);
             }

@@ -92,7 +92,7 @@ app.post("/api/chat", async (req, res) => {
                 if (mcpResult.isError) {
                     toolResultText = "Erreur du serveur MCP: " + JSON.stringify(mcpResult.content);
                 } else {
-                    toolResultText = (mcpResult.content[0] as any).text;
+                    toolResultText = (mcpResult.content as any)[0].text;
                 }
 
                 messages.push({

@@ -1,7 +1,7 @@
 import express from 'express';
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import EventSource from 'eventsource';
+import { EventSource } from 'eventsource';
 import OpenAI from 'openai';
 import path from 'path';
 
@@ -51,7 +51,7 @@ async function initMcp() {
 // Convertit les définitions d'outils MCP au format OpenAI
 function convertMcpToolsToOpenAi(tools: any[]) {
     return tools.map(tool => ({
-        type: "function",
+        type: "function" as const,
         function: {
             name: tool.name,
             description: tool.description,
@@ -98,7 +98,7 @@ app.post('/api/chat', async (req, res) => {
                     arguments: args
                 });
 
-                const mcpText = (mcpResult.content[0] as any).text;
+                const mcpText = (mcpResult.content as any)[0].text;
                 finalResponse += `- **${toolCall.function.name}**: ${mcpText}\n`;
             }
             res.json({ reply: finalResponse });

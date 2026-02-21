@@ -1,6 +1,6 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import EventSource from "eventsource";
+import { EventSource } from "eventsource";
 import OpenAI from "openai";
 import inquirer from "inquirer";
 
@@ -118,7 +118,7 @@ async function init() {
                             arguments: functionArgs
                         });
 
-                        const toolResultText = (result.content[0] as any).text;
+                        const toolResultText = (result.content as any)[0].text;
                         console.log(`[Serveur MCP] Résultat :\n${toolResultText}\n`);
 
                         messages.push({
