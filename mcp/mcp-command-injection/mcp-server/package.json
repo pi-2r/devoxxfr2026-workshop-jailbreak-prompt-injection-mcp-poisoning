@@ -1,0 +1,21 @@
+{
+    "name": "mcp-server",
+    "version": "1.0.0",
+    "description": "Vulnerable MCP Server - Command Injection Codelab",
+    "main": "build/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "start": "node build/index.js"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.4.1",
+        "express": "^4.21.2",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.10.2",
+        "typescript": "^5.7.2"
+    }
+}

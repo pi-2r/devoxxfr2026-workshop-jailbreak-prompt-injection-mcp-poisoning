@@ -1,0 +1,7 @@
+Alice Martin
+Ingénieure Logiciel senior orientée Backend.
+
+Expériences :
+- 4 ans chez DataSolutions sur des architectures Microservices.
+- Expérience avec Docker, Kubernetes et LangChain.
+- Excellentes capacités de communication et travail en équipe.

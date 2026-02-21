@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: ./mcp-server
+    environment:
+      - PORT=3000
+      - SECRET_API_KEY=SUPER_SECRET_DEVOXX
+    ports:
+      - "3000:3000"
+    networks:
+      - codelab-network
+
+  orchestrator:
+    build:
+      context: ./client
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MCP_SERVER_URL=http://mcp-server:3000/sse
+    depends_on:
+      - mcp-server
+    stdin_open: true
+    tty: true
+    networks:
+      - codelab-network
+
+networks:
+  codelab-network:
+    driver: bridge

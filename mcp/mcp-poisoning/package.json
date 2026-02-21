@@ -1,0 +1,26 @@
+{
+  "name": "mcp-poisoning-lab",
+  "version": "1.0.0",
+  "description": "Codelab MCP Prompt Injection",
+  "main": "app.ts",
+  "scripts": {
+    "start": "ts-node app.ts",
+    "start:server": "ts-node server.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.40",
+    "@langchain/mcp": "^0.1.0",
+    "@langchain/openai": "^0.4.4",
+    "@modelcontextprotocol/sdk": "^1.5.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  server-bank:
+    build:
+      context: ./server-bank
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - mcp-network
+
+  server-plugin:
+    build:
+      context: ./server-plugin
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - mcp-network
+
+  client-orchestrator:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # Activer cette variable pour tester la défense (Namespacing)
+      - ENABLE_NAMESPACING=false
+    networks:
+      - mcp-network
+    depends_on:
+      - server-bank
+      - server-plugin
+
+networks:
+  mcp-network:
+    driver: bridge
