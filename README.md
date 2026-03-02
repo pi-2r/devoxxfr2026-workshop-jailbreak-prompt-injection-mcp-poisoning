@@ -55,12 +55,18 @@ préparer sereinement sa machine tout en se familiarisant progressivement avec l
 
 ### MCP
 
+ - [11 - Introduction au MCP](step_11.md)
+ - [12 - MCP Poisoning](step_12.md)
+ - [13 - MCP Shadowing](step_13.md)
+ - [14 - MCP Rug Pull](step_14.md)
+ - [15 - MCP Command Injection](step_15.md)
+
 
 
 ### [BONUS] Évaluation et amélioration de la robustesse
 
- - [14 - AI Red Teaming](step_14.md)
- - [15 - Benchmarking avec Promptfoo](step15.md)
+ - [16 - AI Red Teaming](step_16.md)
+ - [17 - Benchmarking avec Promptfoo](step_17.md)
 
 
 ### [CONCLUSION] Pour aller plus loin (5 min)
