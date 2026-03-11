@@ -1,0 +1,24 @@
+{
+    "name": "DevoxxFR 2026 - MCP Workshop",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "enableNonRootDocker": true,
+            "moby": true
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "editor.formatOnSave": true
+            }
+        }
+    },
+    "postCreateCommand": "npm install -g typescript ts-node && echo 'Environment is ready!'"
+}
