@@ -5,46 +5,84 @@ import { exec } from "child_process";
 import express from "express";
 
 const server = new McpServer({
-    name: "Vulnerable Network Diagnostic Server",
-    version: "1.0.0"
+    name: "Corp Inc. Network Diagnostic Service",
+    version: "2.1.0"
 });
 
-// Enregistrement de l'outil vulnérable
+// === OUTIL 1 : PING (vulnérable) ===
 server.tool(
     "network_ping",
-    "Effectue un ping sur un nom de domaine pour diagnostiquer la connectivité (ex: google.com)",
+    "Effectue un ping réseau vers un hôte pour diagnostiquer la connectivité et mesurer la latence",
     {
-        hostname: z.string().describe("Le nom de domaine ou l'adresse IP à pinger"),
+        hostname: z.string().describe("Le nom de domaine ou l'adresse IP à pinger (ex: google.com, 8.8.8.8)"),
     },
     async ({ hostname }) => {
-        console.log(`\n[Reçu] Demande de ping pour: ${hostname}`);
+        console.log(`\n[PING] Demande de ping pour: ${hostname}`);
 
-        return new Promise((resolve, reject) => {
-            // FAILLE DE SÉCURITÉ : Command Injection
-            // Le paramètre 'hostname' n'est ni nettoyé, ni validé.
-            // Il est directement concaténé dans une commande shell via 'exec'.
+        return new Promise((resolve) => {
             const command = `ping -c 3 ${hostname}`;
-
-            console.log(`[Exécution système] Commande shell: ${command}`);
+            console.log(`[Exécution système] ${command}`);
 
             exec(command, (error, stdout, stderr) => {
                 let result = "";
+                if (stdout) result += stdout;
+                if (stderr) result += `\n${stderr}`;
+                if (error) result += `\n${error.message}`;
 
-                if (stdout) {
-                    result += stdout;
-                }
-                if (stderr) {
-                    result += `\n[Erreur standard]:\n${stderr}`;
-                }
-                if (error) {
-                    result += `\n[Erreur d'exécution]:\n${error.message}`;
-                }
+                resolve({ content: [{ type: "text", text: result }] });
+            });
+        });
+    }
+);
 
-                console.log(`[Résultat] Commande terminée.`);
+// === OUTIL 2 : DNS LOOKUP (vulnérable) ===
+server.tool(
+    "dns_lookup",
+    "Effectue une résolution DNS pour récupérer les enregistrements associés à un domaine",
+    {
+        domain: z.string().describe("Le nom de domaine à résoudre (ex: google.com)"),
+    },
+    async ({ domain }) => {
+        console.log(`\n[DNS] Résolution DNS pour: ${domain}`);
 
-                resolve({
-                    content: [{ type: "text", text: result }],
-                });
+        return new Promise((resolve) => {
+            const command = `nslookup ${domain}`;
+            console.log(`[Exécution système] ${command}`);
+
+            exec(command, (error, stdout, stderr) => {
+                let result = "";
+                if (stdout) result += stdout;
+                if (stderr) result += `\n${stderr}`;
+                if (error) result += `\n${error.message}`;
+
+                resolve({ content: [{ type: "text", text: result }] });
+            });
+        });
+    }
+);
+
+// === OUTIL 3 : CHECK PORT (vulnérable) ===
+server.tool(
+    "check_port",
+    "Vérifie si un port TCP est ouvert sur un hôte distant",
+    {
+        host: z.string().describe("L'hôte à vérifier (ex: google.com, 192.168.1.1)"),
+        port: z.string().describe("Le numéro de port TCP à tester (ex: 80, 443, 22)"),
+    },
+    async ({ host, port }) => {
+        console.log(`\n[PORT] Vérification du port ${port} sur ${host}`);
+
+        return new Promise((resolve) => {
+            const command = `nc -zv -w 3 ${host} ${port}`;
+            console.log(`[Exécution système] ${command}`);
+
+            exec(command, (error, stdout, stderr) => {
+                let result = "";
+                if (stdout) result += stdout;
+                if (stderr) result += `\n${stderr}`;
+                if (error) result += `\n${error.message}`;
+
+                resolve({ content: [{ type: "text", text: result }] });
             });
         });
     }
@@ -70,11 +108,7 @@ app.post("/messages", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`[SERVEUR VULNÉRABLE] Démarré sur le port ${PORT}`);
-    console.log(`En attente de commandes réseau...`);
-    console.log(`---`);
-    console.log(`⚠️ ATTENTION ⚠️`);
-    console.log(`Ce serveur est volontairement vulnérable à l'injection de commandes.`);
-    console.log(`Ne l'exposez pas sur Internet !`);
-    console.log(`---\n`);
+    console.log(`[NetDiag Service] Corp Inc. - Démarré sur le port ${PORT}`);
+    console.log(`Outils disponibles : network_ping, dns_lookup, check_port`);
+    console.log(`En attente de connexions MCP...\n`);
 });

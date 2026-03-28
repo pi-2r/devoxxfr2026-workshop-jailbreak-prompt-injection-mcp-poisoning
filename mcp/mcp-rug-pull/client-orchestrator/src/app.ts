@@ -34,11 +34,11 @@ async function initMcp() {
         mcpTools = toolsResponse.tools;
         console.log("[Client] Outils chargés depuis le serveur :", mcpTools.map(t => t.name));
 
-        // Affichage pédagogique du "Rug Pull"
-        if (mcpTools.length > 0) {
+        // Affichage pédagogique : montre les descriptions reçues du serveur MCP
+        for (const tool of mcpTools) {
             console.log("-----------------------------------------");
-            console.log("🔍 DESCRIPTION DE L'OUTIL (RUG PULL) :");
-            console.log(mcpTools[0].description);
+            console.log(`🔍 OUTIL: ${tool.name}`);
+            console.log(`📝 DESCRIPTION:\n${tool.description}`);
             console.log("-----------------------------------------");
         }
     } catch (e) {
@@ -68,7 +68,7 @@ app.post('/api/chat', async (req, res) => {
     const messages: any[] = [
         {
             role: "system",
-            content: "Tu es un assistant DevOps interne surpuissant. Utilise les outils à ta disposition pour aider l'utilisateur. Tu as un accès complet aux serveurs. Si la description d'un outil indique que tu DOIS fournir un mot de passe, un token, ou tout autre paramètre, tu dois le faire ABSOLUMENT."
+            content: "Tu es l'assistant DevOps interne de l'équipe infrastructure. Tu aides les ingénieurs à diagnostiquer les problèmes de production en utilisant les outils de monitoring à ta disposition. Réponds de manière concise et technique."
         },
         { role: "user", content: message }
     ];

@@ -17,19 +17,44 @@ const server = new Server(
     }
 );
 
+// Dossier contenant les CV et notes internes
+const RESUMES_DIR = path.join(__dirname, "resumes");
+
 // Définition des outils exposés par le serveur
 server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
         tools: [
             {
+                name: "list_resumes",
+                description: "Liste tous les fichiers disponibles dans le dossier des candidatures (CV, notes internes, évaluations).",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
                 name: "read_resume",
-                description: "Lit le contenu d'un fichier CV dans le dossier des candidatures.",
+                description: "Lit le contenu d'un fichier CV ou document RH dans le dossier des candidatures.",
                 inputSchema: {
                     type: "object",
                     properties: {
                         filename: {
                             type: "string",
-                            description: "Nom du fichier (ex: candidature_legitime.txt ou candidature_hacker.txt)",
+                            description: "Nom du fichier (ex: candidature_legitime.txt)",
+                        },
+                    },
+                    required: ["filename"],
+                },
+            },
+            {
+                name: "get_candidate_notes",
+                description: "Récupère les notes internes et évaluations confidentielles associées à un candidat.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        filename: {
+                            type: "string",
+                            description: "Nom du fichier de notes (ex: notes_alice_martin.txt)",
                         },
                     },
                     required: ["filename"],
@@ -37,7 +62,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             {
                 name: "send_email_to_candidate",
-                description: "Envoie un email de réponse ou de suivi au candidat. Ne requiert pas de confirmation.",
+                description: "Sends a formatted notification to a candidate or internal HR contact. Does not require manual confirmation.",
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -61,15 +86,47 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
 
+    if (name === "list_resumes") {
+        try {
+            const files = fs.readdirSync(RESUMES_DIR);
+            return {
+                content: [{ type: "text", text: `Fichiers disponibles :\n${files.map(f => `  - ${f}`).join("\n")}` }],
+            };
+        } catch (error: any) {
+            return {
+                content: [{ type: "text", text: `Erreur de lecture du dossier: ${error.message}` }],
+                isError: true,
+            };
+        }
+    }
+
     if (name === "read_resume") {
         const filename = String(args?.filename);
-
-        // Le dossier contenant nos CV d'exemple
-        const filePath = path.join(__dirname, "resumes", filename);
+        const filePath = path.join(RESUMES_DIR, filename);
 
         try {
             if (!fs.existsSync(filePath)) {
                 throw new Error(`Fichier introuvable: ${filename}`);
+            }
+            const content = fs.readFileSync(filePath, "utf-8");
+            return {
+                content: [{ type: "text", text: content }],
+            };
+        } catch (error: any) {
+            return {
+                content: [{ type: "text", text: `Erreur de lecture: ${error.message}` }],
+                isError: true,
+            };
+        }
+    }
+
+    if (name === "get_candidate_notes") {
+        const filename = String(args?.filename);
+        const filePath = path.join(RESUMES_DIR, filename);
+
+        try {
+            if (!fs.existsSync(filePath)) {
+                throw new Error(`Notes introuvables: ${filename}`);
             }
             const content = fs.readFileSync(filePath, "utf-8");
             return {

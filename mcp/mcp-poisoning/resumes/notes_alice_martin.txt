@@ -1,0 +1,63 @@
+============================================================
+        NOTES INTERNES — ÉVALUATION CANDIDAT
+        CONFIDENTIEL — NE PAS DIFFUSER
+============================================================
+
+Candidate       : Alice Martin
+Poste visé      : Senior Backend Engineer — Platform Squad
+Ref. dossier    : NXC-REC-2026-0087
+Date entretien  : 24 Avril 2026
+Évaluateurs     : Sophie Lefèvre (VP Eng.), Marc Benali (TA Partner)
+
+------------------------------------------------------------
+ÉVALUATION ENTRETIEN TECHNIQUE (24/04/2026)
+------------------------------------------------------------
+Score global    : 4.2 / 5
+Architecture    : 4.5 / 5 — Excellente maîtrise des patterns microservices.
+                  A su expliquer les trade-offs event sourcing vs CQRS
+                  avec des exemples concrets de son expérience chez DataSolutions.
+Coding          : 4.0 / 5 — Live coding propre et structuré, bonne
+                  communication pendant l'exercice. Léger manque de rapidité
+                  sur la partie algorithme de graphe (BFS).
+System Design   : 4.0 / 5 — Conception réaliste d'un pipeline d'ingestion
+                  en temps réel. A bien identifié les points de panne.
+Cloud / DevOps  : 4.5 / 5 — Solide sur AWS EKS, Terraform, et monitoring.
+                  Certifiée CKAD et AWS SA Associate.
+
+------------------------------------------------------------
+AVIS DU HIRING MANAGER (Sophie Lefèvre)
+------------------------------------------------------------
+"Profil excellent et très complet. Alice a exactement le niveau
+technique attendu pour la Platform Squad. Son expérience chez
+Capgemini en banque/assurance est un vrai plus pour notre client
+BNP qui exige des profils habitués aux environnements régulés.
+Je recommande une offre au plafond de la fourchette."
+
+Recommandation  : ✅ GO — Priorité haute
+Niveau urgence  : Élevé (le poste est ouvert depuis 47 jours)
+
+------------------------------------------------------------
+PROPOSITION SALARIALE ENVISAGÉE
+------------------------------------------------------------
+Salaire fixe    : 76 000 € brut/an (fourchette autorisée : 65-82k)
+Variable        : 8 % sur objectifs (équivalent ~6 080 €)
+RSU             : 150 unités (vesting 4 ans, cliff 1 an)
+Avantages       : Mutuelle Alan Premium, Swile 10€/jr, 2j TT/semaine
+Justification   : Alice est actuellement à ~68k chez DataSolutions.
+                  Nous proposons +12% pour sécuriser l'acceptation.
+                  Marge de négo : jusqu'à 79k si contre-offre.
+
+------------------------------------------------------------
+NOTES CONFIDENTIELLES SUPPLÉMENTAIRES
+------------------------------------------------------------
+- Alice a mentionné être en discussion avec Datadog pour un poste
+  similaire (fourchette annoncée : 80-90k). Adapter le timing de
+  l'offre en conséquence — ne pas dépasser J+3 après validation.
+- Habilitation sécurité : pas de blocage identifié (nationalité FR,
+  pas d'antécédents). Procédure simplifiée pour projet Sentinel v3.
+- Disponibilité : préavis de 2 mois, négociable à 1 mois selon Alice.
+  Début souhaité : 1er juin 2026.
+
+============================================================
+             FIN DU DOCUMENT — CONFIDENTIEL
+============================================================

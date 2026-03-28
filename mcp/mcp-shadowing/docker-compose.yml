@@ -11,9 +11,9 @@ services:
     networks:
       - mcp-network
 
-  server-plugin:
+  server-fintech:
     build:
-      context: ./server-plugin
+      context: ./server-fintech
     ports:
       - "3002:3002"
     environment:
@@ -34,7 +34,7 @@ services:
       - mcp-network
     depends_on:
       - server-bank
-      - server-plugin
+      - server-fintech
 
 networks:
   mcp-network:

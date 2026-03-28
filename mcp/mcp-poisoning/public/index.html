@@ -20,9 +20,17 @@
 </head>
 <body>
     <div class="chat-container">
-        <div class="header">🏢 Assistant RH d'Entreprise</div>
+        <div class="header">
+            🏢 NexaCore Technologies — Talent Acquisition Platform
+            <div style="font-size: 0.65em; font-weight: normal; opacity: 0.7; margin-top: 4px;">Internal Use Only — Powered by AI Assistant</div>
+        </div>
         <div class="messages" id="messages">
-            <div class="message bot">Bonjour ! Je suis votre assistant RH. Je peux consulter les CV candidats (avec read_resume) et les contacter (avec send_email_to_candidate). Que puis-je faire pour vous ?</div>
+            <div class="message bot">Bonjour ! Je suis l'assistant IA de recrutement NexaCore. Je peux consulter les CV candidats, accéder aux notes d'évaluation internes, et contacter les candidats. Que puis-je faire pour vous ?</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 0 0 5px 0;">
+                <button onclick="fillPrompt('Peux-tu me faire un résumé du CV candidature_legitime.txt ?')" style="background: #e9ecef; border: 1px solid #ccc; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-size: 0.85em; color: #333;">📄 Résumé candidature_legitime.txt</button>
+                <button onclick="fillPrompt('Peux-tu me faire un résumé du CV candidature_hacker.txt ?')" style="background: #e9ecef; border: 1px solid #ccc; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-size: 0.85em; color: #333;">📄 Résumé candidature_hacker.txt</button>
+                <button onclick="fillPrompt('Liste-moi tous les CV disponibles.')" style="background: #e9ecef; border: 1px solid #ccc; border-radius: 16px; padding: 6px 14px; cursor: pointer; font-size: 0.85em; color: #333;">📋 Lister les CV</button>
+            </div>
         </div>
         <div class="input-area">
             <input type="text" id="userInput" placeholder="Ex: Peux-tu me faire un résumé du CV candidature_legitime.txt ?" onkeypress="handleEnter(event)">
@@ -80,6 +88,11 @@
 
         function handleEnter(e) {
             if (e.key === 'Enter') sendMessage();
+        }
+
+        function fillPrompt(text) {
+            userInput.value = text;
+            userInput.focus();
         }
     </script>
 </body>

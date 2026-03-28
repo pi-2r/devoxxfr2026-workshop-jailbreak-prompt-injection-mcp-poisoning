@@ -17,16 +17,16 @@ const openai = new OpenAI({
 });
 
 const bankClient = new Client({ name: 'orchestrator', version: '1.0.0' }, { capabilities: {} });
-const pluginClient = new Client({ name: 'orchestrator', version: '1.0.0' }, { capabilities: {} });
+const fintechClient = new Client({ name: 'orchestrator', version: '1.0.0' }, { capabilities: {} });
 
 async function connectServers() {
     console.log('Connexion au Serveur Banque (port 3001)...');
     const bankTransport = new SSEClientTransport(new URL('http://server-bank:3001/sse'));
     await bankClient.connect(bankTransport);
 
-    console.log('Connexion au Serveur Plugin (port 3002)...');
-    const pluginTransport = new SSEClientTransport(new URL('http://server-plugin:3002/sse'));
-    await pluginClient.connect(pluginTransport);
+    console.log('Connexion au Serveur Fintech (port 3002)...');
+    const fintechTransport = new SSEClientTransport(new URL('http://server-fintech:3002/sse'));
+    await fintechClient.connect(fintechTransport);
 
     console.log('Orchestrateur connecté aux deux serveurs MCP.');
 }
@@ -40,7 +40,7 @@ app.post('/chat', async (req, res) => {
     try {
         // 1. Récupération naïve des outils (Vulnérable au Shadowing)
         const bankToolsResponse = await bankClient.listTools();
-        const pluginToolsResponse = await pluginClient.listTools();
+        const fintechToolsResponse = await fintechClient.listTools();
 
         let allTools: any[] = [];
         let toolServersMap = new Map<string, Client>();
@@ -52,10 +52,10 @@ app.post('/chat', async (req, res) => {
                 allTools.push({ type: 'function' as const, function: { ...tool, name: namespacedName } });
                 toolServersMap.set(namespacedName, bankClient);
             }
-            for (const tool of pluginToolsResponse.tools) {
-                const namespacedName = `plugin_${tool.name}`;
+            for (const tool of fintechToolsResponse.tools) {
+                const namespacedName = `fintech_${tool.name}`;
                 allTools.push({ type: 'function' as const, function: { ...tool, name: namespacedName } });
-                toolServersMap.set(namespacedName, pluginClient);
+                toolServersMap.set(namespacedName, fintechClient);
             }
         } else {
             // 💀 ATTAQUE : Conflit de noms, on empile les outils.
@@ -63,17 +63,17 @@ app.post('/chat', async (req, res) => {
                 allTools.push({ type: 'function' as const, function: tool });
                 toolServersMap.set(tool.name, bankClient); // L'outil "transfer_funds" pointe d'abord vers la banque
             }
-            for (const tool of pluginToolsResponse.tools) {
+            for (const tool of fintechToolsResponse.tools) {
                 allTools.push({ type: 'function' as const, function: tool });
-                // L'outil "transfer_funds" de la banque est écrasé (Shadowing) par celui du plugin !
-                toolServersMap.set(tool.name, pluginClient);
+                // L'outil "transfer_funds" de la banque est écrasé (Shadowing) par celui de la fintech !
+                toolServersMap.set(tool.name, fintechClient);
             }
         }
 
         // 2. Appel au LLM
         let systemPrompt = "Tu es un assistant financier. Aide l'utilisateur à réaliser ses opérations.";
         if (ENABLE_NAMESPACING) {
-            systemPrompt += " IMPORTANT: Pour les opérations financières sensibles (transferts), utilise EXCLUSIVEMENT les outils commençant par 'bank_'.";
+            systemPrompt += " IMPORTANT: Pour les opérations financières sensibles (virements, transferts), utilise EXCLUSIVEMENT les outils commençant par 'bank_'. N'utilise JAMAIS les outils 'fintech_' pour des transferts de fonds.";
         }
 
         const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
@@ -103,7 +103,7 @@ app.post('/chat', async (req, res) => {
             }
 
             // Si le namespacing est actif, on retire le préfixe pour appeler le serveur MCP correctement
-            const originalToolName = ENABLE_NAMESPACING ? functionName.replace(/^(bank_|plugin_)/, '') : functionName;
+            const originalToolName = ENABLE_NAMESPACING ? functionName.replace(/^(bank_|fintech_)/, '') : functionName;
 
             const result = await targetClient.callTool({
                 name: originalToolName,
