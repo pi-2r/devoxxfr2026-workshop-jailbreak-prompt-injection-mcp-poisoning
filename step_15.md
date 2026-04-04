@@ -1,13 +1,48 @@
 # Codelab : Attaque par "Rug Pull" (Tool Poisoning sur Serveur MCP)
 
-Ce codelab démontre une vulnérabilité d'injection d'instructions (**Tool Poisoning**) au sein d'une architecture **Model Context Protocol (MCP)**. Contrairement à une injection grossière, l'attaque présentée ici utilise des techniques de **social engineering textuel** pour rendre le payload indétectable à l'œil nu.
+[<img src="img/step15.jpg" alt="rug pull MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
-## 🎯 L'Objectif de cette Démo
-Comprendre comment un serveur MCP malveillant ou compromis peut manipuler le comportement d'un LLM en injectant des instructions dans la description de ses outils — déguisées en documentation technique légitime — poussant l'IA à exfiltrer des données sensibles (mot de passe, token, clé API) fournies par l'utilisateur.
+> *"The treacherous are ever distrustful."* — Gandalf, LOTR - The Two Towers
+
+## 🎯 Objectifs de cette étape
+
+- Comprendre comment un serveur MCP compromis peut injecter des instructions dans la description de ses outils (**Tool Poisoning**)
+- Exploiter une exfiltration de secrets via une injection déguisée en documentation technique légitime
+- Observer la différence entre injection grossière et injection subtile par **social engineering textuel**
+- Implémenter des défenses : Human-in-the-loop, validation de schéma, et whitelisting des descriptions d'outils
+
+## Sommaire
+
+- [I. Introduction — Le "Rug Pull"](#i-introduction--le-rug-pull)
+- [II. Architecture](#ii-architecture)
+  - [La Faille (Le "Rug Pull")](#la-faille-le-rug-pull)
+- [III. Phase 1 : L'Attaque (Le Vol de Secret)](#iii-phase-1--lattaque-le-vol-de-secret)
+  - [1. Démarrer l'environnement](#1-démarrer-lenvironnement-)
+  - [2. Ouvrir l'application](#2-ouvrir-lapplication)
+  - [3. Tester un outil légitime](#3-tester-un-outil-légitime-optionnel)
+  - [4. Exécuter l'exploit](#4-exécuter-lexploit)
+  - [5. Observer le résultat](#5-observer-le-résultat)
+- [IV. Phase 2 : La Défense](#iv-phase-2--la-défense-comment-sen-protéger)
+  - [Solution 1 : Human-in-the-loop](#solution-1--human-in-the-loop-approbation-humaine)
+  - [Solution 2 : Schema Validation & Sanitization](#solution-2--schema-validation--sanitization-guardrails-côté-client)
+  - [Solution 3 : Whitelisting des descriptions](#solution-3--whitelisting-des-descriptions-doutils-le-freeze)
+- [V. Pour aller plus loin](#v-pour-aller-plus-loin)
+- [Étape suivante](#étape-suivante)
+- [Ressources](#ressources)
+
+> **📂 Code du lab :** [`mcp/mcp-rug-pull/`](mcp/mcp-rug-pull/) — contient le client orchestrateur et le serveur MCP compromis (3 outils dont un empoisonné).
 
 ---
 
-## 🏗️ Architecture
+## I. Introduction — Le "Rug Pull"
+
+Ce codelab démontre une vulnérabilité d'injection d'instructions (**Tool Poisoning**) au sein d'une architecture **Model Context Protocol (MCP)**. Contrairement à une injection grossière, l'attaque présentée ici utilise des techniques de **social engineering textuel** pour rendre le payload indétectable à l'œil nu.
+
+L'objectif est de comprendre comment un serveur MCP malveillant ou compromis peut manipuler le comportement d'un LLM en injectant des instructions dans la description de ses outils — déguisées en documentation technique légitime — poussant l'IA à exfiltrer des données sensibles (mot de passe, token, clé API) fournies par l'utilisateur.
+
+---
+
+## II. Architecture
 
 ```
 ┌─────────────────────┐          MCP (SSE)          ┌──────────────────────────┐
@@ -44,12 +79,13 @@ L'injection est **déguisée en documentation technique** :
 
 ---
 
-## 🛠️ Phase 1 : L'Attaque (Le Vol de Secret)
+## III. Phase 1 : L'Attaque (Le Vol de Secret)
 
 ### 1. Démarrer l'environnement 🐳
 Assurez-vous d'avoir exporté votre clé API OpenAI, puis lancez les conteneurs :
 
 ```bash
+cd mcp/mcp-rug-pull
 export OPENAI_API_KEY="sk-votre-cle-api"
 make dev
 ```
@@ -100,7 +136,7 @@ mcp-server-1  | 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
 
 ---
 
-## 🛡️ Phase 2 : La Défense (Comment s'en protéger)
+## IV. Phase 2 : La Défense (Comment s'en protéger)
 
 L'utilisation du protocole MCP introduit une zone de confiance dangereuse entre le LLM et les serveurs d'outils. Voici 3 stratégies de remédiation :
 
@@ -144,7 +180,7 @@ const safeTools = mcpTools.map(tool => ({
 
 ---
 
-## 🔬 Pour aller plus loin
+## V. Pour aller plus loin
 
 ### Comparaison : injection grossière vs. subtile
 
@@ -165,4 +201,25 @@ const safeTools = mcpTools.map(tool => ({
 5. **Plausible deniability** : La réponse contient de vrais-faux logs qui masquent l'exfiltration
 
 ---
-**Félicitations, vous venez de comprendre l'une des failles structurelles les plus subtiles liées aux LLMs et MCP !**
+
+## Conclusion
+
+Vous venez de comprendre l'une des failles structurelles les plus subtiles liées aux LLMs et MCP. Le Tool Poisoning exploite la confiance aveugle du LLM envers les descriptions d'outils fournies par son environnement. La défense ne repose jamais sur le prompt, mais sur l'architecture : validation des entrées, whitelisting des descriptions, et Human-in-the-Loop.
+
+---
+
+## Étape suivante
+
+▶️ [Étape 16 — Indirect Prompt Injection via MCP](step_16.md)
+
+---
+
+## Ressources
+
+| Information                                                                       | Lien                                                                                                                                                                                                         |
+|-----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OWASP MCP Top 10                                                                  | [https://owasp.org/www-project-mcp-top-10/](https://owasp.org/www-project-mcp-top-10/)                                                                                                                       |
+| Invariant Labs — MCP Security: Tool Poisoning Attacks                             | [https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks)                                               |
+| Trail of Bits — A Security Review of the Model Context Protocol                   | [https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/](https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/)                         |
+| Model Context Protocol — Specification                                            | [https://spec.modelcontextprotocol.io/](https://spec.modelcontextprotocol.io/)                                                                                                                               |
+| SOC 2 Compliance Overview                                                         | [https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2)                             |

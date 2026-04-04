@@ -55,18 +55,19 @@ préparer sereinement sa machine tout en se familiarisant progressivement avec l
 
 ### MCP
 
- - [11 - Introduction au MCP](step_11.md)
- - [12 - MCP Poisoning](step_12.md)
- - [13 - MCP Shadowing](step_13.md)
- - [14 - MCP Rug Pull](step_14.md)
- - [15 - MCP Command Injection](step_15.md)
+ - [11 - Le Model Context Protocol : l'infrastructure manquante de l'ère AI-Native](step_11.md)
+ - [12 - Les menaces de sécurité liées au MCP](step_12.md)
+ - [13 - Prise en main de l'environnement MCP Labs](step_13.md)
+ - [14 - Codelab : Shadowing d'Outils dans MCP](step_14.md)
+ - [15 - Codelab : Attaque par "Rug Pull" (Tool Poisoning)](step_15.md)
+ - [16 - Codelab : Indirect Prompt Injection via MCP](step_16.md)
+ - [17 - Codelab : Command Injection (RCE) via un Serveur MCP](step_17.md)
 
 
 
 ### [BONUS] Évaluation et amélioration de la robustesse
 
- - [16 - AI Red Teaming](step_16.md)
- - [17 - Benchmarking avec Promptfoo](step_17.md)
+ - [18 - Benchmarking avec Promptfoo](step_18.md)
 
 
 ### [CONCLUSION] Pour aller plus loin (5 min)

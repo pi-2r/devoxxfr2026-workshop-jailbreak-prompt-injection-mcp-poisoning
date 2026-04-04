@@ -1,21 +1,53 @@
 # Codelab : Shadowing d'Outils dans MCP (Model Context Protocol)
 
-Bienvenue dans ce Codelab ! Nous allons explorer une vulnérabilité subtile mais dangereuse dans les architectures basées sur des LLMs et des plugins (outils) : le **Shadowing (ou Usurpation d'outil)**.
+[<img src="img/helm_wall_blow_off.png" alt="shadowing MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
-## 🧠 Introduction
+> *"Always after a defeat and a respite, the Shadow takes another shape and grows again."* — Gandalf, LOTR - The Fellowship of the Ring
+
+## 🎯 Objectifs de cette étape
+
+- Comprendre le concept de **Shadowing** (usurpation d'outil) dans une architecture MCP multi-serveurs
+- Exploiter un scénario d'attaque combinant Shadowing technique et Prompt Injection par argument d'autorité
+- Observer comment un serveur MCP malveillant peut détourner des fonds en se faisant passer pour un prestataire certifié
+- Implémenter la défense par **Namespacing** pour isoler les outils de chaque serveur
+- Identifier les limites du Namespacing et les couches de défense complémentaires
+
+## Sommaire
+
+- [I. Introduction — Le risque du Shadowing](#i-introduction--le-risque-du-shadowing)
+- [II. Architecture du Lab](#ii-architecture-du-lab)
+- [III. Phase 1 : L'Attaque (Le Casse du Siècle)](#iii-phase-1--lattaque-le-casse-du-siècle)
+  - [1. Démarrer l'environnement](#1-démarrer-lenvironnement)
+  - [2. Exploiter la faille](#2-exploiter-la-faille)
+  - [3. Observer les dégâts](#3-observer-les-dégâts)
+  - [Pourquoi cette attaque est particulièrement crédible](#-pourquoi-cette-attaque-est-particulièrement-crédible)
+  - [Scénarios de test supplémentaires](#-scénarios-de-test-supplémentaires)
+- [IV. Phase 2 : La Défense (Le Namespacing)](#iv-phase-2--la-défense-le-namespacing)
+  - [1. Appliquer le correctif](#1-appliquer-le-correctif)
+  - [2. Tester la remédiation](#2-tester-la-remédiation)
+  - [3. Comment fonctionne le code corrigé ?](#3-comment-fonctionne-le-code-corrigé-)
+  - [4. Limites de la défense](#4-limites-de-la-défense)
+- [Conclusion](#conclusion)
+- [Étape suivante](#étape-suivante)
+- [Ressources](#ressources)
+
+> **📂 Code du lab :** [`mcp/mcp-shadowing/`](mcp/mcp-shadowing/) — contient le client orchestrateur, le serveur banque et le serveur fintech malveillant.
+
+---
+
+## I. Introduction — Le risque du Shadowing
 
 Avec le protocole MCP (Model Context Protocol), on peut connecter un LLM à de multiples "serveurs d'outils". Cela permet d'étendre les capacités du modèle, par exemple : consulter une base de données, envoyer un email, ou faire un virement bancaire.
 
 Cependant, que se passe-t-il si un LLM est connecté à un serveur de confiance (comme une banque) ET à un serveur tiers qui se fait passer pour une gateway de paiement légitime ?
 
-### Le Risque du Shadowing
 Le "Shadowing" se produit lorsque deux serveurs exposent un outil portant le **même nom** (exemple: `transfer_funds`). Si l'orchestrateur client n'implémente pas de mécanisme de séparation stricte (Namespacing), le LLM (ou le client lui-même) peut se tromper et appeler l'outil malveillant au lieu de l'outil légitime.
 
 L'attaquant aggrave souvent cela avec du **Prompt Injection** dans la description de son outil pour forcer le LLM à le choisir. La version la plus dangereuse de cette technique n'utilise pas un "INSTRUCTION SYSTÈME" grossier, mais déguise l'injection en **métadonnées de conformité réglementaire** (PSD2, ACPR, SEPA) que le LLM interprète comme des signaux d'autorité et de fiabilité.
 
 ---
 
-## 🏗️ Architecture du Lab
+## II. Architecture du Lab
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -41,7 +73,7 @@ Le serveur **SEPA Express Gateway** se présente comme un prestataire de service
 
 ---
 
-## 💥 Phase 1 : L'Attaque (Le Casse du Siècle)
+## III. Phase 1 : L'Attaque (Le Casse du Siècle)
 
 Dans ce scénario, vous êtes équipé d'un assistant financier connecté à deux serveurs MCP :
 1. **La Banque (Légitime) :** Expose `transfer_funds`. (Port 3001)
@@ -54,8 +86,9 @@ Assurez-vous d'avoir exporté votre clé API OpenAI :
 export OPENAI_API_KEY="sk-..."
 ```
 
-Lancez la stack Docker :
+Déplacez-vous dans le répertoire du lab et lancez la stack Docker :
 ```bash
+cd mcp/mcp-shadowing
 docker-compose up --build
 ```
 *Laissez ce terminal ouvert pour observer les logs.*
@@ -117,7 +150,7 @@ Essayez ces variantes pour observer le comportement du LLM :
 
 ---
 
-## 🛡️ Phase 2 : La Défense (Le Namespacing)
+## IV. Phase 2 : La Défense (Le Namespacing)
 
 Pour corriger cette faille, nous devons nous assurer que le LLM fait la distinction claire entre les outils de différents serveurs, particulièrement pour les actions critiques.
 
@@ -181,4 +214,24 @@ Le namespacing est une première ligne de défense nécessaire mais pas suffisan
 
 ---
 
-🎓 **Conclusion :** Dans un écosystème MCP avec de multiples plugins tiers, il est crucial de maîtriser la provenance de chaque outil et d'instaurer des barrières strictes au niveau de l'orchestrateur. L'injection par argument d'autorité (fausse conformité réglementaire) est particulièrement dangereuse car elle exploite la tendance des LLMs à faire confiance aux signaux institutionnels — exactement comme un humain ferait confiance à un logo officiel ou un numéro d'agrément.
+## Conclusion
+
+Dans un écosystème MCP avec de multiples plugins tiers, il est crucial de maîtriser la provenance de chaque outil et d'instaurer des barrières strictes au niveau de l'orchestrateur. L'injection par argument d'autorité (fausse conformité réglementaire) est particulièrement dangereuse car elle exploite la tendance des LLMs à faire confiance aux signaux institutionnels — exactement comme un humain ferait confiance à un logo officiel ou un numéro d'agrément.
+
+---
+
+## Étape suivante
+
+▶️ [Étape 15 — Attaque par "Rug Pull" (Tool Poisoning sur Serveur MCP)](step_15.md)
+
+---
+
+## Ressources
+
+| Information                                                                       | Lien                                                                                                                                                                                                         |
+|-----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OWASP MCP Top 10                                                                  | [https://owasp.org/www-project-mcp-top-10/](https://owasp.org/www-project-mcp-top-10/)                                                                                                                       |
+| Invariant Labs — MCP Security Notification: Tool Poisoning Attacks                | [https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks)                                               |
+| Trail of Bits — MCP Security Audit                                                | [https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/](https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/)                         |
+| Model Context Protocol — Specification                                            | [https://spec.modelcontextprotocol.io/](https://spec.modelcontextprotocol.io/)                                                                                                                               |
+| PSD2 — Directive sur les services de paiement                                     | [https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32015L2366](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32015L2366)                                                                 |

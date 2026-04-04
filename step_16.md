@@ -1,8 +1,38 @@
 # Codelab : Indirect Prompt Injection via Model Context Protocol (MCP)
 
-Bienvenue dans ce Codelab ! Aujourd'hui, nous allons explorer l'architecture MCP (Model Context Protocol), ses avantages, mais surtout sa surface d'attaque : le **Tool Poisoning** (ou Injection de Prompt Indirecte via les outils).
+[<img src="img/uruk_kamikaze.png" alt="indirect prompt injection MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
-## 🧠 Qu'est-ce que l'injection indirecte via MCP ?
+> *"A thing is about to happen that has not happened since the Elder Days. The Ents are going to wake up and find that they are strong."* — Gandalf, LOTR - The Two Towers
+
+## 🎯 Objectifs de cette étape
+
+- Comprendre le mécanisme d'**Indirect Prompt Injection** dans une architecture MCP
+- Exploiter une attaque multi-étapes cachée dans un document apparemment légitime (CV piégé)
+- Observer comment un LLM peut être manipulé pour exfiltrer des données confidentielles via les outils MCP
+- Implémenter des contrôles côté serveur : filtrage de domaine, Human-in-the-Loop, et principe du moindre privilège
+- Appréhender l'importance de la défense en profondeur
+
+## Sommaire
+
+- [I. Introduction — L'injection indirecte via MCP](#i-introduction--linjection-indirecte-via-mcp)
+- [II. Pré-requis](#ii-pré-requis)
+- [III. Phase 1 : L'Attaque (Tool Poisoning Multi-Étapes)](#iii-phase-1--lattaque-tool-poisoning-multi-étapes)
+  - [Étape 1 : Observez le cas nominal](#étape-1--observez-le-cas-nominal)
+  - [Étape 2 : Le cas piégé (L'Injection Multi-Étapes)](#étape-2--le-cas-piégé-linjection-multi-étapes)
+  - [Étape 3 : Analyse post-mortem](#étape-3--analyse-post-mortem--que-sest-il-passé-)
+- [IV. Phase 2 : Défense & Remédiation](#iv-phase-2--défense--remédiation)
+  - [Étape 1 : Contrôles côté Serveur MCP](#étape-1--implémenter-des-contrôles-côté-serveur-mcp-human-in-the-loop--filtrage)
+  - [Étape 2 : Valider la remédiation](#étape-2--valider-la-remédiation)
+  - [Étape 3 (Bonus) : Principe du moindre privilège](#étape-3-bonus--appliquer-le-principe-du-moindre-privilège)
+  - [Retenir pour vos architectures IA](#-retenir-pour-vos-architectures-ia-)
+- [Étape suivante](#étape-suivante)
+- [Ressources](#ressources)
+
+> **📂 Code du lab :** [`mcp/mcp-poisoning/`](mcp/mcp-poisoning/) — contient la plateforme de recrutement IA, le serveur MCP avec les outils RH et les CV (dont le CV piégé).
+
+---
+
+## I. Introduction — L'injection indirecte via MCP
 
 Le **Model Context Protocol (MCP)** est un standard permettant à un LLM (comme GPT-4 ou Claude) d'interagir dynamiquement avec des serveurs locaux ou distants pour récupérer des connaissances ou exécuter des actions (via des *tools* ou outils).
 
@@ -13,10 +43,11 @@ Dans une architecture MCP où le LLM a **accès à des outils d'action** (comme 
 
 ---
 
-## 🛠️ Pré-requis
+## II. Pré-requis
 
-1. Copiez le fichier `.env.example` en `.env` (si présent) ou exportez simplement votre clé API :
+1. Déplacez-vous dans le répertoire du lab et copiez le fichier `.env.example` en `.env` (si présent) ou exportez simplement votre clé API :
 ```bash
+cd mcp/mcp-poisoning
 export LLM_API_KEY="sk-votre_cle_openai"
 ```
 *(L'application utilise l'API OpenAI par défaut avec `gpt-4o`, assurez-vous d'avoir une clé valide.)*
@@ -29,7 +60,7 @@ docker-compose up --build
 
 ---
 
-## 🎯 Phase 1 : L'Attaque (Tool Poisoning Multi-Étapes)
+## III. Phase 1 : L'Attaque (Tool Poisoning Multi-Étapes)
 
 Nous simulons ici une **plateforme de recrutement IA** pour l'entreprise fictive **NexaCore Technologies**. Le serveur MCP expose quatre outils au LLM :
 - `list_resumes()` : Liste tous les fichiers disponibles dans le dossier des candidatures (CV, notes, évaluations).
@@ -110,7 +141,7 @@ Et dans la réponse de l'interface Web ? **Un résumé parfaitement normal du CV
 
 ---
 
-## 🛡️ Phase 2 : Défense & Remédiation
+## IV. Phase 2 : Défense & Remédiation
 
 Comment se protéger face à un LLM qui se fait manipuler par son contexte d'entrée ?
 
@@ -185,3 +216,21 @@ if (name === "get_candidate_notes") {
 - **Ne pas mettre de secrets dans le System Prompt** : Clés API, budgets, noms de managers… Tout ce qui est dans le System Prompt peut être exfiltré par une injection indirecte. Préférez un accès par outil sécurisé avec authentification.
 - **Le Prompt n'est pas une mesure de sécurité** : Dire au LLM *"Ne te fais pas hacker"* dans le System Prompt ne stoppe pas les Prompt Injections. C'est l'architecture qui doit empêcher la faille de devenir une action.
 - **Défense en profondeur** : Même si `send_email` est bloqué, le LLM peut toujours être manipulé pour lire des données qu'il n'aurait pas dû consulter. Chaque outil doit avoir ses propres contrôles d'accès.
+
+---
+
+## Étape suivante
+
+▶️ [Étape 17 — Command Injection (RCE) via un Serveur MCP](step_17.md)
+
+---
+
+## Ressources
+
+| Information                                                                       | Lien                                                                                                                                                                                                         |
+|-----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OWASP MCP Top 10                                                                  | [https://owasp.org/www-project-mcp-top-10/](https://owasp.org/www-project-mcp-top-10/)                                                                                                                       |
+| Invariant Labs — MCP Security: Tool Poisoning Attacks                             | [https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks](https://invariantlabs.ai/blog/mcp-security-notification-tool-poisoning-attacks)                                               |
+| EU AI Act — Texte officiel                                                        | [https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689)                                                                 |
+| GDPR — Règlement général sur la protection des données                              | [https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679)                                                                 |
+| Model Context Protocol — Specification                                            | [https://spec.modelcontextprotocol.io/](https://spec.modelcontextprotocol.io/)                                                                                                                               |
