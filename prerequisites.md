@@ -1,10 +1,10 @@
-[<img src="img/la_guerre_des_prompts___attaques___defenses_au_royaume_des_llm.png"  alt="La Guerre des Prompts : attaques & défenses au royaume des LLM">](https://devfest2025.gdgnantes.com/en/sessions/la_guerre_des_prompts___attaques___defenses_au_royaume_des_llm________)
+[<img src="img/la_guerre_des_prompts___attaques___defenses_au_royaume_des_llm.png"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI">](https://github.com/pi-2r/devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning)
 
 [<img src="img/gandalf_you_shall_not_pass.png" alt="minas_tirith_burning" width="800" >](https://www.youtube.com/watch?v=xMglp0hAvbc)
 > "You shall not pass !", Gandalf, LOTR - The Followship of the Ring
 
 
-Ce tutorial est proposé en amont de la session [La Guerre des Prompts : attaques & défenses au royaume des LLM ⚔️🛡️🤖](https://devfest2025.gdgnantes.com/en/sessions/la_guerre_des_prompts___attaques___defenses_au_royaume_des_llm________) à Devfest Nantes 2025.
+Ce tutorial est proposé en amont de la session **Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖** à Devoxx France 2026.
 
 
 ## Sommaire
@@ -15,16 +15,19 @@ Ce tutorial est proposé en amont de la session [La Guerre des Prompts : attaque
   - [L'outil Docker](#loutil-docker)
 
 
-- [OpenAi](#openai)
-  - [Récupérer une clé OpenAi](#récupérer-une-clé-openai)
+- [OpenAI](#openai)
+  - [Récupérer une clé OpenAI](#récupérer-une-clé-openai)
 
 
 - [Les images Docker](#les-images-docker)
   - [AI Red Teaming Playground Labs](#ai-red-teaming-playground-labs)
-  - [Tock](#tock)
+
+
+- [Les Labs MCP](#les-labs-mcp)
 
 
 - [Installation des outils de tests de robustesse](#installation-des-outils-de-tests-de-robustesse)
+  - [Installation d'uv](#installation-duv)
   - [Installation de Garak](#installation-de-garak)
   - [Installation de PyRIT](#installation-de-pyrit)
   - [Installation de Promptfoo](#installation-de-promptfoo)
@@ -35,10 +38,10 @@ Ce tutorial est proposé en amont de la session [La Guerre des Prompts : attaque
 
 Depuis votre terminal, récupérez le projet en clonant le dépôt :
   ```bash
-  git clone git@github.com:pi-2r/devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM.git
+  git clone git@github.com:pi-2r/devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning.git
   ```
   
-Vous pouvez également télécharger l’archive .zip du projet, puis la décompresser sur votre machine : https://github.com/pi-2r/devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM/archive/refs/heads/main.zip
+Vous pouvez également télécharger l'archive .zip du projet, puis la décompresser sur votre machine : https://github.com/pi-2r/devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning/archive/refs/heads/main.zip
 
 ### Python
 
@@ -52,7 +55,7 @@ Assurez-vous d’avoir installé  [Docker Desktop](https://www.docker.com/produc
 <img src="img/docker-desktop-install.png" alt="docker-desktop" >
 
 
-### Récupérer une clé OpenAi
+### Récupérer une clé OpenAI
 Allez sur https://platform.openai.com/signup pour créer un compte et récupérer une clé API. Dés que vous etes connecté, 
 allez dans la section [API Keys](https://platform.openai.com/api-keys) pour créer une nouvelle clé. Vous devrez avoir cette page :
 
@@ -123,51 +126,43 @@ Si tout est correctement configuré, vous devriez voir un affichage similaire à
 
 Pour accéder à l’interface web, ouvrez votre navigateur et allez à l’adresse suivante :  http://localhost:5000/login?auth=YOUR_AUTH_KEY (la valeur de **YOUR_AUTH_KEY** est indiquée dans le fichier **.env**).
 
-
-#### Tock
-
-Retournez dans le dépôt du codelab et accédez au dossier **lab/tock** :
-
-```bash
-cd devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM/lab/tock/
-pwd
-```
-
-Dans le fichier **template-internet.env**, complétez ensuite la variable d'environnement **OPENAI_API_KEY** avec la clé obtenue précédemment.
-
-Une fois modifié, renommez ce fichier **template-internet.env** en **.env**.
+> 📌 Pour plus de détails sur l’utilisation du playground, consultez l’[Étape 5 — Introduction au playground et objectifs](step_5.md).
 
 
-Depuis le dossier **lab/tock**, exécutez les commandes suivantes dans votre terminal :
+### Les Labs MCP
 
-```bash
-source .env
-docker compose -f prerequisites-docker-compose-genai.yml pull
-```
+Le dossier `mcp/` à la racine du projet contient **4 labs pratiques** démontrant différents vecteurs d’attaque liés au Model Context Protocol :
 
-Vous devriez voir un affichage similaire à celui-ci :
+| Lab | Répertoire | Description |
+|-----|-----------|-------------|
+| **Shadowing** | `mcp/mcp-shadowing/` | Usurpation d’outil entre deux serveurs MCP |
+| **Rug Pull** | `mcp/mcp-rug-pull/` | Tool Poisoning via description empoisonnée |
+| **Poisoning** | `mcp/mcp-poisoning/` | Indirect Prompt Injection via un CV piégé |
+| **Command Injection** | `mcp/mcp-command-injection/` | RCE via injection de commandes OS |
 
-<img src="img/tock-docker-compose.png" alt="tock-docker-compose" width="600" style="transition:0.3s;">
+Chaque lab est autonome et contient son propre `docker-compose.yml`, `Makefile` et `TUTORIAL.md`.
 
-Démarrez ensuite l’environnement avec la commande :
+Pour lancer un lab, exportez votre clé API OpenAI puis déplacez-vous dans le répertoire souhaité :
 
 ```bash
-chmod a+r scripts/init-pgvect.sql
-docker compose -f prerequisites-docker-compose-genai.yml up -d
+export OPENAI_API_KEY="sk-..."
+cd mcp/mcp-shadowing
+docker-compose up --build
 ```
-Vous devriez voir un affichage similaire à celui-ci :
 
-<img src="img/tock-docker-up.png" alt="tock-docker-up" width="600" style="transition:0.3s;">
+> 📌 Pour plus de détails sur la prise en main des labs MCP (GitHub Codespaces, lancement en local), consultez l’[Étape 13 — Prise en main de l’environnement MCP Labs](step_13.md).
 
-Après quelques instants, vous devriez pouvoir accéder à l’interface Tock Studio à l’adresse suivante : http://localhost/login
 
-<img src="img/tock-studio-login-page.png" alt="tock-docker-up" width="600" style="transition:0.3s;">
+### Les Labs de tests de robustesse
 
-Enfin, pour arrêter l'environnement, utilisez la commande :
+Le dossier `lab/` à la racine du projet contient les labs liés aux outils de test de robustesse :
 
-```bash
-docker compose -f prerequisites-docker-compose-genai.yml down
-```
+| Lab | Répertoire | Description |
+|-----|-----------|-------------|
+| **Garak** | `lab/Garak_test/` | Probes et détections personnalisées pour Garak |
+| **Promptfoo** | `lab/Promptfoo/` | Configuration de red teaming avec Promptfoo |
+| **PyRIT** | `lab/PyRIT/` | Scripts d’attaque automatisée avec PyRIT |
+
 
 ### Installation d'uv
 
