@@ -81,10 +81,10 @@ graph TB
 
     style MCP1 fill:#ff6b6b,stroke:#c0392b,color:#fff
     style MCP2 fill:#ff6b6b,stroke:#c0392b,color:#fff
-    style EXT1 fill:#fdcb6e,stroke:#f39c12
-    style EXT2 fill:#fdcb6e,stroke:#f39c12
-    style EXT3 fill:#fdcb6e,stroke:#f39c12
-    style EXT4 fill:#fdcb6e,stroke:#f39c12
+    style EXT1 fill:#fdcb6e,stroke:#f39c12,color:#000
+    style EXT2 fill:#fdcb6e,stroke:#f39c12,color:#000
+    style EXT3 fill:#fdcb6e,stroke:#f39c12,color:#000
+    style EXT4 fill:#fdcb6e,stroke:#f39c12,color:#000
 ```
 
 > **Les outils MCP (en rouge) sont la frontière entre l'IA et le monde réel. C'est là que le risque est maximal.**
@@ -154,8 +154,8 @@ sequenceDiagram
     participant OS as 💻 Système
 
     U->>A: "Cherche le fichier rapport.pdf"
-    A->>M: search_files({query: "rapport.pdf; cat /etc/passwd"})
-    M->>OS: exec("find / -name rapport.pdf; cat /etc/passwd")
+    A->>M: search_files({query: "rapport.pdf && cat /etc/passwd"})
+    M->>OS: exec("find / -name rapport.pdf && cat /etc/passwd")
     OS-->>M: contenu de /etc/passwd
     M-->>A: résultat avec données sensibles
     A-->>U: affiche le résultat
@@ -200,9 +200,9 @@ graph LR
     A -->|delete_repo| MCP["🔧 Serveur MCP<br/>🔑 Accès : admin org"]
     MCP -->|"DELETE /repos/org/repo"| GH[("🗄️ GitHub API")]
 
-    style U fill:#74b9ff,stroke:#2980b9
+    style U fill:#74b9ff,stroke:#2980b9,color:#000
     style MCP fill:#ff6b6b,stroke:#c0392b,color:#fff
-    style GH fill:#fdcb6e,stroke:#f39c12
+    style GH fill:#fdcb6e,stroke:#f39c12,color:#000
 
     linkStyle 0 stroke:#e74c3c,stroke-width:2px
     linkStyle 1 stroke:#e74c3c,stroke-width:2px
@@ -389,9 +389,9 @@ graph TB
 
     style ATK fill:#2d3436,stroke:#636e72,color:#fff
     style MEM fill:#ff6b6b,stroke:#c0392b,color:#fff
-    style T1 fill:#fdcb6e,stroke:#f39c12
-    style T2 fill:#fdcb6e,stroke:#f39c12
-    style T3 fill:#fdcb6e,stroke:#f39c12
+    style T1 fill:#fdcb6e,stroke:#f39c12,color:#000
+    style T2 fill:#fdcb6e,stroke:#f39c12,color:#000
+    style T3 fill:#fdcb6e,stroke:#f39c12,color:#000
 ```
 
 | Variante | Description |
@@ -446,8 +446,8 @@ graph TB
 
     style ZT fill:#6c5ce7,stroke:#5b4cdb,color:#fff
     style LP fill:#00b894,stroke:#00a381,color:#fff
-    style AB fill:#fdcb6e,stroke:#f39c12
-    style NTV fill:#74b9ff,stroke:#2980b9
+    style AB fill:#fdcb6e,stroke:#f39c12,color:#000
+    style NTV fill:#74b9ff,stroke:#2980b9,color:#000
 ```
 
 ---
