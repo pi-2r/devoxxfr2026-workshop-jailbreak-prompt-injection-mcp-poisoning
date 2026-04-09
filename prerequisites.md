@@ -11,12 +11,12 @@ Ce tutorial est proposé en amont de la session **Jailbreak, Prompt Injection, M
 
 - [Codelab](#codelab)
   - [Récupérer l'atelier](#récupérer-latelier)
-  - [Python](#python)
-  - [L'outil Docker](#loutil-docker)
-
-
-- [OpenAI](#openai)
   - [Récupérer une clé OpenAI](#récupérer-une-clé-openai)
+
+
+- [Choix de l'environnement](#choix-de-lenvironnement)
+  - [Option A — Installation locale](#option-a--installation-locale)
+  - [Option B — GitHub Codespaces (plug-and-play)](#option-b--github-codespaces-plug-and-play)
 
 
 - [Les images Docker](#les-images-docker)
@@ -26,11 +26,7 @@ Ce tutorial est proposé en amont de la session **Jailbreak, Prompt Injection, M
 - [Les Labs MCP](#les-labs-mcp)
 
 
-- [Installation des outils de tests de robustesse](#installation-des-outils-de-tests-de-robustesse)
-  - [Installation d'uv](#installation-duv)
-  - [Installation de Garak](#installation-de-garak)
-  - [Installation de PyRIT](#installation-de-pyrit)
-  - [Installation de Promptfoo](#installation-de-promptfoo)
+- [Les Labs de tests de robustesse](#les-labs-de-tests-de-robustesse)
 
 
     
@@ -42,17 +38,6 @@ Depuis votre terminal, récupérez le projet en clonant le dépôt :
   ```
   
 Vous pouvez également télécharger l'archive .zip du projet, puis la décompresser sur votre machine : https://github.com/pi-2r/devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning/archive/refs/heads/main.zip
-
-### Python
-
-Installer Python 3.10 ou supérieur sur votre machine: https://www.python.org/downloads/
-<img src="img/install_python.png" alt="python">
-
-
-### L'outil Docker
-
-Assurez-vous d’avoir installé  [Docker Desktop](https://www.docker.com/products/docker-desktop/) sur votre machine.
-<img src="img/docker-desktop-install.png" alt="docker-desktop" >
 
 
 ### Récupérer une clé OpenAI
@@ -91,6 +76,158 @@ curl https://api.openai.com/v1/responses \
 }'
 ```
 
+
+---
+
+## Choix de l’environnement
+
+Vous avez **deux options** pour configurer votre environnement de travail.
+Choisissez celle qui correspond le mieux à votre situation :
+
+| | Option A — Locale | Option B — Codespaces |
+|---|---|---|
+| **Idéal pour** | Développeurs avec un poste configuré | Prise en main rapide, zéro config |
+| **Pré-requis** | Python ≥ 3.12, Node.js ≥ 22, Docker, uv | Un compte GitHub |
+| **Temps de setup** | ~10 min | ~3 min |
+
+
+### Option A — Installation locale
+
+<details open>
+<summary>💻 Déplier les instructions d’installation locale</summary>
+
+#### 1. Pré-requis système
+
+Assurez-vous d’avoir les outils suivants installés sur votre machine :
+
+| Outil | Version minimale | Vérification |
+|-------|-----------------|--------------|
+| **Python** | 3.12+ | `python3 --version` |
+| **Node.js** | 22+ | `node --version` |
+| **Docker** | 24+ | `docker --version` |
+| **Git** | 2.x | `git --version` |
+
+#### 2. Installer uv (gestionnaire de paquets Python)
+
+Voir documentation : https://docs.astral.sh/uv/getting-started/installation/#standalone-installer
+
+```bash
+pip install uv
+
+# Si vous n’avez pas pip
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+#### 3. Créer l’environnement virtuel Python
+
+```bash
+# Depuis la racine du dépôt cloné
+cd $(git rev-parse --show-toplevel)
+uv venv --python 3.13.2
+
+# Activer l’environnement virtuel
+source .venv/bin/activate
+```
+
+#### 4. Installer Garak
+
+```bash
+# Depuis le venv activé
+uv pip install garak==0.13.1
+
+# Vérifier l’installation
+garak --version
+```
+
+#### 5. Installer PyRIT
+
+```bash
+# Cloner PyRIT dans un répertoire temporaire
+git clone https://github.com/Azure/PyRIT.git --depth 1 /tmp/PyRIT
+
+# Installer les dépendances
+uv pip install --upgrade pip setuptools wheel
+uv pip install IPython
+uv pip install -e /tmp/PyRIT
+
+# Vérifier l’installation
+python -c "import pyrit; print(pyrit.__version__)"
+```
+
+#### 6. Installer Promptfoo
+
+```bash
+npm install -g promptfoo
+
+# Vérifier l’installation
+promptfoo --version
+```
+
+> 📚 Pour plus de détails, consultez la [documentation officielle Promptfoo](https://www.promptfoo.dev/docs/red-team/quickstart/#initialize-the-project).
+
+#### Récap — Vérification complète
+
+```bash
+source .venv/bin/activate
+echo "=== Garak ===" && garak --version
+echo "=== PyRIT ===" && python -c "import pyrit; print(pyrit.__version__)"
+echo "=== Promptfoo ===" && promptfoo --version
+echo "=== Docker ===" && docker --version
+```
+
+</details>
+
+
+### Option B — GitHub Codespaces (plug-and-play)
+
+<details>
+<summary>☁️ Déplier les instructions Codespaces</summary>
+
+GitHub Codespaces fournit un environnement de développement pré-configuré dans le cloud.
+**Tout est installé automatiquement** : Python, Node.js, Docker, Garak, PyRIT, Promptfoo.
+
+#### 1. Lancer le Codespace
+
+1. Rendez-vous sur le dépôt GitHub du workshop.
+2. Cliquez sur le bouton **Code** → onglet **Codespaces** → **Create codespace on main**.
+3. Patientez ~2–3 minutes pendant que l’environnement se construit.
+
+> Le fichier `.devcontainer/devcontainer.json` et le script `.devcontainer/post-create.sh` automatisent toute la configuration.
+
+#### 2. Ce qui est installé automatiquement
+
+| Composant | Détail |
+|-----------|--------|
+| **Python 3.13** | Via la feature `devcontainers/features/python` |
+| **Node.js 22** | Image de base `typescript-node:22` |
+| **Docker** | Feature `docker-in-docker` |
+| **uv** | Installé via pip dans le script post-create |
+| **Garak 0.13.1** | Installé dans `.venv/` |
+| **PyRIT** | Cloné et installé en mode éditable dans `.venv/` |
+| **Promptfoo** | Installé globalement via npm |
+
+#### 3. Vérifier l’installation
+
+Une fois le Codespace prêt, ouvrez un terminal et lancez :
+
+```bash
+source .venv/bin/activate
+garak --version
+python -c "import pyrit; print(pyrit.__version__)"
+promptfoo --version
+docker --version
+```
+
+> ⚠️ **N’oubliez pas** d’exporter votre clé API OpenAI dans le terminal du Codespace :
+> ```bash
+> export OPENAI_API_KEY="sk-..."
+> ```
+> Ou mieux, ajoutez-la comme [secret Codespaces](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-encrypted-secrets-for-your-codespaces) pour qu’elle soit injectée automatiquement.
+
+</details>
+
+
+---
 
 ### Les images Docker
 
@@ -163,78 +300,3 @@ Le dossier `lab/` à la racine du projet contient les labs liés aux outils de t
 | **Promptfoo** | `lab/Promptfoo/` | Configuration de red teaming avec Promptfoo |
 | **PyRIT** | `lab/PyRIT/` | Scripts d’attaque automatisée avec PyRIT |
 
-
-### Installation d'uv
-
-Voir documentation ici : https://docs.astral.sh/uv/getting-started/installation/#standalone-installer
-
-En bref :
-```bash
-pip install uv
-
-# Si vous n'avez pas pip
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-### Installation de Garak
-
-Depuis votre terminal, placez-vous dans le dossier où vous souhaitez installer le projet, par exemple **Documents**,
-puis exécutez la commande suivante pour cloner le dépôt et entrer automatiquement dans le dossier créé :
-
-```bash
-# 1. Créer un environnement virtuel a la racine du repo
-# cd devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM
-cd $(git rev-parse --show-toplevel)
-uv venv --python 3.13.2
-
-# 2. Activer l’environnement virtuel
-source .venv/bin/activate
-
-# 3. Installer garak
-uv pip install garak==0.13.1
-```
-
-### Installation de PyRIT
-
-Depuis votre terminal, placez-vous dans le dossier où vous souhaitez installer le projet, par exemple **Documents**,
-puis exécutez la commande suivante pour cloner le dépôt et entrer automatiquement dans le dossier créé :
-
-```bash
-git clone https://github.com/Azure/PyRIT.git --depth 1 && cd PyRIT
-```
-
-Ensuite, créez un environnement virtuel Python, activez-le, puis installez les dépendances du projet avec les commandes
-suivantes :
-
-```bash
-# Check que vous êtes dans le bon venv ;) On est jamais trop prudent
-[[ "${VIRTUAL_ENV-}" == *"devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
-
-# Assurez d'être dans le venv créé à la racine du projet du lab
-# cd devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM
-#source devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM/.venv/bin/activate
-
-# 2. Activer l’environnement virtuel
-# -> faite un pwd depuis le dossier du codelab pour être sûr d'avoir le bon chemin
-# exemple de rendu sur ma machine : source /Users/pierre_therrode/Desktop/devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM/.venv/bin/activate
-# source devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM/.venv/bin/activate
-
-# 3. Mettre à jour pip, setuptools et wheel dans l’environnement
-uv pip install --upgrade pip setuptools wheel
-
-# 4. Installer la dépendance requise
-uv pip install IPython
-
-# 5. Installer ce projet localement en mode développement (utile pour développement/débogage)
-uv pip install -e .
-```
-
-Après exécution, vous devriez obtenir des messages indiquant la création de l’environnement virtuel, puis l’installation
-des dépendances du projet. Par exemple :
-
-<img src="img/pyrit-install.png" alt="Pyrit install" width="600" style="transition:0.3s;">
-
-### Installation de Promptfoo
-
-Nous vous invitons à suivre la documentation officielle pour l’installation de Promptfoo :
-https://www.promptfoo.dev/docs/red-team/quickstart/#initialize-the-project

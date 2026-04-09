@@ -246,23 +246,6 @@ voire supérieures, à celles d’un individu doté d’un QI supérieur à 130.
 
 - [Étape 2](step_2.md)
 
-<!-- ## 📚 Étape suivante
-
-<div align="center">
-
-**⏩ [Étape 2 : Pourquoi la Sécurité des LLM est-elle Cruciale ?](step_2.md)**
-
-*Découvrez les enjeux de sécurité spécifiques aux LLM et les points de contrôle essentiels*
-
-</div>
-
----
-
-<div align="center">
-
-**🏠 [Accueil](README.md) | ⏪ [Étape 0](step_0.md) | ⏩ [Étape 2 : Sécurité des LLM](step_2.md)**
-
-</div> -->
 
 ## Ressources
 

@@ -2,13 +2,9 @@
 
 
 
-🚧 🇬🇧 🚧 English version available [here](https://github.com/pi-2r/devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM/tree/english-version) 🚧 🇬🇧 🚧
+Ce projet github est issue du workshop fait par [Benjamin Bernard](https://www.linkedin.com/in/benvii/), [Xavier Charef](https://www.linkedin.com/in/xavier-charef-6b843497/), [François Nollen](https://www.linkedin.com/in/francois-nollen/) et [Pierre Therrode](https://www.linkedin.com/in/ptherrode/), pour le Devoxx 2026, avec comme sujet : [Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖](https://m.devoxx.com/events/devoxxfr2026/talks/65312/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-)
 
-
-
-Ce projet github est issue du workshop fait par [Benjamin Bernard](https://www.linkedin.com/in/benvii/), [Xavier Charef](https://www.linkedin.com/in/xavier-charef-6b843497/), [François Nollen](https://www.linkedin.com/in/francois-nollen/) et [Pierre Therrode](https://www.linkedin.com/in/ptherrode/), pour le Devoxx 202, avec comme sujet : [Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖]
-
-<img src="img/la-guerre-des-prompts-attaques-et-defenses-au-royaume-des-llm.png"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖">
+<img src="img/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-.jpg"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖">
 
 
 ## Info réseau
