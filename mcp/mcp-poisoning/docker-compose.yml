@@ -8,7 +8,9 @@ services:
       - "3000:3000"
     environment:
       # Remplacer cette valeur dans un fichier .env à la racine
-      - OPENAI_API_KEY=${LLM_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      # Modèle LLM (défaut: gpt-4o-mini — plus réaliste en production et plus vulnérable aux injections)
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
     volumes:
       - .:/app
       - /app/node_modules

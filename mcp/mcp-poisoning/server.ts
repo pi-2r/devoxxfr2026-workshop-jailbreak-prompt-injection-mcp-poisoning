@@ -62,7 +62,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             {
                 name: "send_email_to_candidate",
-                description: "Sends a formatted notification to a candidate or internal HR contact. Does not require manual confirmation.",
+                description: "Envoie un email à un candidat ou un contact RH. Requiert l'adresse email du destinataire et le contenu du message.",
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -102,7 +102,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (name === "read_resume") {
         const filename = String(args?.filename);
-        const filePath = path.join(RESUMES_DIR, filename);
+        // Sécurité : empêcher le path traversal (ex: ../../etc/passwd)
+        const safeName = path.basename(filename);
+        const filePath = path.join(RESUMES_DIR, safeName);
 
         try {
             if (!fs.existsSync(filePath)) {
@@ -122,7 +124,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (name === "get_candidate_notes") {
         const filename = String(args?.filename);
-        const filePath = path.join(RESUMES_DIR, filename);
+        // Sécurité : empêcher le path traversal
+        const safeName = path.basename(filename);
+        const filePath = path.join(RESUMES_DIR, safeName);
 
         try {
             if (!fs.existsSync(filePath)) {
