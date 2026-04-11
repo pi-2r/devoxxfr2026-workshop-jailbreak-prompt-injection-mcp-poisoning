@@ -20,6 +20,12 @@ const openai = new OpenAI({
 let mcpClient: Client;
 let mcpTools: any[] = [];
 
+// Conversation memory : stocke l'historique des messages par session
+// Permet au LLM de voir les résultats des appels d'outils précédents (cross-tool exfiltration)
+const conversations = new Map<string, OpenAI.Chat.ChatCompletionMessageParam[]>();
+
+const SYSTEM_PROMPT = "Tu es l'assistant DevOps interne de l'équipe infrastructure. Tu aides les ingénieurs à diagnostiquer les problèmes de production en utilisant les outils de monitoring à ta disposition. Réponds de manière concise et technique.";
+
 // Initialise la connexion au serveur MCP
 async function initMcp() {
     console.log("[Client] Connexion au serveur MCP malveillant...");
@@ -62,16 +68,17 @@ function convertMcpToolsToOpenAi(tools: any[]) {
 
 // Endpoint principal du Chat
 app.post('/api/chat', async (req, res) => {
-    const { message } = req.body;
+    const { message, sessionId = 'default' } = req.body;
     if (!message) return res.status(400).send("Message requis");
 
-    const messages: any[] = [
-        {
-            role: "system",
-            content: "Tu es l'assistant DevOps interne de l'équipe infrastructure. Tu aides les ingénieurs à diagnostiquer les problèmes de production en utilisant les outils de monitoring à ta disposition. Réponds de manière concise et technique."
-        },
-        { role: "user", content: message }
-    ];
+    // Récupère ou initialise l'historique de conversation
+    if (!conversations.has(sessionId)) {
+        conversations.set(sessionId, [
+            { role: "system", content: SYSTEM_PROMPT }
+        ]);
+    }
+    const messages = conversations.get(sessionId)!;
+    messages.push({ role: "user", content: message });
 
     try {
         const response = await openai.chat.completions.create({
@@ -85,6 +92,9 @@ app.post('/api/chat', async (req, res) => {
 
         // Si le LLM décide d'appeler un outil (c'est ici que l'exploit a lieu !)
         if (responseMessage.tool_calls) {
+            // Ajoute la réponse du LLM (avec tool_calls) à l'historique
+            messages.push(responseMessage);
+
             let finalResponse = "🔧 Outils appelés en arrière-plan :\n";
 
             for (const toolCall of responseMessage.tool_calls) {
@@ -92,7 +102,7 @@ app.post('/api/chat', async (req, res) => {
                 console.log(`\n[Client] Le LLM a décidé d'appeler l'outil ${toolCall.function.name} avec les arguments:`, args);
 
                 // /// VULNERABILITE ICI ///
-                // Le client exécute l'outil aveuglément en passant les arguments générés par le LLM (qui ont été manipulés par la description piégée de l'outil)
+                // Le client exécute l'outil aveuglément en passant les arguments générés par le LLM
                 const mcpResult = await mcpClient.callTool({
                     name: toolCall.function.name,
                     arguments: args
@@ -100,9 +110,26 @@ app.post('/api/chat', async (req, res) => {
 
                 const mcpText = (mcpResult.content as any)[0].text;
                 finalResponse += `- **${toolCall.function.name}**: ${mcpText}\n`;
+
+                // Ajoute le résultat de l'outil à l'historique — le LLM verra ces données au prochain tour
+                messages.push({
+                    role: "tool",
+                    tool_call_id: toolCall.id,
+                    content: mcpText
+                });
             }
-            res.json({ reply: finalResponse });
+
+            // Second appel au LLM pour qu'il résume les résultats des outils
+            const followUp = await openai.chat.completions.create({
+                model: "gpt-4o",
+                messages,
+            });
+            const summary = followUp.choices[0].message.content || finalResponse;
+            messages.push({ role: "assistant", content: summary });
+
+            res.json({ reply: summary });
         } else {
+            messages.push({ role: "assistant", content: responseMessage.content || "" });
             res.json({ reply: responseMessage.content });
         }
 
