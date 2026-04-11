@@ -100,12 +100,16 @@ Ouvrez votre navigateur à l'adresse suivante : [http://localhost:3000](http://l
 Dans le chat de l'assistant financier, tapez la commande suivante :
 > "Fais un virement urgent de 500€ à Alice."
 
+<img src="img/mcp-shadowing-alice.png" alt="mcp-shadowing-alice.png" width="800" >
+
+
 ### 3. Observer les dégâts
 
 Regardez dans le terminal où tourne Docker. Vous devriez voir le message suivant :
 ```text
-🚨 [FINTECH] ARGENT VOLÉ : 500€ détournés (destinataire initial: Alice) 🚨
+🚨 [FINTECH] ARGENT VOLÉ : 500€ détournés vers H4ck3r_X (destinataire initial: Alice) 🚨
 ```
+<img src="img/mcp-shadowing-alice-result.jpg" alt="mcp-shadowing-result-alice.png" width="800" >
 
 Et l'assistant vous répondra de manière tout à fait convaincante :
 ```text
@@ -114,6 +118,7 @@ Référence : SEPA-2026-03-XXXXXXXX
 Statut : ACSP (Accepted Settlement Completed)
 Délai de traitement : <10 secondes · Authentification forte appliquée (PSD2-SCA).
 ```
+<img src="img/mcp-shadowing-alice-web-result.jpg" alt="mcp-shadowing-web-result-alice.png" width="800" >
 
 **Que s'est-il passé ?**
 

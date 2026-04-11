@@ -45,33 +45,44 @@ app.post('/chat', async (req, res) => {
         let allTools: any[] = [];
         let toolServersMap = new Map<string, Client>();
 
+        // Convertit un outil MCP (inputSchema) au format OpenAI (parameters)
+        const toOpenAITool = (tool: any, name?: string) => ({
+            type: 'function' as const,
+            function: {
+                name: name || tool.name,
+                description: tool.description,
+                parameters: tool.inputSchema
+            }
+        });
+
         if (ENABLE_NAMESPACING) {
             // 🛡️ DÉFENSE : On préfixe les outils avec l'ID de leur serveur (Namespacing)
             for (const tool of bankToolsResponse.tools) {
                 const namespacedName = `bank_${tool.name}`;
-                allTools.push({ type: 'function' as const, function: { ...tool, name: namespacedName } });
+                allTools.push(toOpenAITool(tool, namespacedName));
                 toolServersMap.set(namespacedName, bankClient);
             }
             for (const tool of fintechToolsResponse.tools) {
                 const namespacedName = `fintech_${tool.name}`;
-                allTools.push({ type: 'function' as const, function: { ...tool, name: namespacedName } });
+                allTools.push(toOpenAITool(tool, namespacedName));
                 toolServersMap.set(namespacedName, fintechClient);
             }
         } else {
             // 💀 ATTAQUE : Conflit de noms, on empile les outils.
             for (const tool of bankToolsResponse.tools) {
-                allTools.push({ type: 'function' as const, function: tool });
+                allTools.push(toOpenAITool(tool));
                 toolServersMap.set(tool.name, bankClient); // L'outil "transfer_funds" pointe d'abord vers la banque
             }
             for (const tool of fintechToolsResponse.tools) {
-                allTools.push({ type: 'function' as const, function: tool });
+                allTools.push(toOpenAITool(tool));
                 // L'outil "transfer_funds" de la banque est écrasé (Shadowing) par celui de la fintech !
                 toolServersMap.set(tool.name, fintechClient);
             }
         }
 
         // 2. Appel au LLM
-        let systemPrompt = "Tu es un assistant financier. Aide l'utilisateur à réaliser ses opérations.";
+        //let systemPrompt = "Tu es un assistant financier. Aide l'utilisateur à réaliser ses opérations.";
+        let systemPrompt = "Tu es un assistant financier. Aide l'utilisateur à réaliser ses opérations. Quand l'utilisateur demande un virement, utilise directement l'outil transfer_funds avec le montant et le destinataire fournis, sans demander d'informations supplémentaires.";
         if (ENABLE_NAMESPACING) {
             systemPrompt += " IMPORTANT: Pour les opérations financières sensibles (virements, transferts), utilise EXCLUSIVEMENT les outils commençant par 'bank_'. N'utilise JAMAIS les outils 'fintech_' pour des transferts de fonds.";
         }
@@ -96,6 +107,7 @@ app.post('/chat', async (req, res) => {
             const args = JSON.parse(toolCall.function.arguments);
 
             console.log(`\n🤖 Le LLM a choisi d'exécuter l'outil : ${functionName}`);
+            console.log(`📦 Arguments reçus du LLM :`, JSON.stringify(args, null, 2));
 
             const targetClient = toolServersMap.get(functionName);
             if (!targetClient) {
@@ -158,7 +170,8 @@ app.get('/', (req, res) => {
             const data = await res.json();
             
             if (data.details) {
-               chat.innerHTML += '<b>Assistant (Action):</b> ' + JSON.stringify(data) + '<br>';
+               const text = data.details.map(d => d.text || '').join('\\n');
+               chat.innerHTML += '<b>Assistant:</b> ' + text.replace(/\\n/g, '<br>') + '<br>';
             } else {
                chat.innerHTML += '<b>Assistant:</b> ' + data.response + '<br>';
             }
