@@ -91,6 +91,7 @@ graph TB
 ## II. MCP Top 10 — Les menaces principales
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'cScale0': '#773703', 'cScaleLabel0': '#000000', 'cBorder0': '#773703', 'cScale1': '#c80d0d', 'cScaleLabel1': '#000000', 'cBorder1': '#c80d0d', 'cScale2': '#eacd11', 'cScaleLabel2': '#000000', 'cBorder2': '#eacd11', 'cScale3': '#8e44ad', 'cScaleLabel3': '#000000', 'cBorder3': '#8e44ad', 'cScalePeer1': '#773703', 'cScalePeerLabel1': '#000000', 'cScalePeer2': '#c80d0d', 'cScalePeerLabel2': '#000000', 'cScalePeer3': '#eacd11', 'cScalePeerLabel3': '#000000', 'cScalePeer4': '#7d3c98', 'cScalePeerLabel4': '#000000'}}}%%
 mindmap
   root((MCP Top 10))
     Outils malveillants
