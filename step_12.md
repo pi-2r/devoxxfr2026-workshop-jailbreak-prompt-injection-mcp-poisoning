@@ -95,19 +95,19 @@ graph TB
 mindmap
   root((MCP Top 10))
     Outils malveillants
-      1. Tool Poisoning
-      6. Supply Chain & Rug Pull
-      5. Shadow MCP Servers
+      1 - Tool Poisoning
+      6 - Supply Chain & Rug Pull
+      5 - Shadow MCP Servers
     Exploitation des entrées
-      2. Command Injection
-      3. Prompt Injection indirecte
-      10. Context Injection & Over-Sharing
+      2 - Command Injection
+      3 - Prompt Injection indirecte
+      10 - Context Injection & Over-Sharing
     Permissions & identité
-      4. Privilege Escalation
-      7. Token Mismanagement
-      8. Auth insuffisante
+      4 - Privilege Escalation
+      7 - Token Mismanagement
+      8 - Auth insuffisante
     Observabilité
-      9. Manque d Audit & Telemetry
+      9 - Manque d'Audit & Telemetry
 ```
 
 ### 1. Tool Poisoning
