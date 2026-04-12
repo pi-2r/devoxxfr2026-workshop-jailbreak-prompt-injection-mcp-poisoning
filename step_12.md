@@ -91,7 +91,7 @@ graph TB
 ## II. MCP Top 10 — Les menaces principales
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'cScale0': '#e74c3c', 'cScaleLabel0': '#ffffff', 'cScale1': '#2980b9', 'cScaleLabel1': '#ffffff', 'cScale2': '#27ae60', 'cScaleLabel2': '#ffffff', 'cScale3': '#8e44ad', 'cScaleLabel3': '#ffffff', 'cScalePeer1': '#c0392b', 'cScalePeerLabel1': '#ffffff', 'cScalePeer2': '#2471a3', 'cScalePeerLabel2': '#ffffff', 'cScalePeer3': '#229954', 'cScalePeerLabel3': '#ffffff', 'cScalePeer4': '#7d3c98', 'cScalePeerLabel4': '#ffffff'}}}%%
+%%{init: {'theme': 'base', 'themeVariables': {'cScale0': '#078121', 'cScaleLabel0': '#ffffff', 'cScale1': '#c80d0d', 'cScaleLabel1': '#ffffff', 'cScale2': '#eacd11', 'cScaleLabel2': '#ffffff', 'cScale3': '#8e44ad', 'cScaleLabel3': '#ffffff', 'cScalePeer1': '#078121', 'cScalePeerLabel1': '#ffffff', 'cScalePeer2': '#c80d0d', 'cScalePeerLabel2': '#ffffff', 'cScalePeer3': '#eacd11', 'cScalePeerLabel3': '#ffffff', 'cScalePeer4': '#7d3c98', 'cScalePeerLabel4': '#ffffff'}}}%%
 mindmap
   root((MCP Top 10))
     Outils malveillants
