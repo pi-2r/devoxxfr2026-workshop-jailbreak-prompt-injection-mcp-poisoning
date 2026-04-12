@@ -250,6 +250,8 @@ Le MCP change la donne en introduisant le principe de **l'agent découplé**. L'
 
 Ce découplage produit un **effet multiplicateur** considérable. N'importe quel développeur peut rendre ses données ou ses API "compatibles IA" en publiant un simple serveur MCP. Au sein d'une grande organisation, les équipes créent et maintiennent leurs propres serveurs en parallèle, faisant émerger un véritable **marché d'outils interne** qui standardise les ressources à l'échelle de l'entreprise.
 
+Un bénéfice souvent sous-estimé : **le développeur d'une application connectée à MCP n'a plus à maintenir à jour les descriptions des APIs qu'il consomme**. Cette responsabilité incombe désormais au fournisseur du serveur MCP, qui connaît le mieux son propre service. Lorsqu'une API évolue — nouveaux paramètres, endpoints dépréciés, changements de format — c'est le mainteneur du serveur MCP qui met à jour les descriptions d'outils. Les applications clientes en bénéficient automatiquement, sans modification de leur côté.
+
 ### Une communication bidirectionnelle par conception
 
 Le MCP repose sur le standard de messagerie **JSON-RPC 2.0** et exige une communication bidirectionnelle robuste. Un serveur MCP ne se limite pas à publier une liste d'outils de manière passive : il reçoit des instructions d'exécution du LLM et peut, en retour, émettre des requêtes ou des notifications de mise à jour vers l'application hôte.
