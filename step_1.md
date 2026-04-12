@@ -33,11 +33,11 @@
 
 ## 2022 le lancement
 
-Les LLM (grands modèles linguistiques en Français), ont fait leur apparition auprès du grand publique lors du lancement 
-officiel de ChatGPT, le 30 Novembre 2022.
-En moins d'une semaine, l'application qui est capable de répondre à tout et à tout le monde, à réussit à attirer ses 
-premiers millions d'utilisateurs. Dés lors, en Janvier 2023, soit 2 mois après son lancement, ChatGPT à dépasser les 
-100 millions d'utilisateurs, devenant de ce fait, la 2éme application numérique a connaitre la croissance la plus rapide 
+Les LLM (grands modèles linguistiques en français), ont fait leur apparition auprès du grand public lors du lancement 
+officiel de ChatGPT, le 30 novembre 2022.
+En moins d'une semaine, l'application qui est capable de répondre à tout et à tout le monde, a réussi à attirer ses 
+premiers millions d'utilisateurs. Dès lors, en janvier 2023, soit 2 mois après son lancement, ChatGPT a dépassé les 
+100 millions d'utilisateurs, devenant de ce fait, la 2ème application numérique à connaître la croissance la plus rapide 
 de l'histoire de l'informatique, devançant de loin TikTok, Facebook et Instagram.
 
 
@@ -73,7 +73,7 @@ l’intelligence artificielle, dépassant largement les avancées initiales de C
 ## Intelligence Artificielle, réseaux neuronaux et LLM
 
 Dans les médias, il n'est pas rare de lire différents termes pour parler spécifiquement d'intelligence artificielle.  
-Certains utiliseront le terme réseaux neuronaux, d'autre le terme LLM ou tout simplement l'intelligence artificielle; 
+Certains utiliseront le terme réseaux neuronaux, d'autres le terme LLM ou tout simplement l'intelligence artificielle; 
 cependant ces 3 termes représentent différentes facettes d'un paysage plus vaste d'apprentissage automatique et 
 d'intelligence computationnelle. 
 
@@ -89,17 +89,17 @@ algorithmes d'apprentissage automatique, servant de terme générique à de mult
 
 **Réseaux Neuronaux:**
 Cette partie de l'intelligence artificielle s'inspire du fonctionnement du cerveau humain. Les réseaux neuronaux, 
-sont des modèles informatiques conçu pour reconnaitre des schémas et d'appliquer des décisions suivant les données 
-qu'ils traitent. Ils peuvent parfois être simple (on parlera alors de réseaux neurones superficiels) ou d'autres fois 
-complexes (là on dira que se sont des réseaux neuronaux profonds).
+sont des modèles informatiques conçus pour reconnaître des schémas et d'appliquer des décisions suivant les données 
+qu'ils traitent. Ils peuvent parfois être simples (on parlera alors de réseaux neurones superficiels) ou d'autres fois 
+complexes (là on dira que ce sont des réseaux neuronaux profonds).
 Dans tous les cas, les réseaux neuronaux forment la base essentielle de nombreuses applications contemporaines 
 d’intelligence artificielle, telles que la reconnaissance d’images, le traitement automatique du langage naturel et la 
 conduite autonome de véhicules.
 
 **LLM:**
-Pour faire simple, les LLM (ou grand modèles de langage) sont un type spécifique de réseau neuronal. Ils se basent sur 
-des formes avancées de réseaux neurones, comme les modèles transformateurs, pour comprendre et produire du textes a 
-partir des données d'entraînement. Leurs forces résident dans la gestion des taches linguistiques, allant de la simple 
+Pour faire simple, les LLM (ou grands modèles de langage) sont un type spécifique de réseau neuronal. Ils se basent sur 
+des formes avancées de réseaux neurones, comme les modèles transformateurs, pour comprendre et produire du texte à 
+partir des données d'entraînement. Leurs forces résident dans la gestion des tâches linguistiques, allant de la simple 
 saisie de texte, à la synthèse rédactionnelle d'un document de centaines de pages sans dénaturer l'idée principale.
 
 <img src="https://i0.wp.com/www.phdata.io/wp-content/uploads/2024/10/article-image1-6.png" alt="image" width="450" style="transition:0.3s;">
@@ -107,7 +107,7 @@ saisie de texte, à la synthèse rédactionnelle d'un document de centaines de p
 <a href="https://phdata.io" target="_blank"><em>source: phdata.io</em></a>
 
 
-## Les Transformers: origines et architecture:
+## Les Transformers: origines et architecture
 
 Là, on ne va pas parler des films de Michael Bay, mais on va continuer à parler d'IA.
 
@@ -139,7 +139,7 @@ peinaient à restituer le sens global et les nuances.
 L’architecture du Transformer a comblé cette lacune, révolutionnant ainsi le traitement du langage par l’IA.
 
 
-Dés lors,L’architecture Transformer a représenté un véritable tournant dans l’IA. 
+Dès lors, l’architecture Transformer a représenté un véritable tournant dans l’IA. 
 D’abord conçue pour la compréhension et la génération de texte, elle s’est rapidement révélée efficace dans de 
 nombreux autres domaines, dépassant largement les attentes initiales des chercheurs et ingénieurs !
 
@@ -159,13 +159,13 @@ Voici quelques exemples d'applications de l'architecture Transformer :
 
 ## Les 2 applications d’IA générative les plus utilisées au monde
 
-Au delà des exemples décrit au dessus, nous allons nous pencher sur 2 types d'applications d'IA qui sont basée sur les LLM, à savoir les chatbots et les copilotes.
+Au-delà des exemples décrits ci-dessus, nous allons nous pencher sur 2 types d'applications d'IA qui sont basées sur les LLM, à savoir les chatbots et les copilotes.
 
 ### Les chatbots
 
-Les chatbots sont des logiciels conçus pour dialoguer avec les utilisateurs de manière naturelle. Ils sont trés largement 
+Les chatbots sont des logiciels conçus pour dialoguer avec les utilisateurs de manière naturelle. Ils sont très largement 
 utilisés dans les services client pour répondre aux questions et accompagner les clients, mais aussi dans des domaines 
-variés comme le jeux vidéo, ou dans des narrations interactives.
+variés comme les jeux vidéo, ou dans des narrations interactives.
 
 #### Quelques exemples de chatbots
 
@@ -179,7 +179,7 @@ variés comme le jeux vidéo, ou dans des narrations interactives.
 
 ### Les copilotes
 
-Les copilots sont des logiciels conçus pour aider à la rédaction, au codage et à la recherche. Elles génèrent des idées, détectent
+Les copilotes sont des logiciels conçus pour aider à la rédaction, au codage et à la recherche. Ils génèrent des idées, détectent
 les erreurs et optimisent le travail des utilisateurs.
 
 Bien qu’encore en développement, ils pourraient transformer nos méthodes de travail et d’apprentissage.
