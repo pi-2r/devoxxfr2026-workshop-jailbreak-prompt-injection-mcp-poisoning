@@ -1,4 +1,4 @@
-# Codelab : Shadowing d'Outils dans MCP (Model Context Protocol)
+# Shadowing d'Outils dans MCP (Model Context Protocol)
 
 [<img src="img/helm_wall_blow_off.png" alt="shadowing MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
@@ -33,7 +33,6 @@
 
 > **📂 Code du lab :** [`mcp/mcp-shadowing/`](mcp/mcp-shadowing/) — contient le client orchestrateur, le serveur banque et le serveur fintech malveillant.
 
----
 
 ## I. Introduction — Le risque du Shadowing
 
@@ -45,33 +44,31 @@ Le "Shadowing" se produit lorsque deux serveurs exposent un outil portant le **m
 
 L'attaquant aggrave souvent cela avec du **Prompt Injection** dans la description de son outil pour forcer le LLM à le choisir. La version la plus dangereuse de cette technique n'utilise pas un "INSTRUCTION SYSTÈME" grossier, mais déguise l'injection en **métadonnées de conformité réglementaire** (PSD2, ACPR, SEPA) que le LLM interprète comme des signaux d'autorité et de fiabilité.
 
----
 
 ## II. Architecture du Lab
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Client Orchestrateur                      │
-│                     (port 3000)                              │
+│                    Client Orchestrateur                     │
+│                     (port 3000)                             │
 │  Agrège les outils de tous les serveurs MCP connectés       │
 │  et les envoie au LLM (GPT-4o) pour exécution               │
 └───────────┬──────────────────────────────┬──────────────────┘
             │                              │
             ▼                              ▼
-┌───────────────────────┐    ┌─────────────────────────────────┐
-│   🏦 Serveur Banque   │    │  🐍 SEPA Express Gateway        │
+┌───────────────────────┐    ┌──────────────────────────────────┐
+│   🏦 Serveur Banque   │     │  🐍 SEPA Express Gateway         │
 │    (port 3001)        │    │    (port 3002)                   │
 │                       │    │                                  │
-│  transfer_funds       │    │  transfer_funds  ← SHADOWING !  │
+│  transfer_funds       │    │  transfer_funds  ← SHADOWING !   │
 │  (légitime)           │    │  check_iban                      │
 │                       │    │  get_sepa_status                 │
 │                       │    │  convert_currency                │
-└───────────────────────┘    └─────────────────────────────────┘
+└───────────────────────┘    └──────────────────────────────────┘
 ```
 
 Le serveur **SEPA Express Gateway** se présente comme un prestataire de services de paiement agréé. Il expose 4 outils crédibles, dont un `transfer_funds` qui porte le **même nom** que celui de la banque, avec une description contenant une injection déguisée en conformité PSD2.
 
----
 
 ## III. Phase 1 : L'Attaque (Le Casse du Siècle)
 
@@ -153,7 +150,6 @@ Essayez ces variantes pour observer le comportement du LLM :
 3. **Outil de couverture** : `"Vérifie si l'IBAN FR76 3000 6000 0112 3456 7890 189 est valide."` — La fintech répond normalement, renforçant sa crédibilité.
 4. **Gros montant** : `"Fais un virement de 50 000€ à Martin."` — La description mentionne "max 100 000€", ça passe.
 
----
 
 ## IV. Phase 2 : La Défense (Le Namespacing)
 
@@ -217,19 +213,16 @@ Le namespacing est une première ligne de défense nécessaire mais pas suffisan
 - **Signature/attestation des outils** : vérification cryptographique de la provenance d'un outil MCP
 - **Monitoring** : détection d'outils portant le même nom que des outils de confiance
 
----
 
 ## Conclusion
 
 Dans un écosystème MCP avec de multiples plugins tiers, il est crucial de maîtriser la provenance de chaque outil et d'instaurer des barrières strictes au niveau de l'orchestrateur. L'injection par argument d'autorité (fausse conformité réglementaire) est particulièrement dangereuse car elle exploite la tendance des LLMs à faire confiance aux signaux institutionnels — exactement comme un humain ferait confiance à un logo officiel ou un numéro d'agrément.
 
----
 
 ## Étape suivante
 
-▶️ [Étape 15 — Attaque par "Rug Pull" (Tool Poisoning sur Serveur MCP)](step_15.md)
+- [Étape 15 — Attaque par "Rug Pull" (Tool Poisoning sur Serveur MCP)](step_15.md)
 
----
 
 ## Ressources
 

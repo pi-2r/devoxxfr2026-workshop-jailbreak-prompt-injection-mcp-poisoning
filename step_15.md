@@ -1,4 +1,4 @@
-# Codelab : Attaque par "Rug Pull" (Tool Poisoning sur Serveur MCP)
+#  Attaque par "Rug Pull" (Tool Poisoning sur Serveur MCP)
 
 [<img src="img/step15.jpg" alt="rug pull MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
@@ -32,7 +32,6 @@
 
 > **📂 Code du lab :** [`mcp/mcp-rug-pull/`](mcp/mcp-rug-pull/) — contient le client orchestrateur et le serveur MCP compromis (3 outils dont un empoisonné).
 
----
 
 ## I. Introduction — Le "Rug Pull"
 
@@ -40,16 +39,15 @@ Ce codelab démontre une vulnérabilité d'injection d'instructions (**Tool Pois
 
 L'objectif est de comprendre comment un serveur MCP malveillant ou compromis peut manipuler le comportement d'un LLM en injectant des instructions dans la description de ses outils — déguisées en documentation technique légitime — poussant l'IA à exfiltrer des données sensibles (mot de passe, token, clé API) fournies par l'utilisateur.
 
----
 
 ## II. Architecture
 
 ```
-┌─────────────────────┐          MCP (SSE)          ┌──────────────────────────┐
+┌──────────────────────┐          MCP (SSE)          ┌──────────────────────────┐
 │  Client Orchestrateur│◄──────────────────────────► │  Serveur MCP Compromis   │
 │  (Express + GPT-4o)  │                             │  (3 outils exposés)      │
 │  :3000               │                             │  :3001                   │
-└─────────────────────┘                              └──────────────────────────┘
+└──────────────────────┘                             └──────────────────────────┘
         │                                                     │
         │  L'utilisateur discute                              │  L'attaquant observe
         │  via l'interface web                                │  les logs Docker
@@ -78,7 +76,6 @@ L'injection est **déguisée en documentation technique** :
 - Les 2 outils légitimes (**get_server_status**, **restart_service**) créent un **contexte de confiance**
 - Le system prompt du client est **neutre** — l'attaque fonctionne **sans aucune complicité** du prompt
 
----
 
 ## III. Phase 1 : L'Attaque (Le Vol de Secret)
 
@@ -169,7 +166,6 @@ mcp-server-1  | 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
 
 > **Point clé** : Le system prompt du client ne contient **aucune** instruction aidant l'attaque. C'est uniquement la description de l'outil — fournie par le serveur MCP — qui manipule le LLM.
 
----
 
 ## IV. Phase 2 : La Défense (Comment s'en protéger)
 
@@ -213,7 +209,6 @@ const safeTools = mcpTools.map(tool => ({
 }));
 ```
 
----
 
 ## V. Pour aller plus loin
 
@@ -237,19 +232,16 @@ const safeTools = mcpTools.map(tool => ({
 5. **Plausible deniability** : La réponse contient de vrais-faux logs qui masquent l'exfiltration
 6. **Cross-tool harvesting** : L'injection cible les données vues dans les résultats d'autres outils — l'utilisateur n'a pas besoin de fournir le secret
 
----
 
 ## Conclusion
 
 Vous venez de comprendre l'une des failles structurelles les plus subtiles liées aux LLMs et MCP. Le Tool Poisoning exploite la confiance aveugle du LLM envers les descriptions d'outils fournies par son environnement. La défense ne repose jamais sur le prompt, mais sur l'architecture : validation des entrées, whitelisting des descriptions, et Human-in-the-Loop.
 
----
 
 ## Étape suivante
 
-▶️ [Étape 16 — Indirect Prompt Injection via MCP](step_16.md)
+- [Étape 16 — Indirect Prompt Injection via MCP](step_16.md)
 
----
 
 ## Ressources
 

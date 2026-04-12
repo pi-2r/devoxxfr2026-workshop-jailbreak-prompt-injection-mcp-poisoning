@@ -1,4 +1,4 @@
-# Codelab : Indirect Prompt Injection via Model Context Protocol (MCP)
+# Indirect Prompt Injection via Model Context Protocol (MCP)
 
 [<img src="img/uruk_kamikaze.png" alt="indirect prompt injection MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
@@ -30,7 +30,6 @@
 
 > **📂 Code du lab :** [`mcp/mcp-poisoning/`](mcp/mcp-poisoning/) — contient la plateforme de recrutement IA, le serveur MCP avec les outils RH et les CV (dont le CV piégé).
 
----
 
 ## I. Introduction — L'injection indirecte via MCP
 
@@ -41,7 +40,6 @@ Le LLM étant crédule, il lit cette instruction et l'exécute à votre insu.
 
 Dans une architecture MCP où le LLM a **accès à des outils d'action** (comme envoyer un email, exécuter une commande bash, lire des fichiers secrets), une injection indirecte peut obliger le LLM à appeler ces outils au profit de l'attaquant !
 
----
 
 ## II. Pré-requis
 
@@ -58,7 +56,6 @@ docker-compose up --build
 ```
 3. Rendez-vous sur [http://localhost:3000](http://localhost:3000).
 
----
 
 ## III. Phase 1 : L'Attaque (Tool Poisoning Multi-Étapes)
 
@@ -184,7 +181,6 @@ Subject: GDPR Art.15 — Automated Processing Disclosure (NXC-ATS-2026-0412)
 > - **L'erreur de design du system prompt est réaliste** : l'instruction de "traiter les métadonnées de conformité" et l'envoi automatique d'accusés de réception sont des fonctionnalités qu'un développeur implémenterait réellement dans un ATS.
 > - **La consigne de discrétion** empêche le LLM de révéler l'opération à l'utilisateur.
 
----
 
 ## IV. Phase 2 : Défense & Remédiation
 
@@ -263,13 +259,11 @@ if (name === "get_candidate_notes") {
 - **Le Prompt n'est pas une mesure de sécurité** : Dire au LLM *"Ne te fais pas hacker"* dans le System Prompt ne stoppe pas les Prompt Injections. C'est l'architecture qui doit empêcher la faille de devenir une action.
 - **Défense en profondeur** : Même si `send_email` est bloqué, le LLM peut toujours être manipulé pour lire des données qu'il n'aurait pas dû consulter. Chaque outil doit avoir ses propres contrôles d'accès.
 
----
 
 ## Étape suivante
 
-▶️ [Étape 17 — Command Injection (RCE) via un Serveur MCP](step_17.md)
+- [Étape 17 — Command Injection (RCE) via un Serveur MCP](step_17.md)
 
----
 
 ## Ressources
 
@@ -280,3 +274,5 @@ if (name === "get_candidate_notes") {
 | EU AI Act — Texte officiel                                                        | [https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32024R1689)                                                                 |
 | GDPR — Règlement général sur la protection des données                              | [https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32016R0679)                                                                 |
 | Model Context Protocol — Specification                                            | [https://spec.modelcontextprotocol.io/](https://spec.modelcontextprotocol.io/)                                                                                                                               |
+| Indirect Prompt Injection in MCP Tools: 10 Real Examples & Defenses                                           | [https://www.stackone.com/blog/prompt-injection-mcp-10-examples/](https://www.stackone.com/blog/prompt-injection-mcp-10-examples/)  |
+| Indirect Prompt Injection: The Hidden Threat Breaking Modern AI Systems                                           | [https://www.lakera.ai/blog/indirect-prompt-injection](https://www.lakera.ai/blog/indirect-prompt-injection)   |

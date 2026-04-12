@@ -22,7 +22,6 @@
 - [Étape suivante](#étape-suivante)
 - [Ressources](#ressources)
 
----
 
 ## I. Lancer votre environnement
 
@@ -41,7 +40,6 @@
 2. Ouvrez le dossier dans VS Code.
 3. Une notification apparaîtra en bas à droite proposant de rouvrir le dossier dans un conteneur (**Reopen in Container**). Cliquez dessus.
 
----
 
 ## II. Découverte des Labs
 
@@ -67,13 +65,11 @@ Chaque dossier contient son propre `TUTORIAL.md` ou un `README.md` spécifique a
 ### Pour modifier le code
 Vous pouvez éditer n'importe quel fichier métier ou configuration directement depuis l'éditeur de l'interface (TypeScript, Dockerfile...). N'hésitez pas à relancer les conteneurs du lab après chaque modification via `docker compose up -d --build`.
 
----
 
 ## Étape suivante
 
-▶️ [Étape 14 — Shadowing d'Outils dans MCP](step_14.md)
+- [Étape 14 — Shadowing d'Outils dans MCP](step_14.md)
 
----
 
 ## Ressources
 

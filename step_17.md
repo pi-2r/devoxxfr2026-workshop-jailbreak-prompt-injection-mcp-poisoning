@@ -1,4 +1,4 @@
-# Codelab : Command Injection (RCE) via un Serveur MCP
+# Command Injection (RCE) via un Serveur MCP
 
 [<img src="img/minas_tirith_tree_burning.jpg" alt="command injection MCP" width="800">](https://www.youtube.com/watch?v=gXC-jJhFABQ)
 
@@ -36,7 +36,6 @@
 
 > **📂 Code du lab :** [`mcp/mcp-command-injection/`](mcp/mcp-command-injection/) — contient le client CLI, le serveur MCP de diagnostic réseau vulnérable et les secrets à exfiltrer.
 
----
 
 ## I. Introduction
 
@@ -47,21 +46,21 @@ Ce codelab démontre comment un serveur MCP de diagnostic réseau, parfaitement 
 ### L'Architecture
 
 ```
-┌─────────────┐     prompt      ┌──────────────┐    MCP/SSE      ┌──────────────────────┐
-│ Utilisateur  │ ──────────────> │ Orchestrateur │ ─────────────> │  Serveur MCP         │
-│ (attaquant)  │                 │ (GPT-4o-mini)  │ <───────────── │  "NetDiag Service"   │
-└─────────────┘                 └──────────────┘   résultats     │                      │
-                                                                  │  Outils exposés :    │
-                                                                  │  • network_ping      │
-                                                                  │  • dns_lookup        │
-                                                                  │  • check_port        │
-                                                                  │                      │
-                                                                  │  🔑 Secrets :        │
-                                                                  │  • API keys          │
-                                                                  │  • DB credentials    │
-                                                                  │  • AWS keys          │
-                                                                  │  • Clé SSH privée    │
-                                                                  └──────────────────────┘
+┌──────────────┐     prompt      ┌───────────────┐    MCP/SSE     ┌───────────────────────┐
+│ Utilisateur  │ ──────────────> │ Orchestrateur │ ─────────────> │  Serveur MCP          │
+│ (attaquant)  │                 │ (GPT-4o-mini) │ <───────────── │  "NetDiag Service"    │
+└──────────────┘                 └───────────────┘   résultats    │                       │
+                                                                  │  Outils exposés :     │
+                                                                  │  • network_ping       │
+                                                                  │  • dns_lookup         │
+                                                                  │  • check_port         │
+                                                                  │                       │
+                                                                  │  🔑 Secrets :         │
+                                                                  │  • API keys           │
+                                                                  │  • DB credentials     │
+                                                                  │  • AWS keys           │
+                                                                  │  • Clé SSH privée     │
+                                                                  └───────────────────────┘
 ```
 
 - **L'Orchestrateur** : Application CLI reliant l'utilisateur au LLM (OpenAI GPT-4o-mini), qui appelle les outils MCP.
@@ -69,14 +68,13 @@ Ce codelab démontre comment un serveur MCP de diagnostic réseau, parfaitement 
 
 ### Attaquer le Modèle vs. Attaquer l'Infrastructure
 
-| | Prompt Injection / Jailbreak | RCE via MCP (ce lab) |
-|---|---|---|
-| **Cible** | Le comportement du LLM | Le code du serveur MCP |
-| **Le LLM...** | ...est manipulé | ...fonctionne normalement |
-| **Impact** | Contournement des consignes | Exécution de commandes OS |
-| **Cause racine** | Prompt mal sécurisé | Code serveur vulnérable (`exec()`) |
+|                  | Prompt Injection / Jailbreak | RCE via MCP (ce lab)               |
+|------------------|------------------------------|------------------------------------|
+| **Cible**        | Le comportement du LLM       | Le code du serveur MCP             |
+| **Le LLM...**    | ...est manipulé              | ...fonctionne normalement          |
+| **Impact**       | Contournement des consignes  | Exécution de commandes OS          |
+| **Cause racine** | Prompt mal sécurisé          | Code serveur vulnérable (`exec()`) |
 
----
 
 ## II. Phase 1 : L'Attaque — Scénario réaliste en 5 étapes
 
@@ -201,19 +199,18 @@ Ou, pour tout récupérer d'un coup :
 
 ### 📊 Bilan de l'attaque
 
-| Donnée exfiltrée | Vecteur | Impact potentiel |
-|---|---|---|
-| `SECRET_API_KEY` | `env` | Accès API non autorisé |
-| `DATABASE_URL` (user + password) | `env` / `config.json` | Accès direct à la base de données production |
-| `AWS_SECRET_ACCESS_KEY` | `env` | Compromission du compte AWS |
-| `STRIPE_SECRET_KEY` | `env` / `config.json` | Transactions financières frauduleuses |
-| `JWT_SECRET` | `env` | Forge de tokens d'authentification |
-| Clé SSH privée | `/root/.ssh/id_rsa` | Mouvement latéral vers d'autres serveurs |
-| Logs d'accès | `/var/log/app/` | Reconnaissance (emails admin, patterns d'usage) |
+| Donnée exfiltrée                 | Vecteur                | Impact potentiel                                |
+|----------------------------------|------------------------|-------------------------------------------------|
+| `SECRET_API_KEY`                 | `env`                  | Accès API non autorisé                          |
+| `DATABASE_URL` (user + password) | `env` / `config.json`  | Accès direct à la base de données production    |
+| `AWS_SECRET_ACCESS_KEY`          | `env`                  | Compromission du compte AWS                     |
+| `STRIPE_SECRET_KEY`              | `env` / `config.json`  | Transactions financières frauduleuses           |
+| `JWT_SECRET`                     | `env`                  | Forge de tokens d'authentification              |
+| Clé SSH privée                   | `/root/.ssh/id_rsa`    | Mouvement latéral vers d'autres serveurs        |
+| Logs d'accès                     | `/var/log/app/`        | Reconnaissance (emails admin, patterns d'usage) |
 
 **Tout cela à partir d'un simple chat de diagnostic réseau.**
 
----
 
 ## III. Pourquoi le LLM ne bloque-t-il pas l'attaque ?
 
@@ -231,7 +228,6 @@ C'est la question clé de ce lab. Comme on l'a vu à l'étape 2, le LLM peut par
 
 **Leçon** : La sécurité ne doit JAMAIS reposer sur le comportement du LLM. Même quand il "filtre" involontairement, ce n'est ni fiable ni reproductible. La défense doit être implémentée dans le code du serveur.
 
----
 
 ## IV. Phase 2 : La Défense (Remédiation)
 
@@ -310,20 +306,23 @@ Résultat attendu avec `spawn()` : erreur de résolution DNS (le hostname `8.8.8
 
 Résultat attendu avec la regex : `"Nom d'hôte invalide. Caractères autorisés : lettres, chiffres, points, tirets."`
 
----
-
 ## Étape suivante
 
-▶️ [Étape 18 — Benchmarking avec Promptfoo](step_18.md)
-
----
+- [Étape 18 — Benchmarking avec Promptfoo](step_18.md)
 
 ## Ressources
 
-| Information                                                                       | Lien                                                                                                                                                                                                         |
-|-----------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| OWASP MCP Top 10                                                                  | [https://owasp.org/www-project-mcp-top-10/](https://owasp.org/www-project-mcp-top-10/)                                                                                                                       |
-| OWASP — OS Command Injection                                                      | [https://owasp.org/www-community/attacks/Command_Injection](https://owasp.org/www-community/attacks/Command_Injection)                                                                                       |
-| Node.js — child_process.spawn()                                                   | [https://nodejs.org/api/child_process.html#child_processspawncommand-args-options](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options)                                           |
-| Trail of Bits — A Security Review of the Model Context Protocol                   | [https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/](https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/)                         |
-| Model Context Protocol — Specification                                            | [https://spec.modelcontextprotocol.io/](https://spec.modelcontextprotocol.io/)                                                                                                                               |
+| Information                                                         | Lien                                                                                                                                                                                  |
+|---------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| OWASP MCP Top 10                                                    | [https://owasp.org/www-project-mcp-top-10/](https://owasp.org/www-project-mcp-top-10/)                                                                                                |
+| OWASP — OS Command Injection                                        | [https://owasp.org/www-community/attacks/Command_Injection](https://owasp.org/www-community/attacks/Command_Injection)                                                                |
+| Node.js — child_process.spawn()                                     | [https://nodejs.org/api/child_process.html#child_processspawncommand-args-options](https://nodejs.org/api/child_process.html#child_processspawncommand-args-options)                  |
+| Trail of Bits — A Security Review of the Model Context Protocol     | [https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/](https://blog.trailofbits.com/2025/04/03/a-security-review-of-the-model-context-protocol/)  |
+| Model Context Protocol — Specification                              | [https://spec.modelcontextprotocol.io/](https://spec.modelcontextprotocol.io/)                                                                                                        |
+| Docker Hardened Images                                              | [https://www.docker.com/products/hardened-images](https://www.docker.com/products/hardened-images)                                                                                    |
+| Zero-Click Remote Code Execution: Exploiting MCP & Agentic IDEs                                             | [https://www.lakera.ai/blog/zero-click-remote-code-execution-exploiting-mcp-agentic-ides](https://www.lakera.ai/blog/zero-click-remote-code-execution-exploiting-mcp-agentic-ides)                                                                                    |
+| Cursor IDE: Persistent Code Execution via MCP Trust Bypass                                            | [https://blog.checkpoint.com/research/cursor-ide-persistent-code-execution-via-mcp-trust-bypass](https://blog.checkpoint.com/research/cursor-ide-persistent-code-execution-via-mcp-trust-bypass)                                                                                    |
+| L'extension Claude Desktop expose plus de 10 000 utilisateurs à une vulnérabilité d'exécution de code à distance.                                           | [https://layerxsecurity.com/fr/blog/claude-desktop-extensions-rce/](https://layerxsecurity.com/fr/blog/claude-desktop-extensions-rce/)                                                                                    |
+
+
+

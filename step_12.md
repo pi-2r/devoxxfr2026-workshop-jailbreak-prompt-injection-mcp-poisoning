@@ -432,7 +432,7 @@ graph TB
 
 ## Étape suivante
 
-▶️ [Étape 14 — Labs pratiques : Exploiter les vulnérabilités MCP](step_14.md)
+- [Étape 14 — Labs pratiques : Exploiter les vulnérabilités MCP](step_14.md)
 
 ## Ressources
 
