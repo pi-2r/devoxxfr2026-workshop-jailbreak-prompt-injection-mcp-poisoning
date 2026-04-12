@@ -377,7 +377,7 @@ Trois caractéristiques le distinguent :
 - **Exécution isolée** — À la réception d'un ordre valide (exécuter une requête SQL, par exemple), le Serveur décode la demande, exécute sa logique métier de manière autonome, puis renvoie un résultat formaté — ou une erreur explicite — au Client. Il n'a à aucun moment besoin de connaître le modèle d'IA à l'origine de la requête. Cette isolation est une garantie architecturale de portabilité et de sécurité.
 
 
-## IV.  Le Langage du MCP : Outils, Ressources et Invites
+## IV. Le Langage du MCP : Outils, Ressources et Invites
 
 Au-delà de la connexion technique, le MCP définit un **vocabulaire** — un ensemble structuré de capacités que chaque Serveur expose à l'application Hôte. Là où le Language Server Protocol se limitait aux fonctions liées au code (autocomplétion, navigation vers les définitions), le MCP embrasse un spectre considérablement plus large : interroger une base de données, piloter un pipeline CI/CD, analyser un corpus documentaire.
 
