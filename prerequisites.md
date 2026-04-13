@@ -41,34 +41,55 @@ Vous pouvez également télécharger l'archive .zip du projet, puis la décompre
 
 
 ### Récupérer une clé OpenAI
-Allez sur https://platform.openai.com/signup pour créer un compte et récupérer une clé API. Dés que vous etes connecté, 
-allez dans la section [API Keys](https://platform.openai.com/api-keys) pour créer une nouvelle clé. Vous devrez avoir cette page :
 
-<img src="img/openai-api-keys.jpg" alt="openai api keys" width="600" style="transition:0.3s;">
+Les différents outils et TP de ce workshop utilisent l'API d'OpenAI. Vous aurez donc besoin d'une clé d'API valide.
 
-Puis cliquez sur le bouton **Create new secret key** pour générer une nouvelle clé au moment voulu dans le lab.
+#### 1. Créer un compte et ajouter un moyen de paiement
+Allez sur [platform.openai.com/signup](https://platform.openai.com/signup) pour créer un compte.
+👉 **Attention** : L'API d'OpenAI nécessite d'avoir un solde positif. Vous devrez ajouter un moyen de paiement et créditer au moins **5$** (dans la section *Settings > Billing*) pour utiliser les modèles.
 
 <details>
-  <summary>🚧 💡 🚧 Combien ça va me couter ? moins de 5 $ 🚧 💡 🚧</summary>
+  <summary>🚧 💡 Combien ça va me coûter pendant le workshop ? (Moins de 5 $) </summary>
 
-De notre côté, lors de la réalisation du workshop, avec une **utilisation régulière** de **gpt-3.5-turbo** et 
-une **utilisation modérée** de **gpt-5-nano**, n’avons pas dépassé 5 $ de consommation.
-
-<img src="img/openai-price.jpg">
-
+De notre côté, lors de la réalisation du workshop, avec une **utilisation régulière** de *gpt-3.5-turbo / gpt-4o-mini* et 
+une **utilisation modérée** de *gpt-4o*, nous n’avons pas dépassé 5 $ de consommation totale.
+<img src="img/openai-price.jpg" width="400">
 </details>
 
-Vous pouvez tester votre clef OpenAi par exemple avec une requête simple en curl :
+#### 2. Générer la clé API
+Allez dans la section [API Keys](https://platform.openai.com/api-keys). 
+<img src="img/openai-api-keys.jpg" alt="openai api keys" width="600" style="transition:0.3s; margin-top: 10px; margin-bottom: 10px;">
+
+Cliquez sur le bouton **Create new secret key**.
+👉 **Important** : Copiez la clé générée (elle commence par `sk-proj-...`). Conservez-la, elle ne vous sera plus affichée ensuite !
+
+#### 3. Configurer l'environnement
+Pour que les outils de ce codelab utilisent votre clé automatiquement, vous devez l'ajouter comme variable d'environnement dans votre terminal.
+
+Exécutez cette commande (en remplaçant le faux texte par votre vraie clé) :
+```bash
+export OPENAI_API_KEY="sk-proj-votre-cle-secrete-ici..."
+```
+
+#### 4. Tester la clé
+Vérifiez que votre clé est bien configurée et que votre compte est actif (crédité) à l'aide de cette commande universelle :
 
 ```bash
-curl https://api.openai.com/v1/responses \
--H "Content-Type: application/json" \
--H "Authorization: Bearer $OPENAI_API_KEY" \
--d '{
-"model": "gpt-3.5-turbo",
-"input": "Tell me a three sentence bedtime story about a unicorn."
-}'
+curl https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Génère une petite phrase poétique de 3 mots sur les LLMs."
+      }
+    ]
+  }'
 ```
+
+*Si la ligne de commande vous renvoie un message contenant `insufficient_quota`, c'est que votre compte n'a pas encore été crédité côté facturation OpenAI.*
 
 
 ---
@@ -139,7 +160,7 @@ garak --version
 # Cloner PyRIT dans un répertoire temporaire
 git clone https://github.com/microsoft/PyRIT.git --depth 1 /tmp/PyRIT
 
-# Installer les dépendances
+# Depuis le venv activé (assurez-vous d'être à la racine du dépôt où se trouve .venv)
 uv pip install --upgrade pip setuptools wheel
 uv pip install IPython
 uv pip install -e /tmp/PyRIT
