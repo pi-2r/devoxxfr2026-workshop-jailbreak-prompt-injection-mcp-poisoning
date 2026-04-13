@@ -29,7 +29,8 @@
 
 ### Option A : Depuis GitHub Codespaces (Recommandé)
 1. Assurez-vous d'être connecté à votre compte GitHub.
-2. Cliquez sur le bouton vert **"Code"** en haut à droite du dépôt.
+2. Cliquez sur le bouton vert **"Code"** en haut à droite du dépôt : <br>
+![Code Bouton](./img/MCP_lab_bouton_code_github.png)
 3. Allez dans l'onglet **"Codespaces"**.
 4. Cliquez sur **"Create codespace on main"**.
 5. Patientez quelques minutes. Un éditeur VS Code complet s'ouvrira directement dans votre navigateur !
