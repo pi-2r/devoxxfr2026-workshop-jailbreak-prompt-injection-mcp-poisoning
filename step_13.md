@@ -60,7 +60,7 @@ Chaque dossier contient son propre `TUTORIAL.md` ou un `README.md` spécifique a
    ```bash
    cd mcp/mcp-poisoning
    ```
-3. Lisez les instructions spécifiques au lab (dans le fichier `TUTORIAL.md`).
+3. Suivez les instructions présentes dans les prochaines étapes.
 4. Généralement, vous pourrez lancer le lab via `docker compose up -d` ou via le `Makefile`. **Note :** Votre environnement a déjà Docker configuré, donc tout fonctionnera de manière transparente !
 
 ### Pour modifier le code

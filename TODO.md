@@ -17,10 +17,30 @@ le client peut ouvrir un GET sur /mcp pour recevoir des notifications server-ini
 * [x] Step_12.md : "1. Tool Poisoning" je comprends pas bien l'exemple le serveur de météo n'aura accès qu'au credentials le concercant. J'aurai plus pris ce genre de d'exemple : 1. Tool Poisoning https://claude.ai/share/0773ad31-9c28-4f80-82d3-6d89b9a21f2b
 * [x] Step_12.md : "5. Shadow MCP Servers" un exemple ou pas ? https://claude.ai/share/634b2720-83ce-4910-b1c2-0443697bfdf6
 * [x] Step_12.md : "V. Focus : Memory Poisoning" => on peut donner un exemple simple d'injection d'instructions dans le CLAUDE.md qui est lu par claude à chaque fois, c'est parlant comme exemple. Exemple : https://claude.ai/share/d9a01bdc-24df-4b4e-8d94-759e1b0becb4
-* 
+* [ ] Fournir un template de .env pour ne pas stocker la clé OpenAI enfin la remettre dans chaque terminal ?
+* [ ] Réflexion ouverte ou rappel sur ce qui se passe sous le capot .. ça peut semble obscure pour des "non initiés" la manière dont le LLM prend en compte les tool déclaré et renvoi des appels de tools.
+Exemple de "raw prompt" avec tool calling, ça peut se montrer via du ollama en live avec certains modèles : 
+```
+<|im_start|>system                                                                                                            
+  You are a helpful assistant. You have access to tools: [définition complète des tools en JSON]                                
+  <|im_end|>                                                                                                                    
+  <|im_start|>user
+  fais X                                                                                                                        
+  <|im_end|>      
+  <|im_start|>assistant                                                                                                         
+  <tool_call>{"name": "bash", "input": {...}}</tool_call>
+  <|im_end|>                                                                                                                    
+  <|im_start|>tool
+  résultat de l'exécution                                                                                                       
+  <|im_end|>      
+  <|im_start|>assistant                                                                                                         
+  ...
+ ```
+Pour bien capter que tout fini dans un prompt et que les appels de tool sont bien des token généré en réponse.
 
 ## Benjamin
 * [x] Step_12.md : la mindmap "II. MCP Top 10 — Les menaces principales" passe mal en preview sur intelij / pycharm. Pas testé sur VSCode semble passer bien sur Github.
 * [ ] AP Wifi : le reconfigurer pour bien avec le SSID LLM_ATTACK et password `password`
 * [ ] AP Wifi : bien bind l'ip 192.168.20.2 sur mon mac sur lequel le lab partagé sera mis à disposition.
 * [ ] Mac : S'assurer qu'un LAB AI Red Team partagé est bien dispo.
+* [ ] Un petit outil d'observabilité pour voir les traces LLM et voir ce qui se passe pourrait être pas mal ? Pour rendre plus explicite les failles peut-être, voir si on peut rajouter un langfuse ?
