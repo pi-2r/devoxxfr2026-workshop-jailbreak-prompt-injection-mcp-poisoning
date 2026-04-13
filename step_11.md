@@ -1,4 +1,4 @@
-# Le Model Context Protocol : l'infrastructure manquante de l'ère AI-Native
+# Le Model Context Protocol : le protocole manquant de l'ère AI-Native
 
 [<img src="img/step10.jpg" alt="gandalf" width="800">](https://www.youtube.com/watch?v=__m75rCcusM)
 
@@ -259,7 +259,7 @@ Le MCP repose sur le standard de messagerie **JSON-RPC 2.0** et exige une commun
 Pour gérer la mécanique fine de ces échanges — maintien de connexion, routage des messages, gestion des erreurs — le protocole s'appuie sur deux **couches de transport** standardisées :
 
 - **Standard I/O (stdio)** — pour la communication locale, lorsqu'un serveur MCP s'exécute en tant que processus enfant sur la même machine que l'application hôte (typiquement, un outil intégré à votre IDE).
-- **Streamable HTTP** — le standard recommandé pour les communications distantes. Il utilise des requêtes HTTP classiques pour l'envoi et une connexion persistante pour la réception de flux de données, permettant de connecter de manière sécurisée une application à des serveurs MCP hébergés dans le cloud.
+- **Streamable HTTP (avec SSE)** — le standard recommandé pour les communications distantes. Pour combler la nature unidirectionnelle du protocole HTTP, le MCP s'appuie sur les **Server-Sent Events (SSE)**. Concrètement, le client ouvre une requête `GET` persistante (souvent sur `/mcp/sse`) pour recevoir en temps réel les notifications "*server-initiated*" poussées par le serveur (par exemple une notification `notifications/tools/list_changed`), tout en émettant ses propres messages via des requêtes `POST` classiques. Ce schéma hybride garantit une communication bidirectionnelle robuste (sans la complexité des WebSockets) pour des serveurs cloud.
 
 > **Flux de communication type entre un Hôte et un Serveur MCP :**
 
@@ -355,6 +355,7 @@ Ses responsabilités sont doubles et critiques :
 
 - **Gestion de l'expérience et de l'état** — L'Hôte pilote l'interface, conserve l'historique complet de la conversation et restitue les réponses finales de l'IA à l'utilisateur.
 - **Gouvernance et sécurité** — C'est la fonction la plus déterminante. L'Hôte est le gardien ultime des capacités de l'agent. Il contrôle les ressources accessibles selon le contexte (par exemple, restreindre l'accès au seul répertoire du projet en cours) et impose la **validation humaine** (*Human-in-the-Loop*). Avant toute action irréversible — suppression de fichier, modification d'une base de données — il intercepte la requête et exige l'approbation explicite de l'utilisateur.
+  > *Note : Pour renforcer cette gouvernance et assurer une isolation forte (sandboxing), l'Hôte peut s'appuyer sur des solutions spécialisées comme **OpenShell**, qui permettent d'isoler les flux d'accès aux binaires (commandes de l'agent) et au système de fichiers de manière très fine. Cela offre un périmètre de confiance robuste sans avoir à demander constamment l'approbation de l'utilisateur.*
 
 ### Le Client MCP — l'intermédiaire technique
 
@@ -390,6 +391,31 @@ Les Outils incarnent la capacité d'agir. Ce sont des fonctions exécutables —
 Leur fonctionnement repose sur un mécanisme déclaratif : le Serveur publie la liste exhaustive de ses outils, accompagnée de descriptions textuelles suffisamment précises pour guider le raisonnement du LLM. Le Modèle d'IA analyse ensuite cette liste et décide, **de sa propre initiative**, s'il est pertinent d'invoquer un outil pour répondre à la requête de l'utilisateur.
 
 > C'est cette autonomie de sélection qui confère à l'agent sa dimension véritablement agentique. Le LLM ne se contente pas de répondre : il *agit*.
+
+**Exemple concret de déclaration d'un Outil :**
+Voici comment le Serveur transmet les capacités d'une fonction `get_weather` au LLM via le Modèle de contexte. Vous remarquerez que le schéma JSON (les arguments et la description) sert de véritable "mode d'emploi" lu par le modèle d'IA pour savoir quand et comment utiliser cet outil :
+
+```json
+{
+  "name": "get_weather",
+  "description": "Obtient la météo locale complète pour une localisation donnée.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "city": {
+        "type": "string",
+        "description": "Le nom de la ville (ex: 'Paris', 'Brest')"
+      },
+      "unit": {
+        "type": "string",
+        "enum": ["celsius", "fahrenheit"],
+        "description": "L'unité de température désirée (celsius par défaut)"
+      }
+    },
+    "required": ["city"]
+  }
+}
+```
 
 ### Les Ressources (*Resources*) — les noms de contexte, contrôlés par l'Application
 
