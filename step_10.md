@@ -46,8 +46,8 @@ pour résister aux manipulations et à l’extraction de données sensibles.
 
 ## PyRIT
 
-![GitHub stars](https://img.shields.io/github/stars/Azure/PyRIT?style=flat-square)
-[![Downloads](https://static.pepy.tech/badge/garak/month)](https://pepy.tech/project/garak)
+![GitHub stars](https://img.shields.io/github/stars/microsoft/PyRIT?style=flat-square)
+[![Downloads](https://static.pepy.tech/badge/pyrit/month)](https://pepy.tech/project/pyrit)
 
 **PyRIT** (Python Risk Identification Toolkit) est un framework open-source conçu pour faciliter l’identification des 
 risques de sécurité dans les systèmes d’IA générative, via des approches de red teaming structurées et reproductibles.
@@ -76,7 +76,7 @@ d’IA, quel que soit leur fournisseur ou leur type.
 Le framework repose sur une architecture modulaire : chaque composant (attaque, cible, transformateur, système de 
 scoring) peut être personnalisé et assemblé pour créer des flux d’évaluation adaptés à différents scénarios.
 
-1.  On choisit d’abord un "orchestrateur" pour déterminer le type d’attaque/scénario souhaité (simple prompt, attaque 
+1.  On choisit d’abord un "attack/executor" (anciennement orchestrateur) pour déterminer le type d’attaque/scénario souhaité (simple prompt, attaque 
 sur plusieurs tours, attaque sur document externe, etc.).
 
 
@@ -102,25 +102,24 @@ Dès lors, la modularité permet de composer ces briques pour couvrir des scéna
 
 | Module                | Description                                                                              | Exemples/Types                                                                                                                                                  |
 |-----------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Orchestrators**     | Coordonnent le déroulement de l’attaque et la logique de dialogue                        | PromptSendingOrchestrator, RedTeamingOrchestrator, EndTokenRedTeamingOrchestrator, ScoringRedTeamingOrchestrator, XPIA Orchestrators                            |
+| **Attacks / Executors** | Coordonnent le déroulement de l’attaque et la logique de dialogue (anciennement Orchestrators) | PromptSendingAttack, RedTeamingAttack, CrescendoAttack, etc.                                                                                                    |
 | **Converters**        | Transforment les prompts pour tenter de contourner les gardes fous                       | leetspeak, ROT13, unicode confusable, variation/translation, etc.                                                                                               |
 | **Targets**           | Interface vers le modèle à tester                                                        | API d’inférence, modèles chat, multimodal, stockage externe                                                                                                     |
 | **Attack Strategies** | Définissent les objectifs d’attaque et la génération des prompts                         | Manuel, automatisé via IA attaquante                                                                                                                            |
 | **Scoring**           | Analyse et évalue les réponses du modèle                                                 | Classificateurs de contenu (biais, thématique), échelles de Likert (graduation sur 5 niveaux), évaluations personnalisées (booléen, string, mot de passe, etc.) |
 
 
-Pour les orchestrateurs, voici quelques details supplémentaires :
-- **PromptSendingOrchestrator** : envoie un prompt simple au modèle et analyse la réponse.
-- **RedTeamingOrchestrator** : simule une attaque de red teaming sur plusieurs tours de dialogue.
-- **EndTokenRedTeamingOrchestrator** : similaire au précédent, mais s’arrête dès qu’un "end token" est détecté dans la réponse.
-- **ScoringRedTeamingOrchestrator** : intègre une étape de scoring pour évaluer la qualité ou le risque de la réponse.
-- **XPIA Orchestrators** : conçus pour tester les attaques par injection de prompt indirecte via données externes.
+Pour les attaques (anciennement orchestrateurs), voici quelques details supplémentaires :
+- **PromptSendingAttack** : envoie un prompt simple au modèle et analyse la réponse.
+- **RedTeamingAttack** : simule une attaque de red teaming sur plusieurs tours de dialogue.
+- **CrescendoAttack** : attaque multi-tours progressive (basée sur une stratégie d'escalade des requêtes).
+- D'autres attaques et exécuteurs spécialisés gèrent les "end tokens" ou les scénarios complexes comme XPIA.
 
 
 ### schema d'architecture PyRIT
 
                         +---------------------+
-                        |     Orchestrator    |
+                        | Attacks & Executors |
                         +---------+-----------+
                                   |
                +------------------|----------------------+
@@ -152,7 +151,7 @@ Si vous n'avez pas déjà installé PyRIT, voici comment faire depuis votre term
 puis exécutez la commande suivante pour cloner le dépôt et entrer automatiquement dans le dossier créé :
 
 ```bash
-git clone https://github.com/Azure/PyRIT.git --depth 1 && cd PyRIT
+git clone https://github.com/microsoft/PyRIT.git --depth 1 && cd PyRIT
 ```
 
 Ensuite, créez un environnement virtuel Python, activez-le, puis installez les dépendances du projet avec les commandes
@@ -259,8 +258,9 @@ Ouvrez le fichier **settings.yml** et renseignez votre clé OpenAI ainsi que le 
 ### Comprendre le code
 
 
-Le code de base de cet exercice s’appuie sur la documentation officielle de PyRIT :
-https://azure.github.io/PyRIT/code/targets/2_custom_targets.html#gandalf-target.
+Le code de base de cet exercice s’appuie sur la documentation officielle de PyRIT et l'exemple Gandalf :
+https://github.com/microsoft/PyRIT/blob/main/doc/code/targets/6_custom_targets.ipynb
+*(Anciennement disponible sur azure.github.io/PyRIT/code/targets/2_custom_targets.html)*.
 
 Nous avons toutefois adapté ce code pour le codelab.
 
@@ -316,8 +316,8 @@ Comment resoudre les niveaux supérieurs ? Voici quelques pistes :
 | Information                                                                       | Lien                                                                                                                                                                                                           |
 |-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | PyRIT: A Framework for [...] Red Teaming in Generative AI System                  | [https://arxiv.org/abs/2410.02828](https://arxiv.org/abs/2410.02828)                                                                                                                                           |
-| PyRIT - Azure documentation                                                       | [https://azure.github.io/PyRIT/](https://azure.github.io/PyRIT/)                                                                                                                                               |
-| PyRIT - Github                                                                    | [https://github.com/Azure/PyRIT](https://github.com/Azure/PyRIT)                                                                                                                                               |
+| PyRIT - Documentation officielle                                                  | [https://microsoft.github.io/PyRIT/](https://microsoft.github.io/PyRIT/)                                                                                                                                       |
+| PyRIT - Github                                                                    | [https://github.com/microsoft/PyRIT](https://github.com/microsoft/PyRIT)                                                                                                                                       |
 | Youtube - PyRIT: A Framework for  [...] Red Teaming in Generative AI Systems      | [https://www.youtube.com/watch?v=KnV8Y97YKmU](https://www.youtube.com/watch?v=KnV8Y97YKmU)                                                                                                                     |
 | Hacking generative AI with PyRIT  Black Hat Arsenal USA 2024                      | [https://www.youtube.com/watch?v=M_H8ulTMAe4](https://www.youtube.com/watch?v=M_H8ulTMAe4)                                                                                                                     |
 | Red Teaming GenAI: The PyRIT Framework for Proactive Risk Identification          | [https://www.linkedin.com/pulse/red-teaming-genai-pyrit-framework-proactive-risk-p-raquel-bise--vh1ae/](https://www.linkedin.com/pulse/red-teaming-genai-pyrit-framework-proactive-risk-p-raquel-bise--vh1ae/) |

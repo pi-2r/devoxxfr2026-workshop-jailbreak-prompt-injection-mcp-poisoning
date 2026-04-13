@@ -137,7 +137,7 @@ garak --version
 
 ```bash
 # Cloner PyRIT dans un répertoire temporaire
-git clone https://github.com/Azure/PyRIT.git --depth 1 /tmp/PyRIT
+git clone https://github.com/microsoft/PyRIT.git --depth 1 /tmp/PyRIT
 
 # Installer les dépendances
 uv pip install --upgrade pip setuptools wheel
