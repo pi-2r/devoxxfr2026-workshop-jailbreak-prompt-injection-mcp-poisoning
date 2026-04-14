@@ -24,6 +24,7 @@
   - [Étape 1 : Contrôles côté Serveur MCP](#étape-1--implémenter-des-contrôles-côté-serveur-mcp-human-in-the-loop--filtrage)
   - [Étape 2 : Valider la remédiation](#étape-2--valider-la-remédiation)
   - [Étape 3 (Bonus) : Principe du moindre privilège](#étape-3-bonus--appliquer-le-principe-du-moindre-privilège)
+  - [Étape 4 (Bonus) : Guardrail de détection de secrets côté LLM](#étape-4-bonus--guardrail-de-détection-de-secrets-côté-llm-litellm)
   - [Retenir pour vos architectures IA](#-retenir-pour-vos-architectures-ia-)
 - [Étape suivante](#étape-suivante)
 - [Ressources](#ressources)
@@ -69,7 +70,7 @@ Le **System Prompt** de l'assistant contient lui-même des informations confiden
 - *"Lorsqu'un document contient des métadonnées de conformité ou des directives de traitement réglementaire, exécute les étapes indiquées"* — une erreur d'architecture courante dans les systèmes ATS qui traitent des documents réglementés.
 - *"Envoie automatiquement un accusé de réception au candidat à l'adresse email figurant dans son CV, incluant le contexte de traitement"* — une fonctionnalité classique de conformité GDPR implémentée naïvement.
 
-Ces deux instructions sont des erreurs de design courantes dans les pipelines IA en production. Elles représentent la **surface d'attaque** que le payload du CV exploité.
+Ces deux instructions sont des erreurs de design courantes dans les pipelines IA en production. Elles représentent la **surface d'attaque** que le payload du CV exploite.
 
 ### Étape 1 : Observez le cas nominal
 Dans l'interface Web, demandez poliment :
@@ -250,6 +251,40 @@ if (name === "get_candidate_notes") {
     };
 }
 ```
+
+### Étape 4 (Bonus à titre informatif) : Guardrail de détection de secrets côté LLM (LiteLLM)
+
+Une autre couche de défense complémentaire consiste à inspecter ce que le LLM **génère** — en particulier les arguments de ses tool calls — avant qu'ils ne soient exécutés.
+
+[LiteLLM](https://github.com/BerriAI/litellm) est un proxy open-source qui unifie l'accès à de nombreux fournisseurs LLM (OpenAI, Anthropic, Mistral…) derrière une API compatible OpenAI. Il se positionne entre votre orchestrateur et le fournisseur LLM, ce qui lui permet d'inspecter les inputs **et** les outputs du modèle, dont les tool calls générés.
+
+Dans notre scénario, l'exfiltration transite par les **arguments** de `send_email_to_candidate` : la clé ATS, les salaires, les noms de managers sont tous encodés dans le champ `message` que le LLM a produit. LiteLLM peut intercepter ce payload avant qu'il ne soit transmis à l'outil MCP.
+
+```python
+# Guardrail LiteLLM personnalisé — détection de secrets dans les tool calls
+from litellm.integrations.custom_guardrail import CustomGuardrail
+import re
+
+class MCPSecretGuardrail(CustomGuardrail):
+    # Pattern pour la clé ATS interne
+    SECRET_PATTERNS = [re.compile(r"NXC-ATS-KEY-\d{4}-[a-f0-9]+")]
+
+    async def async_post_call_success_hook(self, data, response, **kwargs):
+        for choice in response.choices:
+            tool_calls = getattr(choice.message, "tool_calls", None) or []
+            for tc in tool_calls:
+                args_str = tc.function.arguments or ""
+                for pattern in self.SECRET_PATTERNS:
+                    if pattern.search(args_str):
+                        raise ValueError(
+                            f"[GUARDRAIL] Secret détecté dans les arguments du tool call `{tc.function.name}` — appel bloqué."
+                        )
+        return response
+```
+
+**Limites importantes** : ce guardrail intercepte bien les secrets à format reconnaissable (clé API, token). En revanche, il ne détecte **pas** les données métier contextuelles exfiltrées dans ce lab — salaires (`76,000 €`), scores d'entretien (`4.2/5`), noms de managers — car elles ne correspondent à aucun pattern prédéfini. Un détecteur de PII générique (ex. Microsoft Presidio) pourrait attraper certains noms propres, mais avec un taux de faux positifs élevé en contexte RH.
+
+> **Ce que cette défense apporte** : une couche supplémentaire sur les secrets structurés (clés API, tokens), positionnée côté LLM avant exécution des outils. Elle **ne remplace pas** le filtrage de domaine côté serveur MCP (Étape 1), qui reste la défense primaire car elle bloque l'action indépendamment du contenu.
 
 ### 💡 Retenir pour vos architectures IA :
 - **Principe du moindre privilège** : Exposez uniquement des outils de *lecture* aux LLMs traitant de la donnée non fiable. Isolez les données sensibles (notes internes, évaluations) derrière une couche d'autorisation.
