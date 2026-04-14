@@ -31,7 +31,7 @@
   - [Niveau 2 : Valider les entrées côté serveur](#niveau-2--valider-les-entrées-côté-serveur)
   - [Niveau 3 : Principe du moindre privilège](#niveau-3--appliquer-le-principe-du-moindre-privilège)
   - [Vérification](#vérification)
-  - [Solutions] (#solutions)
+  - [Solutions](#solutions)
 - [Étape suivante](#étape-suivante)
 - [Ressources](#ressources)
 
