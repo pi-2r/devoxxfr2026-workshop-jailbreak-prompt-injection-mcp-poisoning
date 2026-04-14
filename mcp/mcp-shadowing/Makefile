@@ -6,11 +6,11 @@ build:
 
 # Démarrer l'environnement en arrière-plan
 up:
-	docker compose up -d
+	docker compose up --build -d
 
 # Démarrer l'environnement avec les logs attachés
 dev:
-	docker compose up
+	docker compose up --build
 
 # Arrêter l'environnement
 down:
