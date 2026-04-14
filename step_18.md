@@ -93,7 +93,7 @@ des _LLMs-as-a-Judge_, comme :
 
 
 - le **contains-json** (vérifiant si la réponse contient un JSON valide),
-- l'**Answer Relevancy** (vérifiant la pertinence de la réponse vis-a-vis de la question posée),
+- l'**Answer Relevancy** (vérifiant la pertinence de la réponse vis-à-vis de la question posée),
 - la **Context Faithfulness** (vérifiant si la réponse du LLM se fonde uniquement sur des éléments du contexte).
 - la **Factuality** (évaluant la réponse du LLM vis-à-vis de la réponse de référence).
 - la **LLM-rubric**, une métrique custom, permettant, par exemple, d'évaluer des éléments de **Tone-of-Voice**, de Style, de Grammaires, etc.
@@ -176,7 +176,7 @@ Les targets disponibles sont, notamment :
 -  Un **Purpose** décrit le but de ce système de test. Il est utilisé pour guider la génération des adversarial inputs.
 
 [<img src="img/architecture_promptfoo_red_teaming.png" width="800">](https://www.promptfoo.dev/docs/red-team/architecture/)
-###### Schema de l'architecture de Promptfoo pour le Red Teaming
+###### Schéma de l'architecture de Promptfoo pour le Red Teaming
 
 
 ## Recommandations
@@ -240,7 +240,7 @@ Puis suivez les instructions des différents onglets :
 - **Application Details** : définir le comportement attendu de l'application, ses spécificités métier, les règles de sécurité à respecter
 - **Plugins** : définir les plugins à utiliser pour générer les adversarial inputs ils sont aussi regroupés par type d'application (RAG, MCP, OWASP LLM Top 10 (focus), Mitre, EU AI Act, ...)
 - **Strategies** : définir la stratégie d'attaque à utiliser (base64, leetspeak, multi-turn, homogliphic, ...)
-- **Review** : Passer en revue les paramètres et options de run et lancer le red-teaming (via e bouton `Run Now`)
+- **Review** : Passer en revue les paramètres et options de run et lancer le red-teaming (via le bouton `Run Now`)
 
 
 ### Cas Pratique : Audit automatisé de nos propres serveurs MCP (Labs)
