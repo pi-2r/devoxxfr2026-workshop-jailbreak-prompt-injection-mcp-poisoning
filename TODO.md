@@ -17,7 +17,7 @@ le client peut ouvrir un GET sur /mcp pour recevoir des notifications server-ini
 * [x] Step_12.md : "1. Tool Poisoning" je comprends pas bien l'exemple le serveur de météo n'aura accès qu'au credentials le concercant. J'aurai plus pris ce genre de d'exemple : 1. Tool Poisoning https://claude.ai/share/0773ad31-9c28-4f80-82d3-6d89b9a21f2b
 * [x] Step_12.md : "5. Shadow MCP Servers" un exemple ou pas ? https://claude.ai/share/634b2720-83ce-4910-b1c2-0443697bfdf6
 * [x] Step_12.md : "V. Focus : Memory Poisoning" => on peut donner un exemple simple d'injection d'instructions dans le CLAUDE.md qui est lu par claude à chaque fois, c'est parlant comme exemple. Exemple : https://claude.ai/share/d9a01bdc-24df-4b4e-8d94-759e1b0becb4
-* [ ] Fournir un template de .env pour ne pas stocker la clé OpenAI enfin la remettre dans chaque terminal ?
+* [ ] Fournir un template de .env pour ne pas stocker la clé OpenAI enfin la remettre dans chaque terminal ? => on peut proposer les 2 ?
 * [ ] Réflexion ouverte ou rappel sur ce qui se passe sous le capot .. ça peut semble obscure pour des "non initiés" la manière dont le LLM prend en compte les tool déclaré et renvoi des appels de tools.
 Exemple de "raw prompt" avec tool calling, ça peut se montrer via du ollama en live avec certains modèles : 
 ```
