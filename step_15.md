@@ -121,7 +121,7 @@ mcp-server-1  | 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
 C'est le scénario le plus dangereux. L'utilisateur ne mentionne **jamais** de secret — c'est un autre outil qui le fait fuiter, et le LLM le transmet au prochain appel.
 
 **Étape 1** — Demandez le statut d'un service (requête 100% innocente) :
-> *"Quel est le statut du payment-service ?"*
+> *"Quel est le statut complet du payment-service ?"*
 
 L'assistant appelle `get_server_status` et retourne des métriques techniques — dont, noyées dans le texte, des variables d'environnement avec un mot de passe DB et une clé API :
 ```text
