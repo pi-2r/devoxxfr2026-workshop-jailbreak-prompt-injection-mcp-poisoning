@@ -139,6 +139,8 @@
 | Certified AI/ML Pentester (C-AI/MLPen)                                                | Pentesting Exams               | https://pentestingexams.com/product/certified-ai-ml-pentester/                                                                    |
 | Red Teaming LLM Applications                                                          | DeepLearning.AI                | https://learn.deeplearning.ai/courses/red-teaming-llm-applications                                                                |
 | LLM Red Teaming                                                                       | OffSec                         | https://www.offsec.com/learning/paths/llm-red-teaming                                                                             |
+| AI-300: Advanced AI Red Teaming                                                                       | OffSec                         | https://www.offsec.com/courses/ai-300/                                                                             |
+| AI Red Teaming Certification                                                                        | OffSec                         | https://academy.hackthebox.com/preview/certifications/htb-certified-offensive-ai-expert                                                                             |
 
 ## Techniques d'attaques
 

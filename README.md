@@ -36,23 +36,28 @@ préparer sereinement sa machine tout en se familiarisant progressivement avec l
 - [3 - Des écarts sous contrôle relatif](step_3.md)
 - [4 - Cadres de sécurité référents](step_4.md)
 
-### Comprendre les principes du prompt injection (30 min)
+### Comprendre les principes du prompt injection (40 min)
  
 - [5 - Introduction au playground et objectifs](step_5.md)
 - [6 - Techniques d'attaque par prompt injection](step_6.md)
 - [7 - Impacts réels et scénarios d'exploitation](step_7.md)
 
-### Test de robustesse (40 min)
+### Test de robustesse (30 min)
 
 - [8 - Test de robustesse ?](step_8.md)
-- [9 - Garak: A Framework for Security Probing Large Language Models](step_9.md)
 - [10 - PyRIT: Framework for Security Risk Identification and Red Teaming in Generative AI System](step_10.md)
 
 
-### MCP
+### PAUSE (10 min)
+
+
+### MCP: explication et menace (20 min)
 
  - [11 - Le Model Context Protocol : l'infrastructure manquante de l'ère AI-Native](step_11.md)
  - [12 - Les menaces de sécurité liées au MCP](step_12.md)
+
+ ## MCP lab (60 min)
+
  - [13 - Prise en main de l'environnement MCP Labs](step_13.md)
  - [14 - Codelab : Shadowing d'Outils dans MCP](step_14.md)
  - [15 - Codelab : Attaque par "Rug Pull" (Tool Poisoning)](step_15.md)
@@ -62,8 +67,9 @@ préparer sereinement sa machine tout en se familiarisant progressivement avec l
 
 
 ### [BONUS] Évaluation et amélioration de la robustesse
-
+ - [9 - Garak: A Framework for Security Probing Large Language Models](step_9.md)
  - [18 - Benchmarking avec Promptfoo](step_18.md)
+ - [19 - AI Red Teaming](step_19.md)
 
 
 ### [CONCLUSION] Pour aller plus loin (5 min)

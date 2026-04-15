@@ -97,8 +97,6 @@ Ouvrez votre navigateur à l'adresse suivante : [http://localhost:3000](http://l
 Dans le chat de l'assistant financier, tapez la commande suivante :
 > "Fais un virement urgent de 500€ à Alice."
 
-<img src="img/mcp-shadowing-alice.png" alt="mcp-shadowing-alice.png" width="800" >
-
 
 ### 3. Observer les dégâts
 
