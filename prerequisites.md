@@ -1,10 +1,10 @@
-[<img src="img/la_guerre_des_prompts___attaques___defenses_au_royaume_des_llm.png"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI">](https://github.com/pi-2r/devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning)
+[<img src="img/bandeau_lab_devoxx2026.png"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI">](https://github.com/pi-2r/devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning)
 
 [<img src="img/gandalf_you_shall_not_pass.png" alt="minas_tirith_burning" width="800" >](https://www.youtube.com/watch?v=xMglp0hAvbc)
-> "You shall not pass !", Gandalf, LOTR - The Followship of the Ring
+> "You shall not pass !", Gandalf, LOTR - The Fellowship of the Ring
 
 
-Ce tutorial est proposé en amont de la session **Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖** à Devoxx France 2026.
+Ce tutoriel est proposé en amont de la session **Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖** à Devoxx France 2026.
 
 
 ## Sommaire
@@ -99,11 +99,11 @@ curl https://api.openai.com/v1/chat/completions \
 Vous avez **deux options** pour configurer votre environnement de travail.
 Choisissez celle qui correspond le mieux à votre situation :
 
-| | Option A — Locale | Option B — Codespaces |
-|---|---|---|
-| **Idéal pour** | Développeurs avec un poste configuré | Prise en main rapide, zéro config |
-| **Pré-requis** | Python ≥ 3.12, Node.js ≥ 22, Docker, uv | Un compte GitHub |
-| **Temps de setup** | ~10 min | ~3 min |
+| | Option A — Locale | Option B — Codespaces                                                                                                                                  |
+|---|---|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Idéal pour** | Développeurs avec un poste configuré | Prise en main rapide, zéro config                                                                                                                      |
+| **Pré-requis** | Python ≥ 3.12, Node.js ≥ 22, Docker, uv | Un compte GitHub <br> <i>Si compte gratuit, ne pas avoir consommé vos 120 core-hours / mois ou 15 Go de stockage Codespaces, [consultables ici](https://github.com/settings/billing/usage?period=3&group=2&customer=16041666&query=product:codespaces).</i> |
+| **Temps de setup** | ~10 min | ~3 min                                                                                                                                                 |
 
 
 ### Option A — Installation locale
@@ -146,12 +146,44 @@ source .venv/bin/activate
 
 #### 4. Installer Garak
 
-```bash
-# Depuis le venv activé
-uv pip install garak==0.13.1
+Placez-vous dans le dossier au-dessus de ce repo, on aura à terme l'arborescence suivante :
+```
+~/Documents/projects/ ← Dossier où vous avez cloné le repo.
+├── devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning/   ← repo du codelab
+│   ├── .venv/                                ← venv partagé (activé pour installer Garak)
+│   ├── lab/
+│   │   └── Garak_test/
+│   │       ├── my_probe.py                   ← probe custom à copier
+│   │       ├── my_custom_detection.py        ← detector custom à copier
+│   │       └── rest_ai_playground_api.json
+│   └── step_9.md
+│
+└── garak/                                    ← clone de Garak (side-project, voisin du codelab)
+    └── garak/
+        ├── probes/        ← destination de my_probe.py
+        ├── detectors/     ← destination de my_custom_detection.py
+        └── ...
+```
 
-# Vérifier l’installation
-garak --version
+Dans notre exemple :
+```bash
+# Se placer dans le dossier projects/, à côté du repo du codelab
+cd ~/Documents/projects # ← À ajuster
+
+# Cloner Garak et entrer dans le dossier
+git clone https://github.com/NVIDIA/garak.git --depth 1 && cd garak
+```
+
+```bash
+# Assurez-vous d'être dans le venv créé à la racine du projet du lab
+# Check que vous êtes dans le bon venv ;) On est jamais trop prudent
+[[ "${VIRTUAL_ENV-}" == *"devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
+
+# 2. Mettre à jour pip, setuptools et wheel
+uv pip install --upgrade pip setuptools wheel
+
+# 3. Installer Garak localement en mode développement (depuis le dossier cloné)
+uv pip install -e .
 ```
 
 #### 5. Installer PyRIT
@@ -159,6 +191,10 @@ garak --version
 ```bash
 # Cloner PyRIT dans un répertoire temporaire
 git clone https://github.com/microsoft/PyRIT.git --depth 1 /tmp/PyRIT
+
+# Assurez-vous d'être dans le venv créé à la racine du projet du lab
+# Check que vous êtes dans le bon venv ;) On est jamais trop prudent
+[[ "${VIRTUAL_ENV-}" == *"devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
 
 # Depuis le venv activé (assurez-vous d'être à la racine du dépôt où se trouve .venv)
 uv pip install --upgrade pip setuptools wheel
