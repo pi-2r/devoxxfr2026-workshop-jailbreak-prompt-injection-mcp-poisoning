@@ -22,9 +22,8 @@
 
 Nous espérons que ce workshop vous a plu et qu'il vous a permis de mieux comprendre les enjeux de la sécurité des LLMs.
 
-N'hésitez pas à nous laisser un commentaire sur [notre session](https://m.devoxx.com/events/devoxxfr2026/talks/65312/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-).
-
-
+N'hésitez pas à nous laisser un commentaire sur 
+[<img src="img/devoxx_thank_you.png" alt="devoxx_fr_thank_you_2026">](https://m.devoxx.com/events/devoxxfr2026/talks/65312/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-).
 
 
 
