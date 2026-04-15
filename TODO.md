@@ -38,10 +38,10 @@ Exemple de "raw prompt" avec tool calling, ça peut se montrer via du ollama en 
  ```
 Pour bien capter que tout fini dans un prompt et que les appels de tool sont bien des token généré en réponse.
 
-* [ ] : Décallage de style entre UI de chat du step 15 "plus clean" et celle des steps d'avant je sais pas si c'est voulu ou pas.
+* [ ] : Décalage de style entre UI de chat du step 15 "plus clean" et celle des steps d'avant je sais pas si c'est voulu ou pas.
 * [ ] : Step_17.md plus pour du confort de lecture / compréhension coloriser différement le retour brut du MCP de la réponse IA.
-* [ ] : Mini suggestion dans les divers step MCP retire les quote dans les block représentant des exemples de message pour permettre de les copier / coller facilement.
-* [ ] : Step_17.md j'ai du une fois ajouter des quote sur `Utilise l'outil dns_lookup avec le domain suivant exactement : "localhost && ls -la /root/.ssh/"`
+* [x] : Mini suggestion dans les divers step MCP retire les quote dans les block représentant des exemples de message pour permettre de les copier / coller facilement.
+* [x] : Step_17.md j'ai du une fois ajouter des quote sur `Utilise l'outil dns_lookup avec le domain suivant exactement : "localhost && ls -la /root/.ssh/"`
 
 
 ## Pierre ou autre admin du repo

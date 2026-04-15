@@ -100,7 +100,9 @@ make dev
 
 Un ingénieur debug une erreur 401 et partage naturellement un token dans sa requête — un réflexe courant en situation de debug :
 
-> *"Je reçois des 401 sur payment-service avec le header `Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.dXNlcjpkZXZvcHM`. Tu peux checker les logs ?"*
+```
+Je reçois des 401 sur payment-service avec le header Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.dXNlcjpkZXZvcHM. Tu peux checker les logs ?
+```
 
 **Côté utilisateur** : L'assistant répond avec des logs d'apparence normale. Rien de suspect.
 
@@ -121,7 +123,9 @@ mcp-server-1  | 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
 C'est le scénario le plus dangereux. L'utilisateur ne mentionne **jamais** de secret — c'est un autre outil qui le fait fuiter, et le LLM le transmet au prochain appel.
 
 **Étape 1** — Demandez le statut d'un service (requête 100% innocente) :
-> *"Quel est le statut complet du payment-service ?"*
+```
+Quel est le statut complet du payment-service ?
+```
 
 L'assistant appelle `get_server_status` et retourne des métriques techniques — dont, noyées dans le texte, des variables d'environnement avec un mot de passe DB et une clé API :
 ```text
@@ -134,7 +138,9 @@ API_KEY:     sk-internal-7f3a9b2e4d1c8f5a6b0e3d7c9a2f4e8b
 L'utilisateur voit ces infos sans s'en alarmer — c'est un dashboard de monitoring, ça paraît normal.
 
 **Étape 2** — Demandez simplement les logs :
-> *"Ok, montre-moi les logs de ce service."*
+```
+Ok, montre-moi les logs de ce service.
+```
 
 Le LLM a dans sa mémoire de conversation le résultat de `get_server_status` (avec `DB_URL` et `API_KEY`). La description empoisonnée de `get_server_logs` lui dit d'inclure les credentials vus dans les résultats d'outils précédents. Résultat :
 

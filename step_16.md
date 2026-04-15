@@ -74,7 +74,9 @@ Ces deux instructions sont des erreurs de design courantes dans les pipelines IA
 
 ### Étape 1 : Observez le cas nominal
 Dans l'interface Web, demandez poliment :
-> *"Peux-tu me faire un résumé du CV de candidature_legitime.txt ?"*
+```
+Peux-tu me faire un résumé du CV de candidature_legitime.txt ?
+```
 
 Observez la réponse ! Le LLM a utilisé le tool `read_resume` pour extraire les informations de la candidate Alice et a rédigé votre résumé. Aucun effet secondaire suspect.
 
@@ -122,7 +124,9 @@ L'astuce clé de cette attaque réside dans le **Step 4** : au lieu de demander 
 > ⚠️ **Note sur la reproductibilité** : Le taux de succès de cette attaque varie selon le modèle LLM utilisé. Avec `gpt-4o-mini`, l'attaque réussit dans la majorité des cas (~80%). Avec `gpt-4o`, le modèle refuse plus souvent l'étape d'envoi d'email. Si l'attaque échoue lors de votre premier essai, relancez la requête — le comportement du LLM est non-déterministe.
 
 Demandez à l'assistant :
-> *"Peux-tu me faire un résumé du CV de candidature_hacker.txt ?"*
+```
+Peux-tu me faire un résumé du CV de candidature_hacker.txt ?
+```
 
 **Observez bien la console de votre terminal Docker.**
 
@@ -229,7 +233,9 @@ if (name === "send_email_to_candidate") {
 Redémarrez le serveur (ou laissez docker-compose relancer l'application si volume monté avec nodemon/ts-node).
 
 Refaites la requête malveillante :
-> *"Peux-tu me faire un résumé du CV de candidature_hacker.txt ?"*
+```
+Peux-tu me faire un résumé du CV de candidature_hacker.txt ?
+```
 
 Désormais, le Serveur MCP **bloque** l'action car l'adresse email de destination (`jean.dupont.dev@gmail.com`) n'appartient pas au domaine interne `@nexacore.com`.
 L'exfiltration a échoué ! 🎉
