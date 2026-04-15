@@ -21,6 +21,7 @@
 - [Mise en pratique de Garak sur le Playground de Microsoft](#mise-en-pratique-de-garak-sur-le-playground-de-microsoft)
     - [Initialisation du REST Generator](#initialisation-du-rest-generator)
     - [Initialisation d'une sonde custom Garak](#initialisation-dune-sonde-custom-garak)
+    - [Mise en pratique sur le chatbot 2 du Playground de Microsoft](#mise-en-pratique-sur-le-chatbot-2-du-playground-de-microsoft)
 
 - [Étape suivante](#étape-suivante)
 - [Ressources](#ressources)
@@ -42,8 +43,39 @@ On peut ensuite mettre en place des guardrails plus spécifiques avec **NEMO Gua
 
 ### Installation de Garak
 
-Si vous n'aviez pas déjà installé Garak, voilà comment faire depuis un terminal :
+Garak sera installé **en dehors** du repo du codelab, comme un side-project posé à côté (dans le même dossier
+`projects/`), afin de pouvoir modifier directement son code source (ajout de probes/detectors custom) sans toucher au
+contenu de `site-packages`.
 
+Voici l'arborescence cible :
+
+```
+~/Documents/projects/
+├── devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning/   ← repo du codelab
+│   ├── .venv/                                ← venv partagé (activé pour installer Garak)
+│   ├── lab/
+│   │   └── Garak_test/
+│   │       ├── my_probe.py                   ← probe custom à copier
+│   │       ├── my_custom_detection.py        ← detector custom à copier
+│   │       └── rest_ai_playground_api.json
+│   └── step_9.md
+│
+└── garak/                                    ← clone de Garak (side-project, voisin du codelab)
+    └── garak/
+        ├── probes/        ← destination de my_probe.py
+        ├── detectors/     ← destination de my_custom_detection.py
+        └── ...
+```
+
+Placez-vous dans le dossier `projects/` **à côté du repo du codelab**, puis clonez le dépôt :
+
+```bash
+# Se placer dans le dossier projects/, à côté du repo du codelab
+cd ~/Documents/projects
+
+# Cloner Garak et entrer dans le dossier
+git clone https://github.com/NVIDIA/garak.git --depth 1 && cd garak
+```
 
 <details>
   <summary>Installation d'uv (si vous n'avez pas suivi les prérequis)</summary>
@@ -59,16 +91,22 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 </details>
 
+Ensuite, installez Garak en mode développement (éditable) dans le venv du codelab :
+
 ```bash
-# Se déplacer à la racine du repo
-cd $(git rev-parse --show-toplevel)
+# Assurez d'être dans le venv créé à la racine du projet du lab
+# Check que vous êtes dans le bon venv ;) On est jamais trop prudent
+[[ "${VIRTUAL_ENV-}" == *"devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
 
-# 2. Activer l’environnement virtuel
-source .venv/bin/activate
+# 2. Mettre à jour pip, setuptools et wheel
+uv pip install --upgrade pip setuptools wheel
 
-# 3. Installer garak
-uv pip install garak==0.13.1
+# 3. Installer Garak localement en mode développement (depuis le dossier cloné)
+uv pip install -e .
 ```
+
+> ℹ️ Mémorisez le chemin absolu du clone (par ex. `~/Documents/projects/garak`). Il sera réutilisé plus bas via la
+> variable `GARAK_REPO` pour copier les probes/detectors custom.
 
 
 ### Les Probes
@@ -178,27 +216,55 @@ requête POST `messages` et les cookies.
 Pour lancer le scan d'une sonde custom sur une étape du Playground :
 <br/>
 <br/>
-1 - Copier le fichier `my_probe.py` qui contient un exemple de sonde custom `my_probe.MyHypotheticalResponse` pour le playground dans le répertoire `probes` de la librairie garak que vous utilisez (dans votre `.venv`).
+1 - Copier le fichier `my_probe.py` qui contient un exemple de sonde custom `my_probe.MyHypotheticalResponse` pour le playground dans le répertoire `probes` du **clone de Garak** (et non dans votre `.venv`, puisque Garak est installé en mode éditable depuis le clone).
 <br/>
-<img src="img/ajout_probe_custom_garak.png" alt="ajout_probe_custom_garak" width="200" style="transition:0.3s;">
+<img src="img/ajout_probe_custom_garak.png" alt="ajout_probe_custom_garak" width="200" style="transition:0.3s;"> # TODO: mettre à jour l'image avec les fichiers à copier et les chemins d'accès
 <br/>
 <br/>
-2 - Copier aussi le fichier `my_custom_detection.py` qui contient un detector custom `my_custom_detection.MyPasswordByPass` pour le playground dans le répertoire `detectors` de la librairie garak que vous utilisez (dans votre venv). Le detector custom `my_custom_detection.MyPasswordByPass` détecte si un des mots de passe qui doit être protégé a fuité dans la réponse du chatbot.
-<br/>
-```bash
-# Depuis la racine du repo vers votre .venv
-cp lab/Garak_test/my_custom_detection.py .venv/lib/python*/site-packages/garak/detectors/
-cp lab/Garak_test/my_probe.py  .venv/lib/python*/site-packages/garak/probes  
-```
-<br/>
-3 - Lister les detectors et probes disponibles pour vérifier que nos detectors et probes custom sont apparus :
+2 - Copier aussi le fichier `my_custom_detection.py` qui contient un detector custom `my_custom_detection.MyPasswordByPass` pour le playground dans le répertoire `detectors` du clone de Garak. Le detector custom `my_custom_detection.MyPasswordByPass` détecte si un des mots de passe qui doit être protégé a fuité dans la réponse du chatbot.
 <br/>
 
 ```bash
+# Depuis la racine du repo du codelab, on pointe vers le clone de Garak voisin
+cd $(git rev-parse --show-toplevel)
 
-python -m garak --list_detectors
-python -m garak --list_probes
+# Chemin absolu du clone de Garak (à adapter si vous l'avez cloné ailleurs)
+export GARAK_REPO="$HOME/Documents/projects/garak"
+
+# Copie de la probe et du detector custom dans le clone
+cp lab/Garak_test/my_probe.py            "$GARAK_REPO/garak/probes/"
+cp lab/Garak_test/my_custom_detection.py "$GARAK_REPO/garak/detectors/"
 ```
+
+> ℹ️ Comme Garak a été installé via `uv pip install -e .` depuis `$GARAK_REPO`, le venv du codelab ne contient qu'un
+> fichier `.pth` (+ un dossier `.dist-info`) pointant vers `$GARAK_REPO/garak/`. Tous les `import garak.probes.*` et
+> `import garak.detectors.*` sont donc résolus **depuis le clone** — les fichiers copiés sont détectés immédiatement,
+> sans réinstallation.
+<br/>
+
+3 - Vérifier que la CLI Garak résout bien les probes/detectors **depuis le clone** (et non depuis un éventuel ancien
+install dans le venv) :
+
+```bash
+# 3.a — Le package garak doit être chargé depuis $GARAK_REPO (et pas depuis site-packages)
+python -c "import garak, pathlib; print(pathlib.Path(garak.__file__).resolve())"
+# attendu : .../Documents/projects/garak/garak/__init__.py
+
+# 3.b — Les fichiers custom doivent être résolus depuis le clone
+python -c "import garak.probes.my_probe as p; print(p.__file__)"
+python -c "import garak.detectors.my_custom_detection as d; print(d.__file__)"
+# attendu : deux chemins sous $GARAK_REPO/garak/{probes,detectors}/
+
+# 3.c — Lister les detectors et probes : les customs doivent apparaître
+python -m garak --list_detectors | grep -i my_custom_detection
+python -m garak --list_probes    | grep -i my_probe
+```
+
+Si l'un des `print` pointe vers `.venv/lib/.../site-packages/garak/...` ou si le `grep` ne retourne rien, c'est que le
+clone n'est pas le garak résolu par Python. Les causes classiques :
+- un `uv pip install garak` (non-éditable) a été lancé avant et a laissé une copie dans `site-packages` → faire
+  `uv pip uninstall garak` puis relancer `uv pip install -e .` depuis `$GARAK_REPO` ;
+- le venv actif n'est pas celui du codelab → réactiver `.venv` à la racine du repo.
 
 ### Mise en pratique sur le chatbot 2 du Playground de Microsoft
 
@@ -221,7 +287,7 @@ python -m garak --target_type rest -G path/to/rest_ai_playground_api.json  --pro
 
 ###### résultat obtenus lors du jailbreak réussi du chatbot 2 avec la sonde custom my_probe.MyHypotheticalResponse
 
-3 - Une fois un scan ayant mené à un jailbreak réussi, vous pouvez retrouver le rapport HTML dans le répertoire indiqué dans le log de Garak. Si toutes les attempts de jailbreak ont réussi, le rapport HTML ne indiquera un score de 0% de succès d'interceptio (cf ci-dessous).
+4 - Une fois un scan ayant mené à un jailbreak réussi, vous pouvez retrouver le rapport HTML dans le répertoire indiqué dans le log de Garak. Si toutes les attempts de jailbreak ont réussi, le rapport HTML indiquera un score de 0% de succès d'interception (cf ci-dessous).
 
 <img src="img/garak_report_on_successful_jailbreak_attempts.png" alt="garak-successful-jailbreak-chatbot-2-report" width="600" style="transition:0.3s;">
 
