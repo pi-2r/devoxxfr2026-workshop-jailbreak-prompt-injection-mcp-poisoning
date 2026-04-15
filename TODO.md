@@ -44,6 +44,9 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 * [ ] : Step_17.md j'ai du une fois ajouter des quote sur `Utilise l'outil dns_lookup avec le domain suivant exactement : "localhost && ls -la /root/.ssh/"`
 
 
+## Pierre ou autre admin du repo
+* [ ] Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)
+
 ## Benjamin
 * [x] Step_16.md : ajout de lite LLM. 
 * [x] Step_12.md : la mindmap "II. MCP Top 10 — Les menaces principales" passe mal en preview sur intelij / pycharm. Pas testé sur VSCode semble passer bien sur Github.
