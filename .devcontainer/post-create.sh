@@ -4,13 +4,16 @@ set -euo pipefail
 echo "==> [1/6] Installing global Node.js tools (TypeScript, ts-node)..."
 npm install -g typescript ts-node
 
-echo "==> [2/6] Installing Promptfoo..."
+echo "==> [2/6] Installing Continue extension (pre-release)..."
+code --install-extension Continue.continue --pre-release
+
+echo "==> [3/6] Installing Promptfoo..."
 npm install -g promptfoo
 
 echo "==> [3/6] Creating Python virtual-env with uv..."
-cd /workspaces/"$(basename "$GITHUB_REPOSITORY" 2>/dev/null || basename "$(pwd)")"
+cd /workspaces/"$(basename "${GITHUB_REPOSITORY:-$(pwd)}")"
 uv venv --python 3.13 .venv
-# shellcheck disable=SC1091
+ shellcheck disable=SC1091
 source .venv/bin/activate
 
 echo "==> [4/6] Installing Garak..."
