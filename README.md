@@ -70,6 +70,7 @@ préparer sereinement sa machine tout en se familiarisant progressivement avec l
  - [9 - Garak: A Framework for Security Probing Large Language Models](step_9.md)
  - [18 - Benchmarking avec Promptfoo](step_18.md)
  - [19 - AI Red Teaming](step_19.md)
+ - [20 - Supply Chain Compromise via Agent Skill malicieux](step_20.md)
 
 
 ### [CONCLUSION] Pour aller plus loin (5 min)

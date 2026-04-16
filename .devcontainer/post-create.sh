@@ -4,7 +4,10 @@ set -euo pipefail
 echo "==> [1/6] Installing global Node.js tools (TypeScript, ts-node)..."
 npm install -g typescript ts-node
 
-echo "==> [2/6] Installing Promptfoo..."
+echo "==> [2/6] Installing Continue extension (pre-release)..."
+code --install-extension Continue.continue --pre-release
+
+echo "==> [3/6] Installing Promptfoo..."
 npm install -g promptfoo
 
 #echo "==> [3/6] Creating Python virtual-env with uv..."

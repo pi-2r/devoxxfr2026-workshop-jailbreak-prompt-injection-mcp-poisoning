@@ -24,7 +24,6 @@
                 "ms-python.vscode-pylance",
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
-                "Continue.continue"
             ],
             "settings": {
                 "editor.formatOnSave": true,
