@@ -39,7 +39,7 @@
 Lors d'un audit, **Garak** lance des attaques prédéfinies, non-adaptatives, et sauvegarde les résultats sous format JSON et HTML.
 
 La recommandation est d'utiliser **Garak** périodiquement ou avant une mise à jour majeure d'une application (changement de LLM,...) pour dresser un état des lieux des principales vulnérabilités auxquelles votre application est sensible.
-On peut ensuite mettre en place des guardrails plus spécifiques avec **NEMO Guardrails** (cf. [étape 13](step_13.md))).
+On peut ensuite mettre en place des guardrails plus spécifiques avec **NEMO Guardrails** (cf. étape 13 du Devfest 2025).
 
 ### Installation de Garak
 
@@ -218,7 +218,7 @@ Pour lancer le scan d'une sonde custom sur une étape du Playground :
 <br/>
 1 - Copier le fichier `my_probe.py` qui contient un exemple de sonde custom `my_probe.MyHypotheticalResponse` pour le playground dans le répertoire `probes` du **clone de Garak** (et non dans votre `.venv`, puisque Garak est installé en mode éditable depuis le clone).
 <br/>
-<img src="img/ajout_probe_custom_garak.png" alt="ajout_probe_custom_garak" width="200" style="transition:0.3s;"> # TODO: mettre à jour l'image avec les fichiers à copier et les chemins d'accès
+<img src="img/ajout_probe_custom_garak.png" alt="ajout_probe_custom_garak" width="200" style="transition:0.3s;">
 <br/>
 <br/>
 2 - Copier aussi le fichier `my_custom_detection.py` qui contient un detector custom `my_custom_detection.MyPasswordByPass` pour le playground dans le répertoire `detectors` du clone de Garak. Le detector custom `my_custom_detection.MyPasswordByPass` détecte si un des mots de passe qui doit être protégé a fuité dans la réponse du chatbot.
