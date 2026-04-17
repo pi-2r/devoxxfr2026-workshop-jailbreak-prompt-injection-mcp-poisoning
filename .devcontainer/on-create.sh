@@ -23,7 +23,7 @@ echo "==> [4/6] Upgrading pip toolchain..."
 uv pip install --upgrade pip setuptools wheel IPython
 
 echo "==> [5/6] Cloning & installing PyRIT..."
-PYRIT_DIR="/tmp/PyRIT"
+PYRIT_DIR="/workspaces/PyRIT"
 if [ ! -d "$PYRIT_DIR" ]; then
   git clone https://github.com/microsoft/PyRIT --depth 1 "$PYRIT_DIR"
 fi
