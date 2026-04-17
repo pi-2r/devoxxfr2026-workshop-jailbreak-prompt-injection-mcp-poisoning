@@ -59,3 +59,5 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 * [ ] Mac : S'assurer qu'un LAB AI Red Team partagé est bien dispo.
 * [ ] Un petit outil d'observabilité pour voir les traces LLM et voir ce qui se passe pourrait être pas mal ? Pour rendre plus explicite les failles peut-être, voir si on peut rajouter un langfuse ?
 * [x] ⏳EN COURS - Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](httun ps://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)
+* [ ] Fixer le prebuild uniquement sur les changement de dev
+* [ ] venv semble pas sourcé automatiquement dans le codespace.
