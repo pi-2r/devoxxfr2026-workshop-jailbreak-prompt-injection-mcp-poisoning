@@ -21,20 +21,20 @@ services:
     networks:
       - mcp-network
 
-  # client-orchestrator:
-  #   build:
-  #     context: ./client
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - OPENAI_API_KEY=${OPENAI_API_KEY}
-  #     # Activer cette variable pour tester la défense (Namespacing)
-  #     - ENABLE_NAMESPACING=true
-  #   networks:
-  #     - mcp-network
-  #   depends_on:
-  #     - server-bank
-  #     - server-fintech
+  client-orchestrator:
+     build:
+       context: ./client
+     ports:
+       - "3000:3000"
+     environment:
+       - OPENAI_API_KEY=${OPENAI_API_KEY}
+       # Activer cette variable pour tester la défense (Namespacing)
+       - ENABLE_NAMESPACING=true
+     networks:
+       - mcp-network
+     depends_on:
+       - server-bank
+       - server-fintech
 
 networks:
   mcp-network:
