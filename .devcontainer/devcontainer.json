@@ -3,16 +3,13 @@
     "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
 
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
             "version": "latest",
             "enableNonRootDocker": true,
             "moby": false
         },
         "ghcr.io/devcontainers/features/python:1": {
             "version": "3.13"
-        },
-        "ghcr.io/devcontainers-extra/features/uv:1": {
-            "version": "latest"
         }
     },
 
@@ -24,6 +21,7 @@
                 "ms-python.vscode-pylance",
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
+                "Continue.continue"
             ],
             "settings": {
                 "editor.formatOnSave": true,
@@ -33,7 +31,9 @@
         }
     },
 
+    "onCreateCommand": "bash .devcontainer/on-create.sh",
     "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "postAttachCommand": "code --install-extension Continue.continue --pre-release || true",
 
     "remoteEnv": {
         "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",

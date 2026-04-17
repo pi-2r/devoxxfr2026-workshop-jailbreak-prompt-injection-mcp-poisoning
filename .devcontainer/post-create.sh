@@ -1,34 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "==> [1/6] Installing global Node.js tools (TypeScript, ts-node)..."
-npm install -g typescript ts-node
+WORKSPACE_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-echo "==> [2/6] Installing Continue extension (pre-release)..."
-code --install-extension Continue.continue --pre-release
+# Pré-chauffe les images Docker des labs MCP au démarrage du codespace (post-prebuild).
+# Le daemon Docker étant celui de l'hôte final (docker-outside-of-docker), ces images
+# ne peuvent pas être cachées pendant le prebuild — on les build ici une seule fois
+# pour que les participants n'aient pas à attendre.
+echo "==> Building Docker images for MCP labs..."
+MCP_COMPOSE_DIRS=(
+  "mcp/mcp-command-injection"
+  "mcp/mcp-poisoning"
+  "mcp/mcp-rug-pull"
+  "mcp/mcp-shadowing"
+  "lab/agent-skill-supply-chain-exfiltration-server"
+)
 
-echo "==> [3/6] Installing Promptfoo..."
-npm install -g promptfoo
+for dir in "${MCP_COMPOSE_DIRS[@]}"; do
+  echo "  --> docker compose build: $dir"
+  (cd "$WORKSPACE_ROOT/$dir" && docker compose build)
+done
 
-echo "==> [3/6] Creating Python virtual-env with uv..."
-cd /workspaces/"$(basename "${GITHUB_REPOSITORY:-$(pwd)}")"
-uv venv --python 3.13 .venv
- shellcheck disable=SC1091
-source .venv/bin/activate
-
-echo "==> [4/6] Installing Garak..."
-uv pip install garak==0.13.1
-
-echo "==> [5/6] Cloning & installing PyRIT..."
-PYRIT_DIR="/tmp/PyRIT"
-if [ ! -d "$PYRIT_DIR" ]; then
-  git clone https://github.com/Azure/PyRIT.git --depth 1 "$PYRIT_DIR"
-fi
-uv pip install --upgrade pip setuptools wheel
-uv pip install IPython
-uv pip install -e "$PYRIT_DIR"
-
-echo "==> [6/6] Environment ready!"
+echo ""
+echo "==> Environment ready!"
 echo ""
 echo "  Activate the venv with:  source .venv/bin/activate"
 echo "  Then verify:             garak --version && python -c 'import pyrit; print(pyrit.__version__)'"
