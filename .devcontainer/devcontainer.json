@@ -24,6 +24,7 @@
                 "ms-python.vscode-pylance",
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
+                "Continue.continue"
             ],
             "settings": {
                 "editor.formatOnSave": true,
@@ -33,6 +34,7 @@
         }
     },
 
+    "onCreateCommand": "bash .devcontainer/on-create.sh",
     "postCreateCommand": "bash .devcontainer/post-create.sh",
 
     "remoteEnv": {
