@@ -159,9 +159,16 @@ Placez-vous dans le dossier au-dessus de ce repo, on aura à terme l'arborescenc
 │   └── step_9.md
 │
 └── garak/                                    ← clone de Garak (side-project, voisin du codelab)
-    └── garak/
-        ├── probes/        ← destination de my_probe.py
-        ├── detectors/     ← destination de my_custom_detection.py
+│   └── garak/
+│       ├── probes/        ← destination de my_probe.py
+│       ├── detectors/     ← destination de my_custom_detection.py
+│       └── ...
+│
+└── PyRIT/                                    ← clone de PyRIT (side-project, voisin du codelab)
+    └── gandalf.py                            ← script d'interaction avec Gandalf
+    └── pyrit/
+        ├── prompt_target/
+        ├── prompt_normalizer/ 
         └── ...
 ```
 
