@@ -42,17 +42,15 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 * [ ] : Step_17.md plus pour du confort de lecture / compréhension coloriser différement le retour brut du MCP de la réponse IA.
 * [x] : Mini suggestion dans les divers step MCP retire les quote dans les block représentant des exemples de message pour permettre de les copier / coller facilement.
 * [x] : Step_17.md j'ai du une fois ajouter des quote sur `Utilise l'outil dns_lookup avec le domain suivant exactement : "localhost && ls -la /root/.ssh/"`
-
-
-## Pierre ou autre admin du repo
-* [ ] Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)
+* [ ] : step_18.md : pour le modèle meta je crois que c'est soumis à demande d'accès ? je vois que j'y ai accès mais "Gated model You have been granted access to this model"
 
 ## Benjamin
 * [x] Step_16.md : ajout de lite LLM. 
 * [x] Step_12.md : la mindmap "II. MCP Top 10 — Les menaces principales" passe mal en preview sur intelij / pycharm. Pas testé sur VSCode semble passer bien sur Github.
-* [ ] Tests autour de Continue comme client MCP dans codespace, pourrait permettre de montre un exploit via l'ajout d'une registry unsafe de skills (repo github), qui exfiltre les secrets d'un dev. Ces .env par exemple.
-* [ ] Mise en place d'un fallback LAN basé sur code-server si soucis avec github codespace (?)
-* [ ] AP Wifi : le reconfigurer pour bien avec le SSID LLM_ATTACK et password `password`
-* [ ] AP Wifi : bien bind l'ip 192.168.20.2 sur mon mac sur lequel le lab partagé sera mis à disposition.
+* [x] Tests autour de Continue comme client MCP dans codespace, pourrait permettre de montre un exploit via l'ajout d'une registry unsafe de skills (repo github), qui exfiltre les secrets d'un dev. Ces .env par exemple.
+* [ ] TESTÉ mais limité (dépriorisé) - Mise en place d'un fallback LAN basé sur code-server si soucis avec github codespace (?)
+* [x] AP Wifi : le reconfigurer pour bien avec le SSID LLM_ATTACK et password `password`
+* [x] AP Wifi : bien bind l'ip 192.168.20.2 sur mon mac sur lequel le lab partagé sera mis à disposition. Ok avec dongle usb-c VAVA
 * [ ] Mac : S'assurer qu'un LAB AI Red Team partagé est bien dispo.
 * [ ] Un petit outil d'observabilité pour voir les traces LLM et voir ce qui se passe pourrait être pas mal ? Pour rendre plus explicite les failles peut-être, voir si on peut rajouter un langfuse ?
+* [ ] ⏳EN COURS - Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](httun ps://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)
