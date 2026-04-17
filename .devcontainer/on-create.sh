@@ -6,6 +6,8 @@ npm install -g typescript ts-node promptfoo
 
 echo "==> [2/5] Creating Python virtual-env with uv..."
 cd /workspaces/"$(basename "${GITHUB_REPOSITORY:-$(pwd)}")"
+# Clear venv if existing otherwise installation gets stuck as UV will ask the user that isn't able to respond
+export UV_VENV_CLEAR=1
 uv venv --python 3.13 .venv
 # shellcheck disable=SC1091
 source .venv/bin/activate
@@ -19,7 +21,7 @@ uv pip install --upgrade pip setuptools wheel IPython
 echo "==> [5/5] Cloning & installing PyRIT..."
 PYRIT_DIR="/tmp/PyRIT"
 if [ ! -d "$PYRIT_DIR" ]; then
-  git clone https://github.com/Azure/PyRIT.git --depth 1 "$PYRIT_DIR"
+  git clone https://github.com/microsoft/PyRIT --depth 1 "$PYRIT_DIR"
 fi
 uv pip install -e "$PYRIT_DIR"
 
