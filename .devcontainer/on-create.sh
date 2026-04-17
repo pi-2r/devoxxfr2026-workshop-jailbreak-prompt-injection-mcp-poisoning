@@ -6,6 +6,10 @@ npm install -g typescript ts-node promptfoo
 
 echo "==> [2/5] Creating Python virtual-env with uv..."
 cd /workspaces/"$(basename "${GITHUB_REPOSITORY:-$(pwd)}")"
+echo "==> [2b/5] Installing uv..."
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+
 # Clear venv if existing otherwise installation gets stuck as UV will ask the user that isn't able to respond
 export UV_VENV_CLEAR=1
 uv venv --python 3.13 .venv
