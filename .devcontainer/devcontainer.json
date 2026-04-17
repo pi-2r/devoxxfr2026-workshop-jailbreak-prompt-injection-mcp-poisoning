@@ -10,7 +10,7 @@
         },
         "ghcr.io/devcontainers/features/python:1": {
             "version": "3.13"
-        },
+        }
     },
 
     "customizations": {
@@ -33,6 +33,7 @@
 
     "onCreateCommand": "bash .devcontainer/on-create.sh",
     "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "postAttachCommand": "code --install-extension Continue.continue --pre-release || true",
 
     "remoteEnv": {
         "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
