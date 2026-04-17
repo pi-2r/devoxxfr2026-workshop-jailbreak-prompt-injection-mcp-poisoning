@@ -38,16 +38,15 @@ Exemple de "raw prompt" avec tool calling, ça peut se montrer via du ollama en 
  ```
 Pour bien capter que tout fini dans un prompt et que les appels de tool sont bien des token généré en réponse.
 
-* [ ] : Décalage de style entre UI de chat du step 15 "plus clean" et celle des steps d'avant je sais pas si c'est voulu ou pas.
-* [ ] : Step_17.md plus pour du confort de lecture / compréhension coloriser différement le retour brut du MCP de la réponse IA.
+* [x] : Décalage de style entre UI de chat du step 15 "plus clean" et celle des steps d'avant je sais pas si c'est voulu ou pas.
+* [x] : Step_17.md plus pour du confort de lecture / compréhension coloriser différement le retour brut du MCP de la réponse IA.
 * [x] : Mini suggestion dans les divers step MCP retire les quote dans les block représentant des exemples de message pour permettre de les copier / coller facilement.
 * [x] : Step_17.md j'ai du une fois ajouter des quote sur `Utilise l'outil dns_lookup avec le domain suivant exactement : "localhost && ls -la /root/.ssh/"`
 * [ ] : step_18.md : pour le modèle meta je crois que c'est soumis à demande d'accès ? je vois que j'y ai accès mais "Gated model You have been granted access to this model"
-- [ ] Garak - est pré-installé dans le venv alors que dans le step_6.md on demande de le re-installer en dehors du repo du projet.
+- [x] Garak - est pré-installé dans le venv alors que dans le step_6.md on demande de le re-installer en dehors du repo du projet.
 - [ ] Garak - python -m garak --list_probes : est super lent dans codespace avec le Garak pré-installé et il pète, voir erreur Garak "ModuleNotFoundError: No module named 'langchain.llms'"
-- [ ] Garak - Si le Playground tourne sur l’instance partagée qui est en LAN les VM GitHub codespace ne pourront pas taper sur les API reste de chat de Playground Microsoft donc je vois pas trop comment faire taper la sonde custom Garak.
-- [ ] Pyrit - Reste un gros todo sur les objectifs de l’étape.
-- [ ] Pyrit - Le paragraphe d’installation ne mentionne pas que tout est déjà pré-installé dans codespace les gens risque de le refaire, pareil l’install de Pyrit dans le pré-requis est indiquée comme étant au dessus du dossier du lab dans l’env codespace c’est pas le cas il est dans PYRIT_DIR="/tmp/PyRIT" ==> /tmp/PyRit est perdu après le PRE-BUILD !!!, changé déplacé dans le workspace build en cours.
+- [x] Pyrit - Reste un gros todo sur les objectifs de l’étape.
+- [x] Pyrit - Le paragraphe d’installation ne mentionne pas que tout est déjà pré-installé dans codespace les gens risque de le refaire, pareil l’install de Pyrit dans le pré-requis est indiquée comme étant au dessus du dossier du lab dans l’env codespace c’est pas le cas il est dans PYRIT_DIR="/tmp/PyRIT" ==> /tmp/PyRit est perdu après le PRE-BUILD !!!, changé déplacé dans le workspace build en cours.
 - [ ] Codespace - Transfert de port faut-il le documenter si ça ce déclenche pas par défaut ?
 
 ## Benjamin
@@ -59,4 +58,4 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 * [x] AP Wifi : bien bind l'ip 192.168.20.2 sur mon mac sur lequel le lab partagé sera mis à disposition. Ok avec dongle usb-c VAVA
 * [ ] Mac : S'assurer qu'un LAB AI Red Team partagé est bien dispo.
 * [ ] Un petit outil d'observabilité pour voir les traces LLM et voir ce qui se passe pourrait être pas mal ? Pour rendre plus explicite les failles peut-être, voir si on peut rajouter un langfuse ?
-* [ ] ⏳EN COURS - Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](httun ps://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)
+* [x] ⏳EN COURS - Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](httun ps://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)

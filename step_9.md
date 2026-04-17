@@ -13,6 +13,8 @@
 
 - [Garak](#garak)
     - [Installation de Garak](#installation-de-garak)
+      - [Installation de Garak dans Codespace](#installation-de-garak-dans-codespace)
+      - [Installation de Garak en local](#installation-de-garak-en-local)
     - [Les Probes](#les-probes)
     - [Les Generators](#les-generators)
     - [Les Detectors et les Harnesses](#les-detectors-et-les-harnesses)
@@ -42,6 +44,16 @@ La recommandation est d'utiliser **Garak** périodiquement ou avant une mise à 
 On peut ensuite mettre en place des guardrails plus spécifiques avec **NEMO Guardrails** (cf. étape 13 du Devfest 2025).
 
 ### Installation de Garak
+
+#### Installation de Garak dans Codespace
+
+Depuis le terminal de codespace, Garak est déjà pré-installé. Vous pouvez vérifier en exécutant la commande suivante :
+
+  ```bash
+  uv pip freeze | grep -i Garak
+  ```
+
+#### Installation de Garak en local
 
 Garak sera installé **en dehors** du repo du codelab, comme un side-project posé à côté (dans le même dossier
 `projects/`), afin de pouvoir modifier directement son code source (ajout de probes/detectors custom) sans toucher au

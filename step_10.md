@@ -6,7 +6,12 @@
 
 ## 🎯 Objectifs de cette étape
 
-- Todo
+- **Découvrir PyRIT** : comprendre son fonctionnement, son architecture et ses composants clés (Targets, Stratégies, Scoring, etc.).
+- **Installer l'environnement** : cloner le dépôt et configurer les dépendances nécessaires au fonctionnement du framework.
+- **Configurer une attaque ciblée** : préparer l'orchestrateur pour attaquer le playground Gandalf.
+- **Mener des attaques automatisées** : exploiter PyRIT pour franchir progressivement les barrières de chaque niveau (jusqu'au niveau 7).
+- **Adapter ses stratégies** : analyser les blocages et mettre en place de nouvelles stratégies de prompt injection face à l'augmentation de la difficulté.
+
 
 
 ## Sommaire
@@ -22,6 +27,8 @@
 
 - [Let's play with PyRIT !](#Let's-play-with-PyRIT-)
   - [Installation de PyRIT](#installation-de-pyrit)
+    - [Installation de PyRIT dans Codespace](#installation-de-pyrit-dans-codespace)
+    - [Installation de PyRIT en local](#installation-de-pyrit-en-local)
   - [Stratégies d'attaque](#stratégies-dattaque)
   - [Jouer avec PyRIT](#jouer-avec-pyrit)
     - [Configurer les paramètres](#configurer-les-paramètres)
@@ -145,7 +152,15 @@ Pour les attaques (anciennement orchestrateurs), voici quelques details supplém
 
 ## Let's play with PyRIT !
 
-### Installation de PyRIT
+### Installation de PyRIT dans Codespace
+
+Depuis le terminal de codespace, PyRIT est déjà pré-installé. Vous pouvez vérifier en exécutant la commande suivante :
+
+  ```bash
+  uv pip freeze | grep -i Pyrit
+  ```
+
+### Installation de PyRIT en local
 
 Si vous n'avez pas déjà installé PyRIT, voici comment faire depuis votre terminal. Placez-vous dans le dossier où vous souhaitez installer le projet, par exemple **Documents**,
 puis exécutez la commande suivante pour cloner le dépôt et entrer automatiquement dans le dossier créé :
