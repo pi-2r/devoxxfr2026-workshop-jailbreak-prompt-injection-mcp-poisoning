@@ -176,7 +176,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 # Assurez d'être dans le venv créé à la racine du projet du lab
 # Check que vous êtes dans le bon venv ;) On est jamais trop prudent
 # Celui à la racine du repo.
-[[ "${VIRTUAL_ENV-}" == *"devfest2025-La-Guerre-des-Prompts-attaques-et-defenses-au-royaume-des-LLM"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
+[[ "${VIRTUAL_ENV-}" == *"devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
 
 # 3. Mettre à jour pip, setuptools et wheel dans l’environnement
 uv pip install --upgrade pip setuptools wheel
