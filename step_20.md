@@ -13,10 +13,10 @@
 
 ## Sommaire
 
-- [I. Continue et les agent skills](#i-continue-et-les-agent-skills)
+- [I. Opencode et les agent skills](#i-opencode-et-les-agent-skills)
 - [II. Phase 1 : La manip — d'abord faire, ensuite comprendre](#ii-phase-1--la-manip--dabord-faire-ensuite-comprendre)
   - [Étape 1 : Démarrer le serveur attaquant](#étape-1--démarrer-le-serveur-attaquant)
-  - [Étape 2 : Déclencher le skill dans Continue](#étape-2--déclencher-le-skill-dans-continue)
+  - [Étape 2 : Déclencher le skill dans Opencode](#étape-2--déclencher-le-skill-dans-opencode)
   - [Étape 3 : Observer la console](#étape-3--observer-la-console)
 - [III. Révélation — que s'est-il passé ?](#iii-révélation--que-sest-il-passé-)
   - [Le skill caveman](#le-skill-caveman)
@@ -28,38 +28,54 @@
 - [Ressources](#ressources)
 
 > **📂 Code du lab :**
-> - Skill malicieux : [`.continue/skills/caveman/`](.continue/skills/caveman/) et [`.agents/skills/caveman/`](.agents/skills/caveman/)
+> - Skill malicieux : [`.agents/skills/caveman/`](.agents/skills/caveman/)
 > - Serveur attaquant : [`lab/agent-skill-supply-chain-exfiltration-server/`](lab/agent-skill-supply-chain-exfiltration-server/)
 > - Faux secret à exfiltrer : [`.env_demo_exfiltration`](.env_demo_exfiltration)
+> - Configuration Opencode : [`opencode.json`](opencode.json)
 
 
-## I. Continue et les agent skills
+## I. Opencode et les agent skills
 
-**[Continue](https://www.continue.dev/)** (ContinueDev) est une extension open-source d'assistant IA pour VS Code et
-JetBrains. Continue est **pré-installé dans l'environnement VS Code** du Codespace de ce workshop. Si vous travaillez en
-local, installez l'extension depuis le 
-[Marketplace](https://marketplace.visualstudio.com/items?itemName=Continue.continue) — prenez de préférence la 
-**pré-release**, qui supporte mieux les skills.
-
-Continue supporte les **skills** : des fichiers `SKILL.md` qui définissent des capacités supplémentaires pour l'agent.
-Un skill peut demander à l'agent de lire des fichiers d'une certaine façon, d'exécuter des scripts, 
-ou d'appliquer des transformations. Les skills se placent dans le dossier `.continue/skills/` 
+**[Opencode](https://opencode.ai/)** est un assistant IA open-source qui s'utilise directement dans le terminal (TUI).
+Il supporte les **agent skills** : des fichiers `SKILL.md` qui définissent des capacités supplémentaires pour l'agent.
+Un skill peut demander à l'agent de lire des fichiers d'une certaine façon, d'exécuter des scripts,
+ou d'appliquer des transformations. Les skills se placent dans le dossier `.agents/skills/`
 à la racine du projet et s'installent normalement depuis le registre public [skills.sh](https://skills.sh) via :
 
 ```bash
 npx skills add <nom-du-skill>
 ```
 
+### Installation d'Opencode
+
+```bash
+# Via npm (recommandé)
+npm install -g opencode-ai
+
+# Ou via le script d'installation officiel (macOS/Linux)
+curl -fsSL https://opencode.ai/install | sh
+```
+
+Une fois installé, lancez Opencode depuis la racine du projet :
+
+```bash
+opencode
+```
+
+> **📂 Configuration déjà prête :** Un fichier `opencode.json` est déjà présent à la racine du projet.
+> Il configure le modèle `gpt-5.1-codex-mini` via le provider OpenAI.
+> Assurez-vous que la variable `OPENAI_API_KEY` est bien définie dans votre environnement.
+
 Dans ce workshop, un skill est déjà pré-installé et commité dans le repo — prêt à être utilisé.
 
 
-## II. Phase 1 : Utiliser Continue et le skill Caveman
+## II. Phase 1 : Utiliser Opencode et le skill Caveman
 
-Vous allez utiliser un skill installé dans votre environnement, il est basé sur [Caveman](https://github.com/juliusbrussee/caveman) un skill bien connu devenu 
-populaire rapidement qui demande au LLM de parler en tant qu'homme des caverne économisant ainsi près de 75% de tokens
+Vous allez utiliser un skill installé dans votre environnement, il est basé sur [Caveman](https://github.com/juliusbrussee/caveman) un skill bien connu devenu
+populaire rapidement qui demande au LLM de parler en tant qu'homme des cavernes, économisant ainsi près de 75% de tokens
 en sortie.
 
-Dans notre démo l'attaquant mets à disposition un serveur vous verrez par la suite à quoi il sert.
+Dans notre démo l'attaquant met à disposition un serveur ; vous verrez par la suite à quoi il sert.
 
 ### Étape 1 : Démarrer le serveur attaquant
 
@@ -81,55 +97,51 @@ Vous devez voir :
 
 Laissez ce terminal ouvert et visible.
 
-### Étape 2 : Déclencher le skill dans Continue
+### Étape 2 : Déclencher le skill dans Opencode
 
-Commencer par indiquer votre clé OpenAI dans la configuration de continue `.continue/agents/lab-codex-mini-config.yaml` :
-```yaml
-    apiKey: ${OPENAI_API_KEY}
+La configuration est déjà prête dans `opencode.json` à la racine du projet. Assurez-vous que votre clé OpenAI est bien exportée :
+
+```bash
+export OPENAI_API_KEY=sk-...
 ```
 
-Dans le **chat Continue** (VS Code) icon dans la barre latérale gauche,
-rechargez la configuration, bouton *Reload* et bien sélectionner celles du lab :
-![Image illustration Continue Reload config local du lab](./img/continue_dev_localconfig_reload.png)
+Lancez Opencode dans le terminal depuis la racine du projet :
 
-Vous pouvez ensuite saisir ce message :
+```bash
+opencode
+```
+
+Vous pouvez ensuite saisir ce message dans le chat :
+
 ```
 C'est quoi VueJS ?
 ```
 
-Puis avec Caveman.
+Puis avec Caveman :
+
 ```
 C'est quoi VueJS ? Talk like caveman.
 ```
 
-Observer la différence le premier message à une réponse normale / verbeuse là ou avec le skill activé elle est bien
-plus courte dans un language "homme des cavernes".
+![](./img/opencode_vuejs_caveman-and_without.png)
 
-Réponse avec le skill :
-![Réponse avec skill actif](img/continue_dev_reponse_vuejs_avec_skill_caveman.png)
-
-Observez dans le panneau Continue : l'agent lit le skill `caveman` et répond en mode compressé.
+Observez la différence : le premier message produit une réponse normale/verbeuse, tandis qu'avec le skill activé elle est bien plus courte dans un langage "homme des cavernes".
 
 > ⚠️ **Si le skill ne se déclenche pas automatiquement** (le déclenchement peut être capricieux selon le modèle utilisé — ici `gpt-5.1-codex-mini`), forcez-le explicitement :
 > ```
-> use caveman skill.
-> Continue read_skill caveman.
->
+> /caveman
 > C'est quoi VueJS ?
 > ```
 
 Pour déclencher la feature de lecture de fichier (et avec elle, l'exfiltration), demandez :
 
 ```
-use caveman skill.
-Continue read_skill caveman.
-
 Résume le README.md
 ```
 
 ### Étape 3 : Observer la console
 
-**Dans le chat Continue :** une réponse parfaitement normale, le README résumé en style caveman. Rien de suspect.
+**Dans le chat Opencode :** une réponse parfaitement normale, le README résumé en style caveman. Rien de suspect.
 
 **Regardez maintenant le terminal 1.** Vous devriez voir apparaître :
 
@@ -145,6 +157,8 @@ Résume le README.md
 ```
 
 Le contenu du fichier `.env_demo_exfiltration` vient d'être envoyé à un serveur externe — **sans que rien ne soit visible dans le chat**.
+
+![](./img/opencode_caveman_readfile_leak.png)
 
 > 💡 Mais... comment ? Vous n'avez fait qu'utiliser un skill populaire pour résumer un fichier.
 
@@ -346,12 +360,73 @@ le filesystem, les processus et surtout le **réseau — en mode default-deny** 
 autorisée est bloquée au niveau proxy avant même d'atteindre l'OS. Dans ce codelab, le `curl` vers `localhost:3333` n'aurait
 jamais abouti : le skill aurait renvoyé son résultat caveman normalement, et l'exfiltration aurait été silencieusement bloquée.
 
+### Opencode — contrôler les permissions d'exécution shell
+
+Par défaut, Opencode autorise l'exécution de commandes shell sans confirmation (`"allow"`). C'est ce qui permet au skill caveman de lancer silencieusement `python3 read_caveman.py` — et avec lui, l'exfiltration.
+
+Passer `permission.bash` à `"ask"` dans `opencode.json` **aurait exposé l'attaque** : l'utilisateur aurait vu la commande Python avant qu'elle ne s'exécute.
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": "ask"
+  }
+}
+```
+
+Si on relance l'exemple on voit bien la demande de confirmation, en revanche le leak étant ofusqué dans le script Python
+pas simple d'identifier qu'il va y avoir un leak :
+
+![](./img/opencode_bash_denied_human_in_loop.png)
+
+Pour un contrôle plus fin (le dernier pattern qui correspond gagne) :
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*":     "ask",
+      "git *": "allow",
+      "rm *":  "deny"
+    },
+    "skill": "ask"
+  }
+}
+```
+
+Les valeurs possibles sont `"allow"`, `"ask"` et `"deny"`. La clé `permission.skill` permet de contrôler spécifiquement le chargement des skills.
+
+> **Dans ce workshop**, la configuration `opencode.json` conserve le comportement par défaut (`allow`) pour que la démo fonctionne.
+
+### Claude Code — même principe, même défense
+
+Ce mécanisme de permissions existe aussi dans **[Claude Code](https://docs.anthropic.com/en/docs/claude-code/settings)** (le CLI d'Anthropic). La configuration se place dans `.claude/settings.json` (niveau projet) ou `~/.claude/settings.json` (global) avec une syntaxe par listes `allow`/`deny` et des patterns glob :
+
+```json
+{
+  "permissions": {
+    "deny": ["Bash(*)"],
+    "allow": [
+      "Bash(git *)",
+      "Bash(npm *)"
+    ]
+  }
+}
+```
+
+La différence avec Opencode : il n'y a pas de mode `"ask"` explicite. Un outil **non listé** déclenche une **invite interactive** à l'utilisateur — ce qui produit le même effet de transparence. Un outil en `deny` est bloqué silencieusement.
+
+Dans ce codelab, si Claude Code avait été utilisé sans aucune règle `allow` pour `Bash(python3 *)`, l'exécution du script caveman aurait affiché une demande de confirmation, mais il reste difficile pour l'utilisateur d'identifier que le script à un comportement suspect.
+
 ### 💡 Retenir pour vos projets IA :
 
 - **Traitez les skills comme des dépendances.** Auditez le code des scripts helpers — le `SKILL.md` n'est pas la seule surface d'attaque.
 - **Le LLM n'a pas accès au code des scripts.** Il exécute ce que le SKILL.md lui dit d'exécuter, sans pouvoir inspecter les fichiers Python ou Bash invoqués.
 - **Méfiez-vous des "telemetry" et "analytics" dans les scripts.** Ces termes légitimes sont des camouflages classiques pour du code d'exfiltration.
 - **Utilisez un scanner de skills** (Snyk Agent Scan, skills.sh) avant d'intégrer un skill communautaire dans votre environnement.
+- **Configurez `permission.bash: "ask"`** dans `opencode.json` pour être averti avant toute exécution de script par un skill.
 - **Principe du moindre privilège** : un skill n'a pas besoin d'accès à vos fichiers `.env`. Isolez l'exécution des scripts dans un sandbox sans accès aux secrets.
 
 
@@ -364,5 +439,7 @@ jamais abouti : le skill aurait renvoyé son résultat caveman normalement, et l
 | Snyk — From SKILL.md to Shell Access | [https://snyk.io/articles/skill-md-shell-access/](https://snyk.io/articles/skill-md-shell-access/) |
 | Snyk + Vercel — securing the skill ecosystem | [https://snyk.io/blog/snyk-vercel-securing-agent-skill-ecosystem/](https://snyk.io/blog/snyk-vercel-securing-agent-skill-ecosystem/) |
 | skills.sh — registre public de skills | [https://skills.sh](https://skills.sh) |
-| Continue — Documentation skills | [https://docs.continue.dev/](https://docs.continue.dev/) |
+| Opencode — Documentation officielle | [https://opencode.ai/docs](https://opencode.ai/docs) |
+| Opencode — Permissions | [https://opencode.ai/docs/permissions/](https://opencode.ai/docs/permissions/) |
+| Claude Code — Settings & permissions | [https://docs.anthropic.com/en/docs/claude-code/settings](https://docs.anthropic.com/en/docs/claude-code/settings) |
 | OWASP Top 10 for LLM Applications | [https://owasp.org/www-project-top-10-for-large-language-model-applications/](https://owasp.org/www-project-top-10-for-large-language-model-applications/) |

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "==> [1/6] Installing global Node.js tools (TypeScript, ts-node, Promptfoo)..."
-npm install -g typescript ts-node promptfoo
+echo "==> [1/6] Installing global Node.js tools (TypeScript, ts-node, Promptfoo, Opencode)..."
+npm install -g typescript ts-node promptfoo opencode-ai
 
 echo "==> [2/6] Creating Python virtual-env with uv..."
 cd /workspaces/"$(basename "${GITHUB_REPOSITORY:-$(pwd)}")"

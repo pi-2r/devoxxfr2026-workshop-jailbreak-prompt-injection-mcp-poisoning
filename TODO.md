@@ -56,9 +56,8 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 * [x] AP Wifi : le reconfigurer pour bien avec le SSID LLM_ATTACK et password `password`
 * [x] AP Wifi : bien bind l'ip 192.168.20.2 sur mon mac sur lequel le lab partagé sera mis à disposition. Ok avec dongle usb-c VAVA
 * [X] Mac : S'assurer qu'un LAB AI Red Team partagé est bien dispo, fait et ensemble des exos réduit ici : https://github.com/Benvii/AI-Red-Teaming-Playground-Labs/tree/devoxx2026_mcp_lab_reduced_challenge_list
-* [ ] Un petit outil d'observabilité pour voir les traces LLM et voir ce qui se passe pourrait être pas mal ? Pour rendre plus explicite les failles peut-être, voir si on peut rajouter un langfuse ?
 * [x] Pour que les VM github codespace boot en un temps record, configurer un [pre-build doc](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [doc de setup ici](httun ps://docs.github.com/en/codespaces/prebuilding-your-codespaces/configuring-prebuilds#configuring-prebuilds)
 * [ ] LUNDI - Désactiver le le prebuild uniquement sur les changement de main une fois merge.
-* [ ] Passer sur OpenCode comme Continue bug dans le codespace.
+* [x] Passer sur OpenCode comme Continue bug dans le codespace.
 * [x] venv semble pas sourcé automatiquement dans le codespace.
 * [ ] TESTÉ mais limité (dépriorisé) - Mise en place d'un fallback LAN basé sur code-server si soucis avec github codespace (?)
