@@ -62,6 +62,9 @@ Chaque dossier contient son propre `TUTORIAL.md` ou un `README.md` spécifique a
    ```
 3. Suivez les instructions présentes dans les prochaines étapes.
 4. Généralement, vous pourrez lancer le lab via `docker compose up -d` ou via le `Makefile`. **Note :** Votre environnement a déjà Docker configuré, donc tout fonctionnera de manière transparente !
+5. Les premiers exercices lancent un petit front web sur le port 3000 pour y accéder sur codespace, vous aurez besoin
+d'ajouter un port forward dans l'onglet "Ports" à côté de Terminal (en bas) comme ceci et ensuite cliquer sur le lien généré (icône planète) :
+![Ajout port forward vscode codespace 3000 et ouverture navigateur](./img/codespace_port_forward_3000.png)
 
 ### Pour modifier le code
 Vous pouvez éditer n'importe quel fichier métier ou configuration directement depuis l'éditeur de l'interface (TypeScript, Dockerfile...). N'hésitez pas à relancer les conteneurs du lab après chaque modification via `docker compose up -d --build`.

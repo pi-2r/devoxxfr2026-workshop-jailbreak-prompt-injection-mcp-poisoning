@@ -47,7 +47,7 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 - [ ] Garak - python -m garak --list_probes : est super lent dans codespace avec le Garak pré-installé et il pète, voir erreur Garak "ModuleNotFoundError: No module named 'langchain.llms'"
 - [x] Pyrit - Reste un gros todo sur les objectifs de l’étape.
 - [x] Pyrit - Le paragraphe d’installation ne mentionne pas que tout est déjà pré-installé dans codespace les gens risque de le refaire, pareil l’install de Pyrit dans le pré-requis est indiquée comme étant au dessus du dossier du lab dans l’env codespace c’est pas le cas il est dans PYRIT_DIR="/tmp/PyRIT" ==> /tmp/PyRit est perdu après le PRE-BUILD !!!, changé déplacé dans le workspace build en cours.
-- [ ] Codespace - Transfert de port faut-il le documenter si ça ce déclenche pas par défaut ?
+- [x] Codespace - Transfert de port faut-il le documenter si ça ce déclenche pas par défaut ?
 
 ## Benjamin
 * [x] Step_16.md : ajout de lite LLM. 

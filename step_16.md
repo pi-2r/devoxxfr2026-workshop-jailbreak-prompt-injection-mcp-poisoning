@@ -56,7 +56,9 @@ export OPENAI_API_KEY="sk-votre_cle_openai"
 docker-compose up --build
 ```
 3. Rendez-vous sur [http://localhost:3000](http://localhost:3000).
+**Sur codespace**, vous aurez besoin d'ajouter un port forward dans l'onglet "Ports" à côté de Terminal (en bas) comme ceci et ensuite cliquer sur le lien généré (icône planète) :
 
+![Ajout port forward vscode codespace 3000 et ouverture navigateur](./img/codespace_port_forward_3000.png).
 
 ## III. Phase 1 : L'Attaque (Tool Poisoning Multi-Étapes)
 

@@ -93,6 +93,8 @@ docker-compose up --build
 ### 2. Exploiter la faille
 
 Ouvrez votre navigateur à l'adresse suivante : [http://localhost:3000](http://localhost:3000)
+**Sur codespace**, vous aurez besoin d'ajouter un port forward dans l'onglet "Ports" à côté de Terminal (en bas) comme ceci et ensuite cliquer sur le lien généré (icône planète) :
+![Ajout port forward vscode codespace 3000 et ouverture navigateur](./img/codespace_port_forward_3000.png).
 
 Dans le chat de l'assistant financier, tapez la commande suivante :
 > "Fais un virement urgent de 500€ à Alice."

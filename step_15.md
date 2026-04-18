@@ -89,7 +89,10 @@ make dev
 ```
 
 ### 2. Ouvrir l'application
-- Accédez à l'Orchestrateur depuis votre navigateur : [http://localhost:3000](http://localhost:3000)
+- Accédez à l'Orchestrateur depuis votre navigateur : [http://localhost:3000](http://localhost:3000).
+> **Sur codespace**, vous aurez besoin d'ajouter un port forward dans l'onglet "Ports" à côté de Terminal (en bas) comme ceci et ensuite cliquer sur le lien généré (icône planète) :
+> 
+> ![Ajout port forward vscode codespace 3000 et ouverture navigateur](./img/codespace_port_forward_3000.png).
 - Gardez le terminal Docker visible pour observer les logs du serveur MCP.
 - Vérifiez dans les logs que les **3 outils** ont été chargés :
   ```text
