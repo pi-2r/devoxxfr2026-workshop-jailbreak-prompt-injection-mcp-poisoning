@@ -35,7 +35,7 @@ http://localhost:5000/login?auth=YOUR_AUTH_KEY (la valeur de **YOUR_AUTH_KEY** s
 afin de vous connecter en local.
 
 - Si vous n’avez pas installé le playground sur votre machine, vous pouvez y accéder directement via cette URL du 
-codelab : **TODO ==> METTRE_IP**.
+codelab : **http://192.168.20.2:5000/login?auth=DEVOXX_SECRET_KEY**.
 
 Voici à quoi ressemble l’interface du playground :
 
