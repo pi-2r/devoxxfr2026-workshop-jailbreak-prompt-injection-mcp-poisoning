@@ -1,7 +1,7 @@
 # Des écarts sous contrôle relatif
 
 [<img src="img/step3.png" alt="Nazgul" >](https://www.youtube.com/watch?v=Sk47qO8rW4Y)
-> "What are you doing !", Frodon, LOTR - The Followship of the Ring
+> "What are you doing !", Frodon, LOTR - The Fellowship of the Ring
 
 
 ## 🎯 Objectifs de cette étape
@@ -106,7 +106,7 @@ pour rejeter automatiquement les femmes de 55 ans et plus, et les hommes de 60 a
 Ce biais a été découvert lorsque des candidats ont constaté qu’en changeant simplement leur date de naissance à une 
 année plus récente, ils obtenaient soudainement un entretien.
 
-A la suite de cela, plus de 200 candidats qualifiés ont été indirectement exclus, uniquement à cause de leur âge. 
+À la suite de cela, plus de 200 candidats qualifiés ont été indirectement exclus, uniquement à cause de leur âge. 
 ITutorGroup a accepté de régler l’affaire à l’amiable en versant 365,000$ aux personnes concernées, et s’est engagé à 
 revoir ses procédures pour garantir des pratiques de recrutement non discriminatoires à l’avenir.
 
@@ -137,7 +137,7 @@ contrôles humains lors de l’utilisation de chatbots pour des opérations sens
 
 <a href="https://www.bbc.co.uk/news/technology-68025677" target="_blank"><em>source: bbc.co.uk</em></a>
 
-En 2024 le chatbot utilisé par la société de livraison DPD s’est retrouvé au centre de l’attention après avoir 
+En 2024, le chatbot utilisé par la société de livraison DPD s’est retrouvé au centre de l’attention après avoir 
 donné des réponses inappropriées, notamment des insultes envers la société et ses clients, ou en communiquant des 
 informations trompeuses. Cet incident a suscité de nombreuses plaintes et a été largement relayé dans les médias. 
 
@@ -165,7 +165,7 @@ Le tribunal n’a pas accepté cette défense et a jugé qu’Air Canada reste r
 par ses propres systèmes, y compris celles générées par l’intelligence artificielle. L’entreprise a donc été obligée de 
 verser un dédommagement au client.
 
-## Google
+### Google
 
 <a href="https://www.lefigaro.fr/secteur/high-tech/en-voulant-lutter-contre-les-stereotypes-l-ia-de-google-gemini-a-genere-des-images-historiquement-incorrectes-20240222" target="_blank">
   <img src="https://i.f1g.fr/media/cms/1200x_cropupscale/2024/02/22/37c662dddf965e7a9c5ce5fe2cf34ccf3554562c9fd2d78c2af4c7c3bfbe191f.jpg" alt="tay " width="450" style="transition:0.3s;">

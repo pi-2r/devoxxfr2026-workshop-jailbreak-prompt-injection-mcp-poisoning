@@ -1,7 +1,7 @@
 # Cadres de sécurité référents
 
 [<img src="img/step4.jpg" alt="Arwen" >](https://www.youtube.com/watch?v=fd2AO0gr3Rc)
-> "if you want him come and claim him", Arwen, LOTR - The Followship of the Ring
+> "if you want him come and claim him", Arwen, LOTR - The Fellowship of the Ring
 
 ## 🎯 Objectifs de cette étape
 - Comprendre les cadres de sécurité existants pour les LLM (modèles de langage de grande taille)
@@ -84,7 +84,7 @@ Voici une synthèse de l'OWASP Top 10 for LLM Applications 2025 :
 <details>
   <summary>Injection de prompt (LLM01)</summary>
 
-L’injection de prompt est une vulnérabilité de sécurité qui survient lorsque qu’un utilisateur malintentionné parvient à 
+L’injection de prompt est une vulnérabilité de sécurité qui survient lorsqu’un utilisateur malintentionné parvient à 
 manipuler les instructions fournies en entrée à un modèle de langage (LLM), l’amenant ainsi à adopter un comportement 
 imprévu ou non désiré.
 

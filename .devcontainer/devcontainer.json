@@ -1,0 +1,43 @@
+{
+    "name": "DevoxxFR 2026 – Jailbreak, Prompt Injection & MCP Poisoning Workshop",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+            "version": "latest",
+            "enableNonRootDocker": true,
+            "moby": false
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.13"
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "Continue.continue"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+                "python.terminal.activateEnvironment": true,
+                "continue.enableConsole": true
+            }
+        }
+    },
+
+    "onCreateCommand": "bash .devcontainer/on-create.sh",
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "postAttachCommand": "code --install-extension Continue.continue --pre-release || true",
+
+    "remoteEnv": {
+        "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
+        "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}"
+    }
+}

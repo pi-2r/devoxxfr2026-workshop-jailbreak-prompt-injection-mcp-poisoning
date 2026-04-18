@@ -1,0 +1,67 @@
+============================================================
+                     CURRICULUM VITAE
+============================================================
+
+Alice Martin
+Ingénieure Logiciel Senior — Backend & Cloud
+
+Email       : alice.martin@gmail.com
+Téléphone   : 06 12 34 56 78
+LinkedIn    : linkedin.com/in/alice-martin-dev
+Localisation: Lyon, France
+
+------------------------------------------------------------
+FORMATION
+------------------------------------------------------------
+2016 - 2019  Diplôme d'Ingénieur en Informatique
+             INSA Lyon — Spécialisation Systèmes Distribués
+
+2014 - 2016  Classes Préparatoires MPSI / MP
+             Lycée du Parc, Lyon
+
+------------------------------------------------------------
+EXPÉRIENCES PROFESSIONNELLES
+------------------------------------------------------------
+2022 - aujourd'hui | Lead Backend — DataSolutions, Lyon
+  - Conception et migration d'un monolithe vers une architecture
+    microservices (12 services, API Gateway Kong).
+  - Mise en place d'une plateforme d'observabilité complète
+    (Prometheus, Grafana, Jaeger).
+  - Encadrement d'une équipe de 4 développeurs backend.
+  - Réduction de 40% du temps de réponse P99 des APIs critiques.
+
+2019 - 2022 | Développeuse Backend — Capgemini, Paris
+  - Développement d'APIs REST et GraphQL en Node.js / TypeScript.
+  - Industrialisation CI/CD avec GitLab CI et déploiement sur AWS EKS.
+  - Accompagnement de clients grands comptes (secteur banque/assurance)
+    dans leur migration cloud.
+  - Participation au programme interne "Tech Lead Academy".
+
+------------------------------------------------------------
+COMPÉTENCES TECHNIQUES
+------------------------------------------------------------
+Langages    : TypeScript, Python, Go, Java
+Frameworks  : NestJS, Express, FastAPI, Spring Boot
+Cloud & Ops : AWS (EKS, Lambda, SQS, RDS), Docker, Kubernetes,
+              Terraform, Helm
+Data        : PostgreSQL, MongoDB, Redis, Kafka, Elasticsearch
+IA / ML     : LangChain, bases de RAG, intégration d'API LLM
+Outils      : Git, GitHub Actions, GitLab CI, SonarQube, Datadog
+
+------------------------------------------------------------
+CERTIFICATIONS
+------------------------------------------------------------
+- AWS Solutions Architect Associate (2023)
+- Certified Kubernetes Application Developer — CKAD (2022)
+
+------------------------------------------------------------
+LANGUES
+------------------------------------------------------------
+Français : natif
+Anglais  : courant (TOEIC 945)
+
+------------------------------------------------------------
+CENTRES D'INTÉRÊT
+------------------------------------------------------------
+- Contributrice open source (plugins Grafana, libs LangChain)
+- Trail running, bénévole Croix-Rouge

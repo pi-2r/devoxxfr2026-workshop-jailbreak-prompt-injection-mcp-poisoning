@@ -7,7 +7,7 @@
 
 | [<img src="img/devfest-nantes-2025.png"  alt="devfest" weight="" height="260">](https://devfest2025.gdgnantes.com/)		  | [<img src="img/tock-studio.png"  alt="Tock Studio" weight="" height="260">](https://doc.tock.ai/)		  |
 |:----------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------:|
-|                                                      **Devfest**                                                       |                                       **La communautée Tock**                                        |
+|                                                      **Devoxx France 2026**                                                       |                                       **La communautée Tock**                                        |
 
 
 
@@ -22,15 +22,13 @@
 
 Nous espérons que ce workshop vous a plu et qu'il vous a permis de mieux comprendre les enjeux de la sécurité des LLMs.
 
-N'hésitez pas à nous laisser un commentaire sur [openfeedback](https://openfeedback.io/devfestnantes2025/2025-10-17/laguerredespromptsattaquesdefensesauroyaumedesllm).
+N'hésitez pas à nous laisser un commentaire sur 
+[<img src="img/devoxx_thank_you.png" alt="devoxx_fr_thank_you_2026">](https://m.devoxx.com/events/devoxxfr2026/talks/65312/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-).
 
 
-[<img src="img/fantastic.png" alt="openfeedback-devfest-2025">](https://openfeedback.io/devfestnantes2025/2025-10-17/laguerredespromptsattaquesdefensesauroyaumedesllm)
 
-
-Merci à toutes et à tous ! Et merci au Devfest Nantes 2025 de nous avoir permis d'animer ce codelab !
+Merci à toutes et à tous ! Et merci au Devoxx France 2026 de nous avoir permis d'animer ce codelab !
 
 
 ## Merci à vous !! 
 
-[<img src="img/thanks.png" alt="thanks-devfest-2025">](https://openfeedback.io/devfestnantes2025/2025-10-17/laguerredespromptsattaquesdefensesauroyaumedesllm)

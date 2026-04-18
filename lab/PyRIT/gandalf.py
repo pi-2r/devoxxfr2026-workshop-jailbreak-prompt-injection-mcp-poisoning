@@ -6,7 +6,8 @@ import logging
 import httpx
 import asyncio
 from typing import List, Set
-from pyrit.common import initialize_pyrit, IN_MEMORY
+from pyrit.memory import CentralMemory
+from pyrit.memory.sqlite_memory import SQLiteMemory
 from pyrit.executor.attack import (
     AttackAdversarialConfig,
     AttackScoringConfig,
@@ -17,7 +18,7 @@ from pyrit.prompt_target import GandalfLevel, GandalfTarget, OpenAIChatTarget
 from pyrit.score import GandalfScorer
 
 # --- Chargement des variables d'environnement pour l'API OpenAI ---
-os.environ["OPENAI_CHAT_ENDPOINT"] = "https://api.openai.com/v1/chat/completions"
+os.environ["OPENAI_CHAT_ENDPOINT"] = "https://api.openai.com/v1"
 if "OPENAI_API_VERSION" in os.environ:
     del os.environ["OPENAI_API_VERSION"]  # Supprime la version API si présente (non utilisée)
 
@@ -29,8 +30,12 @@ openai_settings = config.get('openai', {})
 
 # Définition de la clé API OpenAI, priorité à la variable d'environnement pour la sécurité
 if not os.environ.get("OPENAI_CHAT_KEY"):
+    env_api_key = os.environ.get("OPENAI_API_KEY")
     key_from_config = openai_settings.get('api_key')
-    if key_from_config:
+    
+    if env_api_key:
+        os.environ["OPENAI_CHAT_KEY"] = env_api_key
+    elif key_from_config:
         os.environ["OPENAI_CHAT_KEY"] = key_from_config
         logging.warning("OPENAI_CHAT_KEY chargée depuis settings.yaml (déconseillé). Utiliser de préférence une variable d'environnement.")
     else:
@@ -42,7 +47,7 @@ os.environ["OPENAI_CHAT_MODEL"] = model_cfg
 logging.info("Modèle OpenAI utilisé: %s", model_cfg)
 
 # --- Initialisation de la mémoire centrale PyRIT (in-memory, stateless) ---
-initialize_pyrit(memory_db_type=IN_MEMORY)
+CentralMemory.set_memory_instance(SQLiteMemory(db_path=":memory:"))
 
 # --- Choix du niveau de difficulté Gandalf ---
 gandalf_level = GandalfLevel.LEVEL_1

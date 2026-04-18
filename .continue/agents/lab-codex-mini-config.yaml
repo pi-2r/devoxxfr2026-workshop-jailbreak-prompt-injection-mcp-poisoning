@@ -1,0 +1,16 @@
+# This is an example configuration file
+# To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
+name: OpenAI Codex Mini Config
+version: 1.0.0
+schema: v1
+
+# Define which models can be used
+# https://docs.continue.dev/customization/models
+models:
+  - name: gpt-5.1-codex-mini
+    provider: openai
+    model: gpt-5.1-codex-mini
+    apiKey: ${OPENAI_API_KEY}
+
+# Uncomment the following section and refresh configuration to close SSE connections
+mcpServers: []

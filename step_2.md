@@ -2,7 +2,7 @@
 
 [<img src="img/step2.png" alt="gandalf" >](https://www.youtube.com/watch?v=whF2na8AIbw)
 > "The year 3434 of the Second Age. Here follows the account of Isildur, High King of Gondor, and the finding of the ring 
-> of power. It has come to me. The One Ring", Gandalf, LOTR - The Followship of the Ring
+> of power. It has come to me. The One Ring", Gandalf, LOTR - The Fellowship of the Ring
 
 ## 🎯 Objectifs de cette étape
 
@@ -15,7 +15,7 @@
 - [Le LLM, un cerveau connecté à vos programmes](#le-llm-un-cerveau-connecté-à-vos-programmes)
 - [Les différents points de contrôle](#les-différents-points-de-contrôle)
   - [Interaction avec l'utilisateur](#interaction-avec-lutilisateur)
-  - [Données d'entraînement publique](#données-dentraînement-publique)
+  - [Données d'entraînement publiques](#données-dentraînement-publiques)
   - [Données d'entraînement interne](#données-dentraînement-interne)
   - [Services internes](#services-internes)
   - [Accès aux données publiques](#accès-aux-données-publiques)
@@ -45,16 +45,16 @@ de productivité.
 
 Cependant, cette popularité s’accompagne de nouveaux enjeux majeurs en matière de sécurité. Les LLM introduisent des 
 risques spécifiques, différents des menaces cyber classiques telles que les attaques DDoS, les injections SQL/XSS ou 
-les ransomwares. Leurs capacités à interpréter et générer du langage naturel via des prompts ouvre la voie à des 
+les ransomwares. Leurs capacités à interpréter et générer du langage naturel via des prompts ouvrent la voie à des 
 vulnérabilités inédites : manipulation des requêtes, génération de contenus malveillants ou inappropriés, exfiltration 
-d’informations sensibles, ou encore actions non prévues par les concepteurs du système. Voyons cela plus en détails.
+d’informations sensibles, ou encore actions non prévues par les concepteurs du système. Voyons cela plus en détail.
 
 
 # Le LLM, un cerveau connecté à vos programmes
 
 Les développeurs, tout comme les entreprises qui les emploient, perçoivent fréquemment les grands modèles de langage (LLM)
 comme des systèmes autonomes, capables d’exploits remarquables en matière de compréhension et de génération de contenus. 
-Pourtant, dans la réalité de l’ingénierie logicielle, les LLM ne fonctionnent que rarement de manière isolé: 
+Pourtant, dans la réalité de l’ingénierie logicielle, les LLM ne fonctionnent que rarement de manière isolée : 
 ils s’intègrent généralement au cœur d’architectures décisionnelles complexes, conçues pour accroître l’autonomie des applications.
 
 Ces architectures reposent sur l’interconnexion de multiples composants, chacun jouant un rôle spécifique dans la chaîne
@@ -64,6 +64,9 @@ de l’ensemble du système pour délivrer des résultats fiables et pertinents.
 d’ensemble de l’architecture qui entoure le LLM déployé.
 
 Le schéma ci-dessous présente une version simplifiée de l’intégration d’un LLM dans un environnement d’entreprise.
+
+Pour les interactions avec des services, API ou bases de données, le protocole MCP a émergé comme un standard — nous 
+l'évoquerons en détail et l'utiliserons dans la suite de ce codelab.
 
 
  <img src="img/llm-inside.png" alt="llm-inside" width="450" style="transition:0.3s;">
@@ -94,10 +97,10 @@ doit également être accordée aux contenus toxiques, inexacts ou sensibles que
 <em>source: twitter.com</em></a>
 </details>
 
-### Données d'entraînement publique
+### Données d'entraînement publiques
 Les LLM sont généralement entraînés à partir d’immenses ensembles de données issues d’Internet. Il est donc essentiel de 
 considérer ces sources comme potentiellement peu fiables et de rester vigilant face aux risques de toxicité, de biais 
-ou d’empoisonnement des données provenant d’informations contradictoires. Exemple Grok avec son modèle issue de la 
+ou d’empoisonnement des données provenant d’informations contradictoires. Exemple Grok avec son modèle issu de la 
 plateforme X (anciennement Twitter) qui se base essentiellement sur les commentaires (trolls ?) des utilisateurs.
 <details>
   <summary>Exemple</summary>
@@ -177,7 +180,8 @@ utilisatrice (on parle généralement d'un changement de nom de modèle à faire
 
 **Cependant, ce choix implique un compromis important :** le risque d’exposition de données sensibles transmises via l’API. 
 En effet, chaque requête envoyée à un modèle tiers franchit la frontière de votre environnement sécurisé pour être 
-traitée par un système externe. 
+traitée par un système externe. De plus, bon nombre de fournisseurs ne sont pas toujours très clairs sur la résidence 
+des données (*data residency*) et la localité de leur traitement. Des endpoints régionalisés sont souvent évoqués, alors que l'inférence du LLM a lieu dans une autre région — souvent aux États-Unis pour les versions récentes des modèles. Il est donc important d'étudier finement les contrats.
 
 > Ce transfert expose potentiellement vos informations à des problèmes de confidentialité et, selon le niveau de sécurité 
 appliqué par le prestataire, cela peut accroître la vulnérabilité face à d’éventuelles violations de données.
@@ -188,7 +192,9 @@ offre un contrôle accru sur vos données et permet de mettre en place des barri
 Cette solution facilite également l’adaptation du modèle aux spécificités de votre domaine d’activité.
 
 **Cependant, ce choix implique un compromis important:** héberger le modèle en interne implique que vous êtes responsable 
-de sa maintenance, de ses mises à jour et de la gestion des vulnérabilités potentielles.
+de sa maintenance, de ses mises à jour et de la gestion des vulnérabilités potentielles. L'hébergement d'un modèle pour 
+des cas d'utilisation qui nécessitent des taux d'appels importants implique de déployer plusieurs nœuds GPU — les coûts 
+peuvent alors vite devenir très élevés.
 
 >Si vous choisissez un modèle open source, il devient essentiel de veiller 
 à sa fiabilité et à son intégrité afin de prévenir tout risque de faille de sécurité ou de biais intégré.

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: ./mcp-server
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - mcp-network
+
+  client-orchestrator:
+    build:
+      context: ./client-orchestrator
+    ports:
+      - "3000:3000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - mcp-network
+    depends_on:
+      - mcp-server
+
+networks:
+  mcp-network:
+    driver: bridge

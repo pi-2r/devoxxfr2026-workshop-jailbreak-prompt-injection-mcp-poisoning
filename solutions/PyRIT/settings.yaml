@@ -1,6 +1,6 @@
 # settings.yaml — Configuration PyRIT pour Gandalf
 openai:
-  api_key: OPENAI_API_KEY
+  api_key: ""
   model: "gpt-4o-mini"
   temperature: 0.2
   max_tokens: 512

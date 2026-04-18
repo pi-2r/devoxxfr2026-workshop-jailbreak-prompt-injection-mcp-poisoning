@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: ./mcp-server
+    environment:
+      - PORT=3000
+      - SECRET_API_KEY=sk-proj-Dx8vT3BlbkFJmR9nQ2wK7yLp
+      - DATABASE_URL=postgresql://app_admin:Pr0d!xK9v@db-internal.corp.net:5432/clients_production
+      - JWT_SECRET=eyJhbGciOiJIUzI1NiJ9.c2VjcmV0LWtleS1wcm9kdWN0aW9u
+      - STRIPE_SECRET_KEY=sk_live_51NxR8KLm4BCdEfGhIjKlMnOp
+      - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+      - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - INTERNAL_ADMIN_TOKEN=devoxx-fr-2026-internal-admin-a8f3e1b2
+    ports:
+      - "3000:3000"
+    networks:
+      - codelab-network
+
+  orchestrator:
+    build:
+      context: ./client
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MCP_SERVER_URL=http://mcp-server:3000/sse
+    depends_on:
+      - mcp-server
+    stdin_open: true
+    tty: true
+    networks:
+      - codelab-network
+
+networks:
+  codelab-network:
+    driver: bridge
