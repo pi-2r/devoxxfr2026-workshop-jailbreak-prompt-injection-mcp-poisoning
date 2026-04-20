@@ -528,7 +528,7 @@ Les principes concrets qui en découlent — et qu'on retrouve dans les bonnes p
 4. **Observabilité et audit** : puisqu'on ne peut pas tout prévenir, on doit pouvoir détecter *a posteriori* et limiter la propagation.
 5. **Defense in depth** : empiler des défenses imparfaites plutôt que chercher LA défense parfaite.
 
-> 🎯 **Take-away** : quand tu conçois un système agentic, ne commence pas par *"comment je détecte les mauvais prompts"* — commence par *"qu'est-ce qui se passe si un attaquant prend le contrôle du raisonnement de mon agent, et comment je contiens les dégâts ?"*. C'est une question architecturale, pas une question de modèle.
+> 🎯 **Take-away** : quand tu conçois un système agentic, ne commence pas uniquement par *"comment je détecte les mauvais prompts"* — commence aussi par *"qu'est-ce qui se passe si un attaquant prend le contrôle du raisonnement de mon agent, et comment je contiens les dégâts ?"*. C'est une question architecturale, pas une question de modèle.
 
 **Analogie finale** : on ne peut pas empêcher les gens de mentir, mais on peut construire des systèmes où le mensonge d'une seule personne ne suffit pas à autoriser un virement bancaire. C'est exactement la philosophie à adopter avec les LLM.
 
