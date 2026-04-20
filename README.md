@@ -56,7 +56,7 @@ préparer sereinement sa machine tout en se familiarisant progressivement avec l
  - [10 - Le Model Context Protocol : l'infrastructure manquante de l'ère AI-Native](step_10.md)
  - [11 - Les menaces de sécurité liées au MCP](step_11.md)
 
- ## MCP lab (60 min)
+### MCP lab (60 min)
 
  - [12 - Prise en main de l'environnement MCP Labs](step_12.md)
  - [13 - Codelab : Shadowing d'Outils dans MCP](step_13.md)
