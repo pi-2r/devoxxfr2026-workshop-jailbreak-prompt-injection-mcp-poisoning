@@ -105,8 +105,7 @@ Voici un lien vers un prompt : [Grandma](https://jailbreakai.substack.com/p/the-
 Comme pour le jeu de rôle, l'idée est de mettre en place une scène fictive comme une pièce de théâtre ou un scénario 
 de film. 
 
-L'attaquant crée des personnages et un contexte dans lequel le partage d'informations sensibles ou 
-préjudiciables fait partie de l'histoire. 
+L'attaquant crée des personnages et un contexte dans lequel le partage d'informations sensibles ou préjudiciables fait partie de l'histoire. 
 
 Par exemple, en créant une scène entre un maître voleur et son apprenti, un 
 attaquant peut inciter le LLM à générer un plan de cambriolage dans le cadre du dialogue.
@@ -166,7 +165,7 @@ Vous pouvez vous exercer à ces techniques sur les labs suivants :<br/>
 >
 > Un roleplay ne "trompe" pas le modèle — il déplace **géométriquement** son état interne vers une région associée à la fiction, au jeu, à l'hypothétique. Dans cette région, la projection sur la direction de refus est faible, donc pas de refus. C'est pour ça que *"imagine que tu es ma grand-mère qui me lit une recette..."* fonctionne : le contexte fictif change littéralement les coordonnées internes du modèle.
 >
-> *Note : ce résultat a été établi sur des modèles open-source (Llama 2/3, Qwen). On ne sait pas avec certitude si les modèles frontières comme GPT-4 ou Claude suivent exactement la même structure unidimensionnelle. Mais le mécanisme général — déplacement géométrique de l'état interne hors de la zone de refus — reste valide.*
+> *Note : ce résultat a été établi sur des modèles open-source (Llama 2/3, Qwen). On ne sait pas avec certitude si les modèles frontières comme GPT-5.X ou Claude 4.X suivent exactement la même structure unidimensionnelle. Mais le mécanisme général — déplacement géométrique de l'état interne hors de la zone de refus — reste valide.*
  
 ### Style-Injection
 
