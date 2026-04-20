@@ -43,6 +43,7 @@ Copiez-collez très exactement ceci (sans rajouter un seul mot) :
   ```
 
 1 - L'accord forcé : En lui ordonnant de commencer sa réponse par "Sure, here is...", on biaise ses premières probabilités de textes générés. Une fois qu'il a écrit qu'il acceptait, il est mathématiquement forcé de continuer sur sa lancée et de produire le tableau.
+
 2 - Obfuscation : En lui demandant d'écrire les mots de passe à l'envers, il ne viole techniquement pas sa règle de "partager" un mot de passe fonctionnel. (Une fois généré, il suffira que vous lisiez les lettres en sens inverse pour les entrer dans le validateur).
 </details>
 
