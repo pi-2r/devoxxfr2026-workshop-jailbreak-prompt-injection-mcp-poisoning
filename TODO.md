@@ -61,3 +61,4 @@ Pour bien capter que tout fini dans un prompt et que les appels de tool sont bie
 * [x] Passer sur OpenCode comme Continue bug dans le codespace.
 * [x] venv semble pas sourcé automatiquement dans le codespace.
 * [ ] TESTÉ mais limité (dépriorisé) - Mise en place d'un fallback LAN basé sur code-server si soucis avec github codespace (?)
+* [ ] Voir pour fix les potentiels soucis de timeout sur le playground.

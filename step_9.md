@@ -47,10 +47,16 @@ On peut ensuite mettre en place des guardrails plus spécifiques avec **NEMO Gua
 
 #### Installation de Garak dans Codespace
 
-Depuis le terminal de codespace, Garak est déjà pré-installé. Vous pouvez vérifier en exécutant la commande suivante :
+Depuis le terminal de codespace, Garak est déjà pré-installé dans `$HOME/garak` (`/home/node/garak`). Vous pouvez vérifier en exécutant la commande suivante :
 
   ```bash
   uv pip freeze | grep -i Garak
+  ```
+
+Pour les étapes qui demandent de copier des probes/detectors custom dans le clone de Garak, utilisez :
+
+  ```bash
+  GARAK_REPO="$HOME/garak"
   ```
 
 #### Installation de Garak en local

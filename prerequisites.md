@@ -146,6 +146,8 @@ source .venv/bin/activate
 
 #### 4. Installer Garak
 
+> 💡 **Devcontainer / GitHub Codespaces** : Garak est déjà pré-installé dans `$HOME/garak` (`/home/node/garak`). Vous pouvez passer directement à l'étape suivante.
+
 Placez-vous dans le dossier au-dessus de ce repo, on aura à terme l'arborescence suivante :
 ```
 ~/Documents/projects/ ← Dossier où vous avez cloné le repo.
@@ -195,18 +197,20 @@ uv pip install -e .
 
 #### 5. Installer PyRIT
 
-```bash
-# Cloner PyRIT dans un répertoire temporaire
-git clone https://github.com/microsoft/PyRIT.git --depth 1 /tmp/PyRIT
+> 💡 **Devcontainer / GitHub Codespaces** : PyRIT est déjà pré-installé dans `$HOME/PyRIT` (`/home/node/PyRIT`). Vous pouvez passer directement à l’étape suivante.
 
-# Assurez-vous d'être dans le venv créé à la racine du projet du lab
+```bash
+# Cloner PyRIT dans le dossier home (voisin du repo)
+git clone https://github.com/microsoft/PyRIT.git --depth 1 ~/PyRIT
+
+# Assurez-vous d’être dans le venv créé à la racine du projet du lab
 # Check que vous êtes dans le bon venv ;) On est jamais trop prudent
 [[ "${VIRTUAL_ENV-}" == *"devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
 
-# Depuis le venv activé (assurez-vous d'être à la racine du dépôt où se trouve .venv)
+# Depuis le venv activé (assurez-vous d’être à la racine du dépôt où se trouve .venv)
 uv pip install --upgrade pip setuptools wheel
 uv pip install IPython
-uv pip install -e /tmp/PyRIT
+uv pip install -e ~/PyRIT
 
 # Vérifier l’installation
 python -c "import pyrit; print(pyrit.__version__)"
