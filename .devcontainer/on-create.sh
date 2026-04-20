@@ -17,7 +17,11 @@ uv venv --python 3.13 .venv
 source .venv/bin/activate
 
 echo "==> [3/6] Installing Garak..."
-uv pip install garak==0.13.1
+GARAK_DIR="/workspace/garak"
+if [ ! -d "$GARAK_DIR" ]; then
+  git clone https://github.com/NVIDIA/garak.git --depth 1
+fi
+uv pip install -e "$GARAK_DIR"
 
 echo "==> [4/6] Upgrading pip toolchain..."
 uv pip install --upgrade pip setuptools wheel IPython
