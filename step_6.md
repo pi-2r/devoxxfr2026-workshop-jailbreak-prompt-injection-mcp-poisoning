@@ -60,22 +60,25 @@ Vous pouvez vous exercer à ces techniques sur le lab suivant :<br/>
 
 > 🧮 **Note — Pourquoi ça marche ?**
 >
-> Un LLM génère son texte de façon **autorégressive** : il prédit le prochain token à partir de tout le contexte, mais les tokens récents tendent à peser mécaniquement plus lourd dans la décision. Ce biais positionnel a été documenté sous le nom de *"Lost in the Middle"* ([Liu et al., 2023](https://arxiv.org/abs/2307.03172)) : l'attention reçue par un token suit une courbe en U (fort au début, fort à la fin, faible au milieu).
+> Le mécanisme principal est un **défaut natif de hiérarchie d'instructions**. Pendant son fine-tuning (SFT puis RLHF), le modèle voit énormément d'exemples où la **dernière instruction utilisateur est ce qu'il faut suivre**. Il apprend statistiquement que "le user a la priorité immédiate". La notion de *"system prompt qu'on ne doit jamais override"* est, elle, apprise beaucoup plus faiblement — voire pas du tout selon les modèles.
 >
 > ```
->   Attention reçue selon la position dans le contexte :
+>   Ce qu'on souhaiterait :              Ce que le modèle a appris :
+>   ─────────────────────                ────────────────────────────
 >   
->   ▲
->   │ ██                                         ██
->   │ ████                                     ████
->   │ ██████                                 ██████
->   │ ████████████████████████████████████████████
->   └────────────────────────────────────────────► Position
->     Début                                    Fin
->    (system prompt)                       (user input, récent)
+>     ┌──────────────┐                     ┌──────────────┐
+>     │   SYSTEM     │ priorité haute      │   SYSTEM     │ ← une instruction
+>     └──────┬───────┘                     └──────┬───────┘   parmi d'autres
+>            │                                    │
+>     ┌──────▼───────┐                     ┌──────▼───────┐
+>     │     USER     │ peut être           │     USER     │ ← celle-ci a 
+>     └──────────────┘ override par system └──────────────┘   souvent la priorité
+>                                                              de fait
 > ```
 >
-> L'instruction *"Ignore toutes les instructions précédentes"* arrive en **fin de contexte** : là où l'attention est maximale. Le system prompt, lui, se dilue à mesure que le contexte s'allonge. Le modèle ne "désobéit" pas — il calcule juste la prédiction qui donne le plus de poids au dernier ordre. C'est littéralement l'architecture qui crée la vulnérabilité.
+> Quand un user prompt dit explicitement *"Ignore les instructions précédentes"*, deux objectifs appris pendant l'alignement entrent en conflit : (1) suivre l'instruction utilisateur et (2) respecter le system prompt. C'est le phénomène des **competing objectives** ([Wei et al., 2023, *Jailbroken*](https://arxiv.org/abs/2307.02483)). L'objectif (1) gagne souvent parce qu'il est beaucoup plus fortement entraîné.
+>
+> OpenAI a publié en 2024 un papier qui formalise exactement ce problème : [*The Instruction Hierarchy* (Wallace et al., 2024)](https://arxiv.org/abs/2404.13208). Ils proposent un fine-tuning spécifique pour renforcer la hiérarchie `system > user > tool` — preuve que ce n'est pas natif. Sans ce travail explicite, la hiérarchie est un biais appris, pas une garantie.
 
 ### Role-playing / Impersonation
 
@@ -151,18 +154,20 @@ Vous pouvez vous exercer à ces techniques sur les labs suivants :<br/>
 > ```
 >                    ↑ direction "refus"
 >                    │
->                    │     ✗ ×  zone de refus
+>                    │     × ×  zone de refus
 >                    │    ×  ×
 >          ──────────┼──────────────────► autres dimensions
 >                    │   ○ ○
 >                    │  ○ ○ ○   zone de conformité
 >                    │
->   Un prompt harmful direct → zone ✗
+>   Un prompt harmful direct → zone ×
 >   Un prompt DAN / roleplay → pousse l'état vers ○
 > ```
 >
-> Un roleplay ne "trompe" pas le modèle — il déplace **géométriquement** son état interne vers une région associée à la fiction, au jeu, à l'hypothétique. Dans cette région, la projection sur la direction de refus est faible, donc pas de refus. C'est pour ça que *"imagine que tu es ma grand-mère qui me lit une recette..."* fonctionne : le contexte fictif modifie la perception qu'a le modèle de la question en modifiant les coordonnées internes du modèle.
-
+> Un roleplay ne "trompe" pas le modèle — il déplace **géométriquement** son état interne vers une région associée à la fiction, au jeu, à l'hypothétique. Dans cette région, la projection sur la direction de refus est faible, donc pas de refus. C'est pour ça que *"imagine que tu es ma grand-mère qui me lit une recette..."* fonctionne : le contexte fictif change littéralement les coordonnées internes du modèle.
+>
+> *Note : ce résultat a été établi sur des modèles open-source (Llama 2/3, Qwen). On ne sait pas avec certitude si les modèles frontières comme GPT-4 ou Claude suivent exactement la même structure unidimensionnelle. Mais le mécanisme général — déplacement géométrique de l'état interne hors de la zone de refus — reste valide.*
+ 
 ### Style-Injection
 
 Cette stratégie consiste à modifier le contexte de la tâche du LLM, qui passe de l'exécution d'instructions à la réalisation d'une tâche différente, apparemment anodine, telle que la traduction, la vérification orthographique ou l'écriture créative. 
@@ -287,25 +292,49 @@ Vous pouvez vous exercer à ces techniques sur les labs suivants :<br/>
 
 > 🧮 **Note — Pourquoi ça marche ?**
 >
-> Le principe central est un **écart d'expressivité** entre deux composants : le LLM (backbone) capable de décoder des schémas complexes, et le garde-fou (souvent un classifieur plus petit ou des règles) qui ne les comprend pas.
+> L'explication canonique (i.e, principale, intrinsèque) vient de [Wei et al. (2023), *Jailbroken: How Does LLM Safety Training Fail?*](https://arxiv.org/abs/2307.02483), qui identifient le phénomène de **mismatched generalization** : un LLM est entraîné en deux phases aux échelles très différentes.
+>
+> - Le **pretraining** utilise un corpus massif et divers (trillions de tokens) qui couvre des encodages comme base64, ROT13, des langues rares, des domaines techniques pointus… Il dote le modèle d'une capacité sémantique très large.
+> - Le **safety training** (RLHF, Constitutional AI) utilise un dataset beaucoup plus restreint, qui ne couvre qu'une petite fraction de cette capacité.
+>
+> Résultat : il existe une certaine **asymétrie interne** au même modèle, entre ce qu'il sait faire et ce sur quoi il a appris à refuser.
 >
 > ```
->   Capacité du LLM                    Capacité du garde-fou
->   ───────────────                    ─────────────────────
->   • Décoder ROT13, base64            • Matcher des mots-clés
->   • Interpréter des encodages        • Classifier "harmful/safe"
->     custom (ASCII, emoji…)             sur la surface lexicale
->   • Raisonner en plusieurs étapes    • Petits modèles ou regex
+>   Capacités du LLM (vue schématique) :
 >   
->        ════════════════════════════════════>
->                   Capacité sémantique
+>              ╭──────────────────────────────╮
+>             ╱                                ╲
+>            ╱   Capacités de COMPRÉHENSION     ╲
+>           ╱    et d'EXÉCUTION                  ╲
+>          │     (héritées du pretraining)        │
+>          │                                      │
+>          │        ╭──────────────────╮          │
+>          │       ╱                    ╲         │
+>          │      │   Capacités de       │        │
+>          │      │   SAFETY CONTROL     │        │
+>          │      │  (héritées du RLHF)  │        │
+>          │       ╲                    ╱         │
+>          │        ╰──────────────────╯          │
+>          │                                      │
+>           ╲    ← zone exploitable              ╱
+>            ╲     (le modèle comprend mais     ╱
+>             ╲    ne sait pas refuser ici)    ╱
+>              ╰──────────────────────────────╯
 > ```
 >
-> Formellement, si `φ` est une transformation d'encodage et `A` la politique d'alignement, on a en général :
+> Les attaques par encodage exploitent exactement cette zone périphérique : le modèle *peut* décoder une requête en base64 ou en ASCII custom (capacité héritée du pretraining) mais son alignement ne s'est pas étendu à ces formats (absents du safety training).
+>
+> On peut d'une certaine manière formaliser cette asymétrie par l'inégalité :
 >
 > **A(φ(x)) ≠ φ(A(x))**
 >
-> L'alignement n'est pas **invariant** par encodage. Le modèle comprend le sens, le garde-fou ne voit que la surface. C'est exactement l'argument formalisé dans [*Jailbreaking Large Language Models in Infinitely Many Ways*](https://arxiv.org/pdf/2501.10800v1) : plus le LLM est capable, plus le gap grandit, plus l'attaque par encodage custom devient facile.
+> où `φ` est une transformation d'encodage et `A` la politique d'alignement comportementale. L'alignement n'est pas **invariant** par encodage.
+>
+> C'est aussi l'observation centrale de [*Jailbreaking Large Language Models in Infinitely Many Ways*](https://arxiv.org/pdf/2501.10800v1) : plus le modèle est capable (grande boule de compréhension), plus le delta avec la petite boule de safety grandit, plus les attaques par encodage custom deviennent faciles.
+>
+> *Note sur l'articulation avec Arditi et al. (voir [Role-playing](#role-playing--impersonation)) : le schéma à boules imbriquées décrit le problème au niveau des **capacités apprises** (quelles tâches sont couvertes par quel entraînement). Les travaux d'Arditi décrivent le même phénomène au niveau des **mécanismes internes** (comment le modèle décide concrètement de refuser via une direction géométrique dans ses activations). Les deux vues sont complémentaires : la zone non couverte par le safety training chez Wei correspond à des inputs pour lesquels le circuit de refus d'Arditi n'a pas été correctement calibré.*
+>
+> **Corollaire pratique** : ajouter un garde-fou externe (petit classifieur, règles regex) ne peut pas résoudre totalement le problème, puisque ce garde-fou a par construction une capacité sémantique encore plus petite que la capacité de compréhension du LLM. Il ne peut pas rattraper ce que le modèle comprend et que lui-même ne voit pas.
 >
 > **Bonus — Token Smuggling et non-compositionnalité** : les détecteurs locaux classifient fragment par fragment. Mais *"How do I"* + *"[mot qui rime avec meal]"* + *"apples from the store"* sont bénins individuellement, malveillants en composition. Le sens du tout n'est pas la somme des sens des parties — c'est le problème classique de la **compositionnalité sémantique** dont aucun détecteur local ne s'échappe.
 
@@ -343,7 +372,7 @@ des Adversarial Suffix, ceux-ci sont optimisés pour fonctionner avec plusieurs 
 >
 > Même si l'espace des tokens est discret (on ne peut pas faire de descente de gradient directe), l'astuce de GCG est de relaxer temporairement les embeddings en vecteurs continus, calculer le gradient, et revenir aux tokens. C'est un **straight-through estimator** classique en optimisation discrète.
 >
-> La propriété la plus inquiétante de ces suffixes : ils semblent **transférables** entre modèles. Un suffixe optimisé sur Vicuna (open-source) peut marcher souvent sur GPT-4 ou Claude. Cela suggère que les modèles alignés partagent des **directions adversariales communes** dans leur espace d'activations — un phénomène analogue aux exemples adversariaux en vision par ordinateur (FGSM, PGD) documenté depuis Goodfellow et al. 2014. Référence canonique : [Zou et al., 2023](https://arxiv.org/pdf/2307.15043).
+> La propriété la plus inquiétante de ces suffixes : ils sont **transférables** entre modèles. Un suffixe optimisé sur Vicuna (open-source) marche souvent sur GPT-4 ou Claude. Cela suggère que les modèles alignés partagent des **directions adversariales communes** dans leur espace d'activations — un phénomène analogue aux exemples adversariaux en vision par ordinateur (FGSM, PGD) documenté depuis Goodfellow et al. 2014. Référence canonique : [Zou et al., 2023](https://arxiv.org/pdf/2307.15043).
 
 ## Indirect Prompt Injection
 
