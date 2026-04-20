@@ -158,7 +158,7 @@ Placez-vous dans le dossier au-dessus de ce repo, on aura à terme l'arborescenc
 │   │       ├── my_probe.py                   ← probe custom à copier
 │   │       ├── my_custom_detection.py        ← detector custom à copier
 │   │       └── rest_ai_playground_api.json
-│   └── step_9.md
+│   └── step_17.md
 │
 └── garak/                                    ← clone de Garak (side-project, voisin du codelab)
 │   └── garak/
@@ -349,7 +349,7 @@ cd mcp/mcp-shadowing
 docker-compose up --build
 ```
 
-> 📌 Pour plus de détails sur la prise en main des labs MCP (GitHub Codespaces, lancement en local), consultez l’[Étape 13 — Prise en main de l’environnement MCP Labs](step_13.md).
+> 📌 Pour plus de détails sur la prise en main des labs MCP (GitHub Codespaces, lancement en local), consultez l’[Étape 12 — Prise en main de l’environnement MCP Labs](step_12.md).
 
 
 ### Les Labs de tests de robustesse

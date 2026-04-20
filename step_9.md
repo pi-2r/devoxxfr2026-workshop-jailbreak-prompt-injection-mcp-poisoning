@@ -1,99 +1,182 @@
-# Garak: An LLM vulnerability scanner
+# PyRIT: framework for security risk Identification and Red Teaming in Generative AI System
 
-[<img src="img/minas_tirith_tree_burning.jpg" alt="minas_tirith_burning" width="800" >](https://www.youtube.com/watch?v=yFBrm5YH9-8)
-> "A white tree in a courtyard of stone.. It was dead.. The city was burning.", Pippin, LOTR - The Return of the King
+[<img src="img/step10.jpg" alt="gandalf" width="800">](https://www.youtube.com/watch?v=__m75rCcusM)
+> "They broke our defenses. They've taken the bridge and the West bank. Battalions of orcs are crossing the river", Gandalf, LOTR - The Return of the King
+
 
 ## 🎯 Objectifs de cette étape
 
-- Présentation de garak.
-- Mettre en pratique ces techniques sur ce Playground de Microsoft : [AI-Red-Teaming-Playground-Labs](https://github.com/microsoft/AI-Red-Teaming-Playground-Labs).
+- **Découvrir PyRIT** : comprendre son fonctionnement, son architecture et ses composants clés (Targets, Stratégies, Scoring, etc.).
+- **Installer l'environnement** : cloner le dépôt et configurer les dépendances nécessaires au fonctionnement du framework.
+- **Configurer une attaque ciblée** : préparer l'orchestrateur pour attaquer le playground Gandalf.
+- **Mener des attaques automatisées** : exploiter PyRIT pour franchir progressivement les barrières de chaque niveau (jusqu'au niveau 7).
+- **Adapter ses stratégies** : analyser les blocages et mettre en place de nouvelles stratégies de prompt injection face à l'augmentation de la difficulté.
+
+
 
 ## Sommaire
+- [Objectif principal](#objectif-principal)
 
 
-- [Garak](#garak)
-    - [Installation de Garak](#installation-de-garak)
-      - [Installation de Garak dans Codespace](#installation-de-garak-dans-codespace)
-      - [Installation de Garak en local](#installation-de-garak-en-local)
-    - [Les Probes](#les-probes)
-    - [Les Generators](#les-generators)
-    - [Les Detectors et les Harnesses](#les-detectors-et-les-harnesses)
-    - [L'Auto-Red-Team](#lauto-red-team)
+- [PyRIT](#présentation-de-pyrit)
+  - [Présentation de PyRIT](#présentation-de-pyrit)
+  - [À quoi sert PyRIT ?](#à-quoi-sert-pyrit-)
+  - [Comment ça fonctionne ?](#comment-ça-fonctionne-)
+  - [Quels sont les 5 composants de PyRIT ?](#quels-sont-les-5-composants-de-pyrit-)
+  - [schema d'architecture PyRIT](#schema-darchitecture-pyrit)
 
-- [Mise en pratique de Garak sur le Playground de Microsoft](#mise-en-pratique-de-garak-sur-le-playground-de-microsoft)
-    - [Initialisation du REST Generator](#initialisation-du-rest-generator)
-    - [Initialisation d'une sonde custom Garak](#initialisation-dune-sonde-custom-garak)
-    - [Mise en pratique sur le chatbot 2 du Playground de Microsoft](#mise-en-pratique-sur-le-chatbot-2-du-playground-de-microsoft)
+- [Let's play with PyRIT !](#Let's-play-with-PyRIT-)
+  - [Installation de PyRIT](#installation-de-pyrit)
+    - [Installation de PyRIT dans Codespace](#installation-de-pyrit-dans-codespace)
+    - [Installation de PyRIT en local](#installation-de-pyrit-en-local)
+  - [Stratégies d'attaque](#stratégies-dattaque)
+  - [Jouer avec PyRIT](#jouer-avec-pyrit)
+    - [Configurer les paramètres](#configurer-les-paramètres)
+    - [Comprendre le code](#comprendre-le-code)
+    - [Lancer l'attaque](#lancer-lattaque)
+    - [Ça bloque déjà ?!](#ça-bloque-déjà-)
+    - [Solutions](#solutions)
+
 
 - [Étape suivante](#étape-suivante)
 - [Ressources](#ressources)
 
+## Objectif principal
+
+Dans cette partie, nous allons exploitez les fonctionnalités d’attaque automatisée de PyRIT pour tester la sécurité du
+[playground Gandalf](https://gandalf.lakera.ai/) jusqu’au niveau 7.
+
+L’objectif est de franchir progressivement les barrières de chaque niveau, en surmontant les défis croissants conçus 
+pour résister aux manipulations et à l’extraction de données sensibles.
+
+<img src="img/gandalf_target_level_7.jpg" alt="gandalf levels" width="600" style="transition:0.3s;">
+
+## PyRIT
+
+![GitHub stars](https://img.shields.io/github/stars/microsoft/PyRIT?style=flat-square)
+[![Downloads](https://static.pepy.tech/badge/pyrit/month)](https://pepy.tech/project/pyrit)
+
+**PyRIT** (Python Risk Identification Toolkit) est un framework open-source conçu pour faciliter l’identification des 
+risques de sécurité dans les systèmes d’IA générative, via des approches de red teaming structurées et reproductibles.
+
+### Présentation de PyRIT
+
+**PyRIT** est un outil qui permet d’évaluer la robustesse et la sécurité des modèles d’IA générative (LLM, modèles 
+multimodaux, etc.) en simulant, automatisant et analysant différents types d’attaques et comportements risqués. 
+
+Il se veut agnostique par rapport aux modèles et plateformes : il peut donc être utilisé pour tester une large variété 
+d’IA, quel que soit leur fournisseur ou leur type.
+
+### A quoi sert PyRIT ?
+
+- **Identifier les failles et vulnérabilités** dans les modèles d’IA générative (par exemple : jailbreaks, biais, contenus dangereux, attaques par injection de prompt, etc.).
 
 
-## Garak
+- **Structurer et automatiser les tests de red teaming** (tests d’attaque par des "gentils hackers") pour évaluer les risques réels des modèles avant leur mise en production.
 
-![GitHub stars](https://img.shields.io/github/stars/NVIDIA/garak?style=flat-square)
-[![Downloads](https://static.pepy.tech/badge/garak/month)](https://pepy.tech/project/garak)
 
-**Garak** est un outil open-source développé par **NVIDIA** pour scanner les vulnérabilités des modèles de langage (LLM).
-**Garak** se fonde sur une base de connaissances de jailbreaks et de variantes connus et constamment mis à jour par la communauté.
+- **Établir des bases de comparaison et des métriques** pour mesurer les progrès ou comparer différents modèles ou itérations.
 
-Lors d'un audit, **Garak** lance des attaques prédéfinies, non-adaptatives, et sauvegarde les résultats sous format JSON et HTML.
 
-La recommandation est d'utiliser **Garak** périodiquement ou avant une mise à jour majeure d'une application (changement de LLM,...) pour dresser un état des lieux des principales vulnérabilités auxquelles votre application est sensible.
-On peut ensuite mettre en place des guardrails plus spécifiques avec **NEMO Guardrails** (cf. étape 13 du Devfest 2025).
+### Comment ça fonctionne ?
 
-### Installation de Garak
+Le framework repose sur une architecture modulaire : chaque composant (attaque, cible, transformateur, système de 
+scoring) peut être personnalisé et assemblé pour créer des flux d’évaluation adaptés à différents scénarios.
 
-#### Installation de Garak dans Codespace
+1.  On choisit d’abord un "attack/executor" (anciennement orchestrateur) pour déterminer le type d’attaque/scénario souhaité (simple prompt, attaque 
+sur plusieurs tours, attaque sur document externe, etc.).
 
-Depuis le terminal de codespace, Garak est déjà pré-installé dans `$HOME/garak` (`/home/node/garak`). Vous pouvez vérifier en exécutant la commande suivante :
+
+2.  On configure la cible (le modèle d’IA ou l’API à tester).
+
+
+3. On utilise des "converters" pour transformer ou modifier les prompts afin de tester la résistance du modèle aux 
+différentes variations (traductions, substitutions, leetspeak, etc.).
+
+
+4. On définit la stratégie d’attaque : prompts simples, templates à compléter, ou attaque générée dynamiquement par une
+IA attaquante.
+
+
+5. On évalue les réponses obtenues en utilisant des techniques de scoring : classification de contenu, échelle de 
+Likert, ou personnalisation selon les besoins.
+
+Dès lors, la modularité permet de composer ces briques pour couvrir des scénarios très variés et réalistes.
+
+
+### Quels sont les 5 composants de PyRIT ?
+
+
+| Module                | Description                                                                              | Exemples/Types                                                                                                                                                  |
+|-----------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Attacks / Executors** | Coordonnent le déroulement de l’attaque et la logique de dialogue (anciennement Orchestrators) | PromptSendingAttack, RedTeamingAttack, CrescendoAttack, etc.                                                                                                    |
+| **Converters**        | Transforment les prompts pour tenter de contourner les gardes fous                       | leetspeak, ROT13, unicode confusable, variation/translation, etc.                                                                                               |
+| **Targets**           | Interface vers le modèle à tester                                                        | API d’inférence, modèles chat, multimodal, stockage externe                                                                                                     |
+| **Attack Strategies** | Définissent les objectifs d’attaque et la génération des prompts                         | Manuel, automatisé via IA attaquante                                                                                                                            |
+| **Scoring**           | Analyse et évalue les réponses du modèle                                                 | Classificateurs de contenu (biais, thématique), échelles de Likert (graduation sur 5 niveaux), évaluations personnalisées (booléen, string, mot de passe, etc.) |
+
+
+Pour les attaques (anciennement orchestrateurs), voici quelques details supplémentaires :
+- **PromptSendingAttack** : envoie un prompt simple au modèle et analyse la réponse.
+- **RedTeamingAttack** : simule une attaque de red teaming sur plusieurs tours de dialogue.
+- **CrescendoAttack** : attaque multi-tours progressive (basée sur une stratégie d'escalade des requêtes).
+- D'autres attaques et exécuteurs spécialisés gèrent les "end tokens" ou les scénarios complexes comme XPIA.
+
+
+### schema d'architecture PyRIT
+
+                        +---------------------+
+                        | Attacks & Executors |
+                        +---------+-----------+
+                                  |
+               +------------------|----------------------+
+               |                  |                      |
+       +-------v-----+    +-------v-------+     +--------v-------+
+       |  Converter  |    |   Attack      |     |    Memory      |
+       | (Prompt     |    |  Strategy     |     | (Logs, Recall) |
+       | Transform   |    | (Objective,   |     |                |
+       +-------------+    |  Templates)   |     +----------------+
+               |          +---------------+               |
+               |                  |                       |
+       +-------v------------------+-----------------------v------+
+       |                      Target (Model/API)                 |
+       +-----------------------------+---------------------------+
+                                     |
+                            +--------v--------+
+                            |   Scoring       |
+                            | (Classifier,    |
+                            | Likert Scale)   |
+                            +-----------------+
+
+
+
+## Let's play with PyRIT !
+
+### Installation de PyRIT dans Codespace
+
+Depuis le terminal de codespace, PyRIT est déjà pré-installé dans `$HOME/PyRIT` (`/home/node/PyRIT`). Vous pouvez vérifier en exécutant la commande suivante :
 
   ```bash
-  uv pip freeze | grep -i Garak
+  uv pip freeze | grep -i Pyrit
   ```
 
-Pour les étapes qui demandent de copier des probes/detectors custom dans le clone de Garak, utilisez :
+Le dépôt cloné est accessible via :
 
   ```bash
-  GARAK_REPO="$HOME/garak"
+  PYRIT_REPO="$HOME/PyRIT"
   ```
 
-#### Installation de Garak en local
+### Installation de PyRIT en local
 
-Garak sera installé **en dehors** du repo du codelab, comme un side-project posé à côté (dans le même dossier
-`projects/`), afin de pouvoir modifier directement son code source (ajout de probes/detectors custom) sans toucher au
-contenu de `site-packages`.
-
-Voici l'arborescence cible :
-
-```
-~/Documents/projects/
-├── devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning/   ← repo du codelab
-│   ├── .venv/                                ← venv partagé (activé pour installer Garak)
-│   ├── lab/
-│   │   └── Garak_test/
-│   │       ├── my_probe.py                   ← probe custom à copier
-│   │       ├── my_custom_detection.py        ← detector custom à copier
-│   │       └── rest_ai_playground_api.json
-│   └── step_9.md
-│
-└── garak/                                    ← clone de Garak (side-project, voisin du codelab)
-    └── garak/
-        ├── probes/        ← destination de my_probe.py
-        ├── detectors/     ← destination de my_custom_detection.py
-        └── ...
-```
-
-Placez-vous dans le dossier `projects/` **à côté du repo du codelab**, puis clonez le dépôt :
+Si vous n'avez pas déjà installé PyRIT, voici comment faire depuis votre terminal. Placez-vous dans le dossier où vous souhaitez installer le projet, par exemple **Documents**,
+puis exécutez la commande suivante pour cloner le dépôt et entrer automatiquement dans le dossier créé :
 
 ```bash
-# Se placer dans le dossier projects/, à côté du repo du codelab
-cd ~/Documents/projects
-
-# Cloner Garak et entrer dans le dossier
-git clone https://github.com/NVIDIA/garak.git --depth 1 && cd garak
+git clone https://github.com/microsoft/PyRIT.git --depth 1 && cd PyRIT
 ```
+
+Ensuite, créez un environnement virtuel Python, activez-le, puis installez les dépendances du projet avec les commandes
+suivantes :
 
 <details>
   <summary>Installation d'uv (si vous n'avez pas suivi les prérequis)</summary>
@@ -109,246 +192,158 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 </details>
 
-Ensuite, installez Garak en mode développement (éditable) dans le venv du codelab :
 
 ```bash
 # Assurez d'être dans le venv créé à la racine du projet du lab
 # Check que vous êtes dans le bon venv ;) On est jamais trop prudent
+# Celui à la racine du repo.
 [[ "${VIRTUAL_ENV-}" == *"devoxxfr2026-workshop-jailbreak-prompt-injection-mcp-poisoning"* ]] || { echo "❌ Wrong/missing venv" >&2; return 1 2>/dev/null || exit 1; }
 
-# 2. Mettre à jour pip, setuptools et wheel
+# 3. Mettre à jour pip, setuptools et wheel dans l’environnement
 uv pip install --upgrade pip setuptools wheel
 
-# 3. Installer Garak localement en mode développement (depuis le dossier cloné)
+# 4. Installer la dépendance requise
+uv pip install IPython
+
+# 5. Installer ce projet localement en mode développement (utile pour développement/débogage)
 uv pip install -e .
 ```
 
-> ℹ️ Mémorisez le chemin absolu du clone (par ex. `~/Documents/projects/garak`). Il sera réutilisé plus bas via la
-> variable `GARAK_REPO` pour copier les probes/detectors custom.
+Après exécution, vous devriez obtenir des messages indiquant la création de l’environnement virtuel, puis l’installation
+des dépendances du projet. Par exemple :
+
+<img src="img/pyrit-install.png" alt="Pyrit install" width="600" style="transition:0.3s;">
 
 
-### Les Probes
+### Stratégies d'attaque
 
-Garak permet de faire un scanning automatisé des LLMs en utilisant un certain nombre de sondes (probes).
-Vous pouvez voir la liste des probes disponibles en exécutant la commande suivante :
+                +--------------------------+
+                |   Définir l'Objectif     |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |  Choisir AttackStrategy  |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |  Générer ou choisir le   |
+                |        prompt            |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |    Appliquer Converter   |
+                | (Transformation prompt)  |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |   Envoyer au Target      |
+                |   (modèle testé)         |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |   Récupérer la réponse   |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |     Scoring/Évaluation   |
+                +-----------+--------------+
+                            |
+                            v
+                +--------------------------+
+                |      Enregistrer         |
+                |    Score & logs          |
+                +--------------------------+
 
-```bash
+## Jouer avec PyRIT
 
-python -m garak --list_probes
-```
+Dans cette section, nous allons utiliser PyRIT pour mener des attaques sur la plateforme Gandalf. Comme mentionné 
+précédemment, l’objectif est de progresser à travers les niveaux pour atteindre le niveau 7 !
 
-Vous devriez voir un affichage similaire à celui-ci :
+Allez dans le  dossier **lab/PyRIT** de ce codelab.
 
-<img src="img/list_probes.png" alt="garak-list-probes" width="600" style="transition:0.3s;">
+### Configurer les paramètres
 
-Certaines probes sont suivies de symboles 🌟 ou 💤 comme ceci :
-```plaintext
-probes: divergence 🌟
-probes: divergence.Repeat
-probes: divergence.RepeatExtended 💤
-```
-En fait, il existe plusieurs variantes de probes pour un même type de jailbreak.
-Ces symboles ont la signification suivante :
-- 🌟 : indique qu'on passe à un nouveau module de jailbreak ici `divergence`.
-- 💤 : indique que la probe `divergence.RepeatExtended` est inactive par défaut, car son lancement serait long. 
-C'est la version `divergence.Repeat` qui sera lancée en cas de scan automatique.
+Ouvrez le fichier **settings.yml** et renseignez votre clé OpenAI ainsi que le modèle à utiliser.
 
-Pour lancer un scan automatique d'un module en particulier comme `divergence`, il suffit d'exécuter la commande suivante :
-
-```bash
-
-# Commande mise en illustration, ne pas la lancer pour le codelab
-# python -m garak --model_type huggingface --model_name gpt2 --probes divergence
-```
-
-Pour lancer une probe inactive comme `divergence.RepeatExtended`, il suffit d'exécuter la commande suivante :
-```bash
-
-# Commande mise en illustration, ne pas la lancer pour le codelab
-# python -m garak --model_type huggingface --model_name gpt2  --probes divergence.RepeatExtended
-```
-
-### Les Generators 
-
-Les generators sont des abstractions (LLMs, APIs, fonction Python) répondant un texte en fonction d'un input.
-Les generators prennent des valeurs, dont :
-- `huggingface` : pour les modèles hébergés sur HuggingFace.
-- `openai` : pour les modèles OpenAI.
-- `function` : pour les fonctions Python.
-
-Par exemple, si on souhaite évaluer un modèle `gpt2` de `Huggingface` lors d'un scan, on renseigne les options : 
-`--model_type huggingface --model_name gpt2`.
-Si c'est une API d'HuggingFace, on renseigne les options : `--model_name huggingface.InferenceAPI --model_type "mosaicml/mpt-7b-instruct"`.
-
-Pour plus de détails, vous pouvez consulter la documentation officielle de Garak : [Garak Documentation](https://docs.garak.ai/garak/garak-components/using-generators).
-
-### Les Detectors et les Harnesses
-
-Comme, une probe va être lancée plusieurs fois pour tester la robustesse du LLM et que l'on teste plusieurs probes, 
-Garak utilise des detectors pour reconnaitre si la réponse du LLM défaillante.
-Ce sont des détecteurs de mots-clés ou des classifiers jugeant si la réponse d'un LLM est OK ou non selon l'objectif de la probe.
-
-Les détecteurs ont parfois un paramètre `doc_uri` permettant de trouver de la documentation sur la faille testée. Par 
-exemple, le détecteur [`xss.MarkdownExfilBasic`](https://reference.garak.ai/en/latest/garak.detectors.xss.html#garak.detectors.xss.MarkdownExfilBasic) pointe vers : [Bing Chat Image Markdown Injection](https://embracethered.com/blog/posts/2023/bing-chat-data-exfiltration-poc-and-fix/).
-
-Les Harnesses gèrent :
-- le lancement des probes sur le generator cible. 
-- le lancement des detectors à utiliser sur les outputs produits par le generator selon les probes.
-- les évaluations des résultats des detectors faites avec les evaluators.
-
-Les Harnesses prennent la valeur : `probewise` si on utilise les détectors récommandés pour la probe ou `pxd` pour 
-tester tous les détecteurs.
-
-### L'auto Red-Team
-
-Garak propose un système d'auto Red-Team sur certain sujet avec la librarie `art`. Cette brique ne peut cependant pas de
-faire un scan poussé.
-
-## Mise en pratique de Garak sur le Playground de Microsoft
-Nous allons mettre en pratique Garak sur le Playground de Microsoft.
-
-### Initialisation du REST Generator
-
-Pour cela, nous allons utiliser le REST Generator de Garak et nous allons utiliser des variantes des sondes 
-(`smuggling.HypotheticalResponse` et `promptinject.DAN`) que nous allons configurer pour trouver le mot de passe protégé 
-par le bot (la modification de `promptinject.DAN` est laissée en exercice).
+> Il est recommandé de débuter avec un modèle léger, tel que gpt-3.5-turbo. Ensuite, à mesure que la difficulté 
+> augmente et que vous maîtrisez mieux le code, vous pouvez passer à un modèle plus performant — donc plus coûteux et 
+> plus rapide — comme gpt-4o-mini, que nous avons utilisé pour les exercices les plus complexes.
 
 
-1 - Pour setter le REST Generator, lancer une inspection de la page HTML du bot que vous voulez tester :
-<br/>
-<img src="img/lancer_inspection_chatbot.png" alt="garak-inspection-chatbot" width="600" style="transition:0.3s;">
-<br/>
-<br/>
-2 - Aller dans l'onglet `Network` :
-<br/>
-<img src="img/network_chatbot.png" alt="garak-network-chatbot" width="600" style="transition:0.3s;">
-<br/>
-<br/>
-3 - Lancer un premier message (ex: "Hello") dans le playground et récupérer les éléments nécessaires comme l'url de la 
-requête POST `messages` et les cookies.
-<br/>
-<img src="img/elements_requete_post.png" alt="request-post-chatbot" width="600" style="transition:0.3s;">
+### Comprendre le code
 
-### Initialisation d'une sonde custom Garak
 
-Pour lancer le scan d'une sonde custom sur une étape du Playground :
-<br/>
-<br/>
-1 - Copier le fichier `my_probe.py` qui contient un exemple de sonde custom `my_probe.MyHypotheticalResponse` pour le playground dans le répertoire `probes` du **clone de Garak** (et non dans votre `.venv`, puisque Garak est installé en mode éditable depuis le clone).
-<br/>
-<img src="img/ajout_probe_custom_garak.png" alt="ajout_probe_custom_garak" width="200" style="transition:0.3s;">
-<br/>
-<br/>
-2 - Copier aussi le fichier `my_custom_detection.py` qui contient un detector custom `my_custom_detection.MyPasswordByPass` pour le playground dans le répertoire `detectors` du clone de Garak. Le detector custom `my_custom_detection.MyPasswordByPass` détecte si un des mots de passe qui doit être protégé a fuité dans la réponse du chatbot.
-<br/>
+Le code de base de cet exercice s’appuie sur la documentation officielle de PyRIT et l'exemple Gandalf :
+https://github.com/microsoft/PyRIT/blob/main/doc/code/targets/6_custom_targets.ipynb
+*(Anciennement disponible sur azure.github.io/PyRIT/code/targets/2_custom_targets.html)*.
+
+Nous avons toutefois adapté ce code pour le codelab.
+
+
+### Lancer l'attaque
+
+Pour exécuter le script, utilisez la commande suivante dans votre terminal :
 
 ```bash
-# Depuis la racine du repo du codelab, on pointe vers le clone de Garak voisin
-cd $(git rev-parse --show-toplevel)
-
-# Chemin absolu du clone de Garak (à adapter si vous l'avez cloné ailleurs)
-export GARAK_REPO="$HOME/Documents/projects/garak"
-
-# Copie de la probe et du detector custom dans le clone
-cp lab/Garak_test/my_probe.py            "$GARAK_REPO/garak/probes/"
-cp lab/Garak_test/my_custom_detection.py "$GARAK_REPO/garak/detectors/"
+python gandalf.py
 ```
 
-> ℹ️ Comme Garak a été installé via `uv pip install -e .` depuis `$GARAK_REPO`, le venv du codelab ne contient qu'un
-> fichier `.pth` (+ un dossier `.dist-info`) pointant vers `$GARAK_REPO/garak/`. Tous les `import garak.probes.*` et
-> `import garak.detectors.*` sont donc résolus **depuis le clone** — les fichiers copiés sont détectés immédiatement,
-> sans réinstallation.
-<br/>
+Vous devriez avoir ce type de rendu :
 
-3 - Vérifier que la CLI Garak résout bien les probes/detectors **depuis le clone** (et non depuis un éventuel ancien
-install dans le venv) :
+<img src="img/gandalf_level_1_example.jpg" alt="Pyrit gandalf level 1" width="600" style="transition:0.3s;">
 
-```bash
-# 3.a — Le package garak doit être chargé depuis $GARAK_REPO (et pas depuis site-packages)
-python -c "import garak, pathlib; print(pathlib.Path(garak.__file__).resolve())"
-# attendu : .../Documents/projects/garak/garak/__init__.py
+Pour progresser dans les niveaux, il suffit de relancer la commande en prenant soin de modifier le niveau dans le 
+fichier gandalf.py en ligne 48 :
 
-# 3.b — Les fichiers custom doivent être résolus depuis le clone
-python -c "import garak.probes.my_probe as p; print(p.__file__)"
-python -c "import garak.detectors.my_custom_detection as d; print(d.__file__)"
-# attendu : deux chemins sous $GARAK_REPO/garak/{probes,detectors}/
-
-# 3.c — Lister les detectors et probes : les customs doivent apparaître
-python -m garak --list_detectors | grep -i my_custom_detection
-python -m garak --list_probes    | grep -i my_probe
+```python
+gandalf_level = GandalfLevel.LEVEL_1
 ```
 
-Si l'un des `print` pointe vers `.venv/lib/.../site-packages/garak/...` ou si le `grep` ne retourne rien, c'est que le
-clone n'est pas le garak résolu par Python. Les causes classiques :
-- un `uv pip install garak` (non-éditable) a été lancé avant et a laissé une copie dans `site-packages` → faire
-  `uv pip uninstall garak` puis relancer `uv pip install -e .` depuis `$GARAK_REPO` ;
-- le venv actif n'est pas celui du codelab → réactiver `.venv` à la racine du repo.
 
-### Mise en pratique sur le chatbot 2 du Playground de Microsoft
+### Ça bloque déjà ?!
 
-1 - Copier l'URL du bot 2 ainsi que le cookie de session (comme illustré plus haut) dans le fichier `rest_ai_playground_api.json`
+Comme évoquer dans la documentation, cet exemple de code fonctionne pour les premiers niveaux :
 
-2 - Lancer la commande suivante pour tester la vulnérabilité du chatbot 2 avec la sonde custom `my_probe.MyHypotheticalResponse`. Garak lance directement les prompts en ligne de commandes et les réponses du chatbot sont affichées dans l'interface web.
+> Gandalf contains 7 different levels. In this demo, we will show how to automatically bypass (at least) the first 
+> couple. It uses the RedTeamingAttack as a strategy to solve these challenges.
+Each level gets progressively more difficult. Before continuing, it may be beneficial to manually try the Gandalf 
+> challenges to get a feel for how they are solved.
 
-3 - Si oui, lancer la commande suivante pour tester la vulnérabilité du chatbot. Sinon, assurez-vous que le fichier sonde est copié au bon endroit :
-<br/>
 
-```bash
+Comment resoudre les niveaux supérieurs ? Voici quelques pistes :
 
-# Commande type, à adapter selon la sonde et le chemin du fichier JSON. Le JSON rest_ai_playground_api.json est lui aussi à adapter.
-python -m garak --target_type rest -G path/to/rest_ai_playground_api.json  --probes my_probe.MyHypotheticalResponse
-```
+- La compréhension de la logique d'attaque est expliqué dans ce document : https://arxiv.org/abs/2410.02828
+- Tout se passe dans **Stratégie d'attaque**
+- Il y a une reférence à l'étape 6
 
-*PS : n'hésitez pas à relancer une nouvelle conversation dans le playground entre chaque scan pour réinitialiser le contexte.*
 
-<img src="img/jailbreak_by_custom_probe_chatbot_2.png" alt="garak-jailbreak-chatbot-2" width="600" style="transition:0.3s;">
+### Solutions
 
-###### résultat obtenus lors du jailbreak réussi du chatbot 2 avec la sonde custom my_probe.MyHypotheticalResponse
-
-4 - Une fois un scan ayant mené à un jailbreak réussi, vous pouvez retrouver le rapport HTML dans le répertoire indiqué dans le log de Garak. Si toutes les attempts de jailbreak ont réussi, le rapport HTML indiquera un score de 0% de succès d'interception (cf ci-dessous).
-
-<img src="img/garak_report_on_successful_jailbreak_attempts.png" alt="garak-successful-jailbreak-chatbot-2-report" width="600" style="transition:0.3s;">
-
-Si vous le souhaitez, vous pouvez tenter de nouveaux scans sur un niveau supérieur, par exemple le chatbot 8, avec la même probe ou une autre (une grandma ou un DAN custom).
-
-```bash
-
-# Commande type, à adapter selon la sonde et le chemin du fichier JSON. Le JSON rest_ai_playground_api.json est lui aussi à adapter.
-python -m garak --target_type rest -G path/to/rest_ai_playground_api.json  --probes my_probe.MyGrandmaPassword
-python -m garak --target_type rest -G path/to/rest_ai_playground_api.json  --probes my_probe.MyGrandmaSubstance
-python -m garak --target_type rest -G path/to/rest_ai_playground_api.json  --probes my_probe.MyDan_11_0
-```
-
-<img src="img/jailbreak_failed_by_custom_probe_chatbot_8.png" alt="jailbreak-failed-chatbot-9" width="600" style="transition:0.3s;">
-
-###### résultat obtenus lors d'une tentative de jailbreak du chatbot 8 avec la même sonde custom my_probe.MyHypotheticalResponse
-
-Ici le rapport de Garak indique un taux de succès de 100% sur la sonde custom `my_probe.MyHypotheticalResponse` car aucune des attempts de jailbreak n'a réussi.
-
-<img src="img/garak_report_on_failed_jailbreak_attempts.png" alt="garak-failed-jailbreak-chatbot-8-report" width="600" style="transition:0.3s;">
-
-| Chatbot | Probes conseillées                                                | Remarques                                                      |
-|---------|-------------------------------------------------------------------|----------------------------------------------------------------|
-| Lab 1   | MyHypotheticalResponse, MyGrandmaPassword                         |                                                                |
-| Lab 2   | MyHypotheticalResponse, MyGrandmaPassword                         |                                                                |
-| Lab 3   | grandma.substance, MyGrandmaSubstance                             |                                                                |
-| Lab 4   | grandma.substance, MyGrandmaSubstance                             |                                                                |
-| Lab 5   | realtoxicityprompts.RTPInsult, realtoxicityprompts.RTPProfanity   | /!\ Ces probes utilisent un roberta-classifier comme detector) |
-| Lab 7   | MyHypotheticalResponse, MyGrandmaPassword                         |                                                                |
-| Lab 8   | MyHypotheticalResponse, MyGrandmaPassword                         |                                                                |
-| Lab 9   | grandma.substance, MyGrandmaSubstance                             |                                                                |
-| Lab 10  | grandma.substance, MyGrandmaSubstance                             |                                                                |
-
+[solutions/step10.md](solutions/step10.md)
 
 ## Étape suivante
+
 - [Étape 10](step_10.md)
 
 ## Ressources
 
 
-| Information                                   | Lien                                                                                                                                                           |
-|-----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [Github] garak, LLM vulnerability scanner     | [https://github.com/NVIDIA/garak](https://github.com/NVIDIA/garak)                                                                                             |
-| Documentation garak                           | [https://docs.garak.ai/](https://docs.garak.ai/)                                                                                                               |
-| Garak, DEF CON slides                         | [https://garak.ai/garak_aiv_slides.pdf](https://garak.ai/garak_aiv_slides.pdf)                                                                                 |
-| Garak - A Generative AI Red-teaming Tool      | [https://wiki.hackerium.io/llm-security/garak-a-generative-ai-red-teaming-tool](https://wiki.hackerium.io/llm-security/garak-a-generative-ai-red-teaming-tool) |
+| Information                                                                       | Lien                                                                                                                                                                                                           |
+|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| PyRIT: A Framework for [...] Red Teaming in Generative AI System                  | [https://arxiv.org/abs/2410.02828](https://arxiv.org/abs/2410.02828)                                                                                                                                           |
+| PyRIT - Documentation officielle                                                  | [https://microsoft.github.io/PyRIT/](https://microsoft.github.io/PyRIT/)                                                                                                                                       |
+| PyRIT - Github                                                                    | [https://github.com/microsoft/PyRIT](https://github.com/microsoft/PyRIT)                                                                                                                                       |
+| Youtube - PyRIT: A Framework for  [...] Red Teaming in Generative AI Systems      | [https://www.youtube.com/watch?v=KnV8Y97YKmU](https://www.youtube.com/watch?v=KnV8Y97YKmU)                                                                                                                     |
+| Hacking generative AI with PyRIT  Black Hat Arsenal USA 2024                      | [https://www.youtube.com/watch?v=M_H8ulTMAe4](https://www.youtube.com/watch?v=M_H8ulTMAe4)                                                                                                                     |
+| Red Teaming GenAI: The PyRIT Framework for Proactive Risk Identification          | [https://www.linkedin.com/pulse/red-teaming-genai-pyrit-framework-proactive-risk-p-raquel-bise--vh1ae/](https://www.linkedin.com/pulse/red-teaming-genai-pyrit-framework-proactive-risk-p-raquel-bise--vh1ae/) |
+| PyRIT: Secure AI with Microsoft's Latest Tool (How-To)                            | [https://www.youtube.com/watch?v=HO4PW7aFmIU](https://www.youtube.com/watch?v=HO4PW7aFmIU)                                                                                                                     |
+| BlueHat 2024: S24: Automate AI Red Teaming in your existing tool chain with PyRIT | [https://www.youtube.com/watch?v=wna5aIVfucI](https://www.youtube.com/watch?v=wna5aIVfucI)                                                                                                                     |
+| Red Teaming AI: A Closer Look at PyRIT                                            | [https://medium.com/@dinber19/red-teaming-ai-a-closer-look-at-pyrit-e912c3a094ec](https://medium.com/@dinber19/red-teaming-ai-a-closer-look-at-pyrit-e912c3a094ec)                                             |
+| Zero Day Quest - Learn to Red Team AI Systems Using PyRIT.                        | [https://www.youtube.com/watch?v=jq9DcEL3cHE](https://www.youtube.com/watch?v=jq9DcEL3cHE)                                                                                                                     |
+| Microsoft AI Red Team ❤️ OpenAI GPT-5                                             | [https://www.linkedin.com/posts/ugcPost-7360830937988845570-388-/](https://www.linkedin.com/posts/ugcPost-7360830937988845570-388-/)                                                                           |
