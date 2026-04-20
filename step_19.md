@@ -113,7 +113,8 @@ risques invisibles aux approches homogènes.
 
 ## Étape suivante
 
-- [Remerciements](thanks-you.md)
+- [Étape 20](step_20.md)
+
 
 ## Ressources
 

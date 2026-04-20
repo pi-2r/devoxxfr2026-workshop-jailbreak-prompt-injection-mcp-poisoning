@@ -139,7 +139,7 @@ longs, contrairement à Garak qui attaque principalement en "one-shot"
 
 
 ## Étape suivante
-- [Étape 17](step_17.md)
+- [Étape 9](step_9.md)
 
 ## Ressources
 

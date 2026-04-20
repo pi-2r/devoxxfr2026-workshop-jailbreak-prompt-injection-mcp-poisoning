@@ -341,7 +341,7 @@ Ici le rapport de Garak indique un taux de succès de 100% sur la sonde custom `
 
 
 ## Étape suivante
-- [Étape 9](step_9.md)
+- [Étape 18](step_18.md)
 
 ## Ressources
 

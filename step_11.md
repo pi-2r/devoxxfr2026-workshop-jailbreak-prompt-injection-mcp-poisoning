@@ -465,7 +465,7 @@ graph TB
 
 ## Étape suivante
 
-- [Étape 13 — Labs pratiques : Exploiter les vulnérabilités MCP](step_13.md)
+- [Étape 12 — Labs pratiques : Exploiter les vulnérabilités MCP](step_12.md)
 
 ## Ressources
 

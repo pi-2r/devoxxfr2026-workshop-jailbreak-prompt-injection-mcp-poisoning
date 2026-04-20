@@ -429,6 +429,10 @@ Dans ce codelab, si Claude Code avait été utilisé sans aucune règle `allow` 
 - **Configurez `permission.bash: "ask"`** dans `opencode.json` pour être averti avant toute exécution de script par un skill.
 - **Principe du moindre privilège** : un skill n'a pas besoin d'accès à vos fichiers `.env`. Isolez l'exécution des scripts dans un sandbox sans accès aux secrets.
 
+## Étape suivante
+
+- [Remerciements](thanks-you.md)
+
 
 ## Ressources
 

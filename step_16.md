@@ -328,11 +328,11 @@ Résultat attendu avec la regex : `"Nom d'hôte invalide. Caractères autorisés
 
 ## Solutions
 
-[solutions/step17](solutions/step17)
+[solutions/step16](solutions/step16)
 
 ## Étape suivante
 
-- [Étape 18 — Benchmarking avec Promptfoo](step_18.md)
+- [Étape 17 — Benchmarking avec Promptfoo](step_17.md)
 
 ## Ressources
 
