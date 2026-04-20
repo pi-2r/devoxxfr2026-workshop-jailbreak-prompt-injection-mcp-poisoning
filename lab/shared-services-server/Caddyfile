@@ -1,0 +1,14 @@
+hello.lab.benvii.com {
+  tls /certs/fullchain.pem /certs/privkey.pem
+  respond "Hello from Caddy — TLS OK ✓" 200
+}
+
+docker-registry.lab.benvii.com {
+  tls /certs/fullchain.pem /certs/privkey.pem
+  reverse_proxy docker-registry:5000
+}
+
+npm-registry.lab.benvii.com {
+  tls /certs/fullchain.pem /certs/privkey.pem
+  reverse_proxy npm-registry:4873
+}
