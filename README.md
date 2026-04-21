@@ -4,7 +4,7 @@
 
 Ce projet github est issue du workshop fait par [Benjamin Bernard](https://www.linkedin.com/in/benvii/), [Xavier Charef](https://www.linkedin.com/in/xavier-charef-6b843497/), [François Nollen](https://www.linkedin.com/in/francois-nollen/) et [Pierre Therrode](https://www.linkedin.com/in/ptherrode/), pour le Devoxx 2026, avec comme sujet : [Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖](https://m.devoxx.com/events/devoxxfr2026/talks/65312/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-)
 
-<img src="img/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-.jpg"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖">
+<img src="img/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-.png"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖">
 
 
 ## Info réseau
