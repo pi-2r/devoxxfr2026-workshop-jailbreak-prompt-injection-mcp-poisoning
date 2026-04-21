@@ -4,6 +4,9 @@ services:
   mcp-server:
     build:
       context: ./mcp-server
+      args:
+        BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
     environment:
       - PORT=3000
       - SECRET_API_KEY=sk-proj-Dx8vT3BlbkFJmR9nQ2wK7yLp
@@ -21,6 +24,9 @@ services:
   orchestrator:
     build:
       context: ./client
+      args:
+        BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - MCP_SERVER_URL=http://mcp-server:3000/sse

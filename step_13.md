@@ -88,6 +88,12 @@ Déplacez-vous dans le répertoire du lab et lancez la stack Docker :
 cd mcp/mcp-shadowing
 docker-compose up --build
 ```
+
+<details>
+<summary>⚡ Problème de latence réseau ? (Wi-Fi LLM_ATTACK)</summary>
+
+Voir [fallback_lan_lab_local_registries.md](fallback_lan_lab_local_registries.md).
+</details>
 *Laissez ce terminal ouvert pour observer les logs.*
 
 ### 2. Exploiter la faille

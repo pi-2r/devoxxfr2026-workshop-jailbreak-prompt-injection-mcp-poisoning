@@ -19,20 +19,17 @@ Le script installe les dépendances (directes + transitives) de tous les projets
 npm install --registry https://npm-registry.lab.benvii.com
 ```
 
-## Pré-charger une image dans la registry locale
+## Pré-charger une image dans la registry locale (multi-platform)
+
+Utiliser `buildx imagetools` pour copier le manifest multi-arch complet (amd64, arm64…) en une seule commande :
 
 ```bash
-# 1. Pull depuis Docker Hub
-docker pull node:22-slim
-
-# 2. Re-tag vers la registry locale
-docker tag node:22-slim docker-registry.lab.benvii.com/node:22-slim
-
-# 3. Push
-docker push docker-registry.lab.benvii.com/node:22-slim
+docker buildx imagetools create \
+  --tag docker-registry.lab.benvii.com/node:22-slim \
+  node:22-slim
 ```
 
-Les participants peuvent ensuite utiliser l'image sans accès internet :
+Les participants peuvent ensuite utiliser l'image sans accès internet, quelle que soit leur architecture :
 
 ```bash
 docker pull docker-registry.lab.benvii.com/node:22-slim

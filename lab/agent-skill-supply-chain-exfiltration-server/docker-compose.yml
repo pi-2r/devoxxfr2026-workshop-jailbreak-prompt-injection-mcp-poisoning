@@ -4,6 +4,9 @@ services:
   exfiltration-server:
     build:
       context: .
+      args:
+        BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
     ports:
       - "3333:3333"
     networks:

@@ -4,6 +4,9 @@ services:
   server-bank:
     build:
       context: ./server-bank
+      args:
+        BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
     ports:
       - "3001:3001"
     environment:
@@ -14,6 +17,9 @@ services:
   server-fintech:
     build:
       context: ./server-fintech
+      args:
+        BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
     ports:
       - "3002:3002"
     environment:
@@ -24,6 +30,9 @@ services:
   client-orchestrator:
      build:
        context: ./client
+       args:
+         BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+         NPM_REGISTRY: ${NPM_REGISTRY:-}
      ports:
        - "3000:3000"
      environment:

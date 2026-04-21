@@ -88,6 +88,12 @@ cd lab/agent-skill-supply-chain-exfiltration-server
 make dev
 ```
 
+<details>
+<summary>⚡ Problème de latence réseau ? (Wi-Fi LLM_ATTACK)</summary>
+
+Voir [fallback_lan_lab_local_registries.md](fallback_lan_lab_local_registries.md).
+</details>
+
 Vous devez voir :
 
 ```

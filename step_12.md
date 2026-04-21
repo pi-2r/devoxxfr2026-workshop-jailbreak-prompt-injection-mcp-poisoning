@@ -53,6 +53,12 @@ Une fois votre environnement lancé, vous trouverez 4 dossiers dans le répertoi
 
 Chaque dossier contient son propre `TUTORIAL.md` ou un `README.md` spécifique au lab.
 
+<details>
+<summary>⚡ Problème de latence réseau ? (Wi-Fi LLM_ATTACK)</summary>
+
+Voir [fallback_lan_lab_local_registries.md](fallback_lan_lab_local_registries.md).
+</details>
+
 ### Comment lancer un lab ?
 
 1. Ouvrez un terminal intégré dans votre environnement web (Menu en haut à gauche : `Terminal -> New Terminal`).
