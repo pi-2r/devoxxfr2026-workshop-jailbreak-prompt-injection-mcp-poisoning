@@ -504,7 +504,7 @@ Cette propriété est :
 Plusieurs références font ce lien explicite :
 
 - **James Hugman (2025), [*Prompt Injection is a LangSec Problem: Unsolvable in the General Case*](https://jhugman.com/posts/prompt-injection-langsec/)** — applique le cadre LangSec (Language-theoretic Security, Patterson & Sassaman 2011) aux LLM. Argument central : le langage naturel peut exprimer n'importe quel concept calculable, donc détecter la *harmfulness* est au moins aussi dur que décider n'importe quelle propriété de calcul arbitraire — donc indécidable.
-- **Nadé et al. (2024), [*On the Undecidability of Artificial Intelligence Alignment: Machines that Halt*](https://arxiv.org/abs/2408.08995)** — preuve formelle via Rice que l'alignement interne est indécidable. Conséquence constructive proposée : construire des IA **prouvablement alignées par construction** à partir d'un ensemble d'opérations sûres (analogue aux langages à types dépendants comme Coq ou Lean).
+- **Melo et al. (2024), [*On the Undecidability of Artificial Intelligence Alignment: Machines that Halt*](https://arxiv.org/abs/2408.08995)** — preuve formelle via Rice que l'alignement interne est indécidable. Conséquence constructive proposée : construire des IA **prouvablement alignées par construction** à partir d'un ensemble d'opérations sûres (analogue aux langages à types dépendants comme Coq ou Lean).
 - **Choudhary et al. (2025), [*How Not to Detect Prompt Injections with an LLM*](https://arxiv.org/abs/2507.05630)** — prouve formellement qu'une classe entière de défenses par détection (Known-Answer Detection) a une faille structurelle qui **ne peut pas être réparée par fine-tuning**.
 
 ### Les limites fondamentales de l'alignement
