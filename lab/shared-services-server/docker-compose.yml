@@ -7,6 +7,9 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ~/.caddy/certs:/certs:ro
     restart: unless-stopped
+    networks:
+      - default
+      - lab_edge
     depends_on:
       - docker-registry
       - npm-registry
@@ -29,6 +32,10 @@ services:
     volumes:
       - python_registry_data:/data
     restart: unless-stopped
+
+networks:
+  lab_edge:
+    name: lab_edge
 
 volumes:
   registry_data:
