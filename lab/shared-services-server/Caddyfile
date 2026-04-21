@@ -12,3 +12,8 @@ npm-registry.lab.benvii.com {
   tls /certs/fullchain.pem /certs/privkey.pem
   reverse_proxy npm-registry:4873
 }
+
+pypi-registry.lab.benvii.com {
+  tls /certs/fullchain.pem /certs/privkey.pem
+  reverse_proxy python-registry:3141
+}

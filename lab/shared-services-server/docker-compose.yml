@@ -10,6 +10,7 @@ services:
     depends_on:
       - docker-registry
       - npm-registry
+      - python-registry
 
   docker-registry:
     image: registry:2
@@ -23,7 +24,13 @@ services:
       - npm_registry_data:/verdaccio/storage
     restart: unless-stopped
 
+  python-registry:
+    build: ./devpi
+    volumes:
+      - python_registry_data:/data
+    restart: unless-stopped
+
 volumes:
   registry_data:
   npm_registry_data:
-
+  python_registry_data:
