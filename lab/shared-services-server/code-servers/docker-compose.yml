@@ -1,0 +1,94 @@
+# Généré automatiquement par generate.sh — ne pas éditer manuellement
+# Pour modifier : éditez users.txt puis relancez ./generate.sh
+
+services:
+
+  traefik:
+    image: traefik:v3
+    container_name: traefik
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      # Désactiver les timeouts pour les WebSockets long-lived de code-server
+      - --entrypoints.web.transport.respondingTimeouts.readTimeout=0
+      - --entrypoints.web.transport.respondingTimeouts.writeTimeout=0
+      - --entrypoints.web.transport.respondingTimeouts.idleTimeout=0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - default
+      - lab_edge
+    restart: unless-stopped
+
+  code-alice:
+    build: .
+    container_name: code-alice
+    platform: linux/arm64
+    environment:
+      - PASSWORD=codelab2024
+    entrypoint: ["/usr/local/bin/init.sh"]
+    volumes:
+      - code-alice-data:/home/coder/.local/share/code-server
+      - ./users/alice/workspace:/home/coder/workspace
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.alice.rule=Host(`alice.${DOMAIN:-localhost}`)"
+      - "traefik.http.services.alice.loadbalancer.server.port=8080"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+    restart: unless-stopped
+
+  code-bob:
+    build: .
+    container_name: code-bob
+    platform: linux/arm64
+    environment:
+      - PASSWORD=codelab2024
+    entrypoint: ["/usr/local/bin/init.sh"]
+    volumes:
+      - code-bob-data:/home/coder/.local/share/code-server
+      - ./users/bob/workspace:/home/coder/workspace
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bob.rule=Host(`bob.${DOMAIN:-localhost}`)"
+      - "traefik.http.services.bob.loadbalancer.server.port=8080"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+    restart: unless-stopped
+
+  code-charlie:
+    build: .
+    container_name: code-charlie
+    platform: linux/arm64
+    environment:
+      - PASSWORD=codelab2024
+    entrypoint: ["/usr/local/bin/init.sh"]
+    volumes:
+      - code-charlie-data:/home/coder/.local/share/code-server
+      - ./users/charlie/workspace:/home/coder/workspace
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.charlie.rule=Host(`charlie.${DOMAIN:-localhost}`)"
+      - "traefik.http.services.charlie.loadbalancer.server.port=8080"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1.0"
+    restart: unless-stopped
+
+networks:
+  lab_edge:
+    external: true
+
+volumes:
+  code-alice-data:
+  code-bob-data:
+  code-charlie-data:
