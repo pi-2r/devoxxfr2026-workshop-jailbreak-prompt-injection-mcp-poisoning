@@ -152,7 +152,7 @@ Pour les attaques (anciennement orchestrateurs), voici quelques details supplém
 
 ## Let's play with PyRIT !
 
-### Installation de PyRIT dans Codespace
+### Installation de PyRIT dans Github Codespace
 
 Depuis le terminal de codespace, PyRIT est déjà pré-installé dans `$HOME/PyRIT` (`/home/node/PyRIT`). Vous pouvez vérifier en exécutant la commande suivante :
 
@@ -166,7 +166,7 @@ Le dépôt cloné est accessible via :
   PYRIT_REPO="$HOME/PyRIT"
   ```
 
-### Installation de PyRIT en local
+### Installation de PyRIT en local - Ignorer cette étape sur Github Codespace
 
 Si vous n'avez pas déjà installé PyRIT, voici comment faire depuis votre terminal. Placez-vous dans le dossier où vous souhaitez installer le projet, par exemple **Documents**,
 puis exécutez la commande suivante pour cloner le dépôt et entrer automatiquement dans le dossier créé :
@@ -192,6 +192,22 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 </details>
 
+<details>
+<summary>⚡ Wi-Fi LLM_ATTACK — utiliser la registry Python locale pour accélérer l'installation</summary>
+
+Si vous êtes connecté au Wi-Fi **LLM_ATTACK**, une registry Python locale (miroir PyPI) est disponible en LAN.
+Elle accélère les téléchargements et fonctionne même si le réseau est saturé.
+
+Ajoutez simplement la variable d'environnement suivante **avant** les commandes `uv pip install` ci-dessous :
+
+```bash
+export UV_INDEX_URL=https://pypi-registry.lab.benvii.com/root/pypi/+simple/
+```
+
+Toutes les commandes `uv pip install` qui suivent utiliseront automatiquement la registry locale.
+Les packages manquants seront récupérés sur PyPI en fallback automatique.
+
+</details>
 
 ```bash
 # Assurez d'être dans le venv créé à la racine du projet du lab
@@ -291,6 +307,7 @@ Nous avons toutefois adapté ce code pour le codelab.
 Pour exécuter le script, utilisez la commande suivante dans votre terminal :
 
 ```bash
+ cd lab/PyRIT/
 python gandalf.py
 ```
 
@@ -325,7 +342,7 @@ Comment resoudre les niveaux supérieurs ? Voici quelques pistes :
 
 ### Solutions
 
-[solutions/step10.md](solutions/step10.md)
+[solutions/step9.md](solutions/step9.md)
 
 ## Étape suivante
 
