@@ -538,12 +538,19 @@ Wolf, Wies et al. ([*Fundamental Limitations of Alignment in Large Language Mode
 Si détecter parfaitement les injections est **théoriquement impossible**, et si l'alignement ne peut pas créer d'invariants absolus, la conclusion opérationnelle est un **changement de paradigme** :
 
 ```
-  ❌ STRATÉGIE FRAGILE                  ✅ STRATÉGIE SOLIDE
+  ❌ MAUVAIS RAISONNEMENT               ✅ MEILLEUR RAISONNEMENT
   
-  "Filtrer les injections"         →    "Limiter le blast radius"
-  "Sanitiser les inputs"           →    "Sandboxer les effets"
-  "Détecter le harmful"            →    "Isoler les permissions"
-  "Faire confiance au LLM"         →    "Le code reste le gatekeeper"
+  "Un détecteur parfait va         →    "Tous les détecteurs sont
+   résoudre le problème"                 imparfaits par construction"
+   
+  "Il suffit de sanitiser           →    "La sanitisation réduit le risque
+   les inputs"                            mais ne l'élimine pas"
+   
+  "On peut faire confiance          →    "On part du principe que
+   au modèle aligné"                      la compromission arrivera"
+   
+  "Une seule ligne de défense       →    "Defense-in-depth : filtrer
+   bien faite"                            ET isoler ET auditer"
 ```
 
 On ne peut pas empêcher toutes les injections, mais on peut **contenir leurs effets**. C'est la philosophie du Zero Trust appliquée aux agents IA : on part du principe que l'agent *sera* compromis à un moment donné, et on conçoit l'architecture pour que cette compromission ne suffise pas à causer de gros dégâts.
