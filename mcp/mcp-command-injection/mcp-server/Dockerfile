@@ -1,4 +1,5 @@
-FROM node:22-slim
+ARG BASE_NODE_IMAGE=node:22-slim
+FROM ${BASE_NODE_IMAGE}
 
 WORKDIR /app
 
@@ -44,7 +45,8 @@ RUN echo '2026-03-28 08:12:03 [INFO] Service started on port 3000' > /var/log/ap
 # --- Fin fichiers sensibles ---
 
 COPY package*.json ./
-RUN npm install
+ARG NPM_REGISTRY
+RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
 
 COPY tsconfig.json ./
 COPY src ./src

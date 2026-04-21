@@ -1,9 +1,11 @@
-FROM node:22-slim
+ARG BASE_NODE_IMAGE=node:22-slim
+FROM ${BASE_NODE_IMAGE}
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+ARG NPM_REGISTRY
+RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
 
 COPY tsconfig.json ./
 COPY src ./src

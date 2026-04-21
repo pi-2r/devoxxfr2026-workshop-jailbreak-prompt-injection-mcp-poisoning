@@ -88,6 +88,12 @@ export OPENAI_API_KEY="sk-votre-cle-api"
 make dev
 ```
 
+<details>
+<summary>⚡ Problème de latence réseau ? (Wi-Fi LLM_ATTACK)</summary>
+
+Voir [fallback_lan_lab_local_registries.md](fallback_lan_lab_local_registries.md).
+</details>
+
 ### 2. Ouvrir l'application
 - Accédez à l'Orchestrateur depuis votre navigateur : [http://localhost:3000](http://localhost:3000).
 > **Sur codespace**, vous aurez besoin d'ajouter un port forward dans l'onglet "Ports" à côté de Terminal (en bas) comme ceci et ensuite cliquer sur le lien généré (icône planète) :

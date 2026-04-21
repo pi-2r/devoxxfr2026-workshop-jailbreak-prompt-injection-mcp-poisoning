@@ -2,7 +2,11 @@ version: '3.8'
 
 services:
   mcp-codelab:
-    build: .
+    build:
+      context: .
+      args:
+        BASE_NODE_IMAGE: ${BASE_NODE_IMAGE:-node:22-slim}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
     container_name: mcp_poisoning_lab
     ports:
       - "3000:3000"

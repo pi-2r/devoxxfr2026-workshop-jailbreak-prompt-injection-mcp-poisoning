@@ -89,6 +89,12 @@ export OPENAI_API_KEY="sk-votre-cle-api"
 docker compose up --build -d
 ```
 
+<details>
+<summary>⚡ Problème de latence réseau ? (Wi-Fi LLM_ATTACK)</summary>
+
+Voir [fallback_lan_lab_local_registries.md](fallback_lan_lab_local_registries.md).
+</details>
+
 Puis attachez-vous au client interactif :
 
 ```bash
