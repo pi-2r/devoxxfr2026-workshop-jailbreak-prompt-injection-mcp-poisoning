@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package*.json ./
 ARG NPM_REGISTRY
-RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY} --offline
+RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
 
 COPY tsconfig.json ./
 COPY src ./src

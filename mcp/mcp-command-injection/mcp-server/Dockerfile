@@ -46,7 +46,7 @@ RUN echo '2026-03-28 08:12:03 [INFO] Service started on port 3000' > /var/log/ap
 
 COPY package*.json ./
 ARG NPM_REGISTRY
-RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY} --offline
+RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
 
 COPY tsconfig.json ./
 COPY src ./src

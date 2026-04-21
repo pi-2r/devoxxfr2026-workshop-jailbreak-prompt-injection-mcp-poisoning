@@ -9,7 +9,7 @@ RUN npm install -g typescript ts-node ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
 
 # Installation des dépendances
 COPY package*.json ./
-RUN npm install ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
+RUN npm install  ${NPM_REGISTRY:+--registry $NPM_REGISTRY}
 
 # Copie du code source
 COPY . .
