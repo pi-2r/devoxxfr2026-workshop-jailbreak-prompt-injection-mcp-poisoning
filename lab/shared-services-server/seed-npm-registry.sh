@@ -38,4 +38,23 @@ for project in "${PROJECTS[@]}"; do
 done
 
 echo ""
+echo "Seeding platform-specific packages for linux/x64..."
+echo ""
+
+for project in "${PROJECTS[@]}"; do
+  dir="$REPO_ROOT/$project"
+  if [ ! -f "$dir/package.json" ]; then
+    echo "SKIP $project — package.json not found"
+    continue
+  fi
+
+  echo "-> $project (linux/x64)"
+  tmpdir="$TMPDIR_BASE/linux-$(echo "$project" | tr '/' '-')"
+  mkdir -p "$tmpdir"
+  cp "$dir/package.json" "$tmpdir/"
+  (cd "$tmpdir" && npm_config_os=linux npm_config_cpu=x64 npm install \
+    --registry "$REGISTRY" --prefer-online 2>&1 | tail -2)
+done
+
+echo ""
 echo "Done."
