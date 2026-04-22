@@ -37,6 +37,7 @@ services:
        - "3000:3000"
      environment:
        - OPENAI_API_KEY=${OPENAI_API_KEY}
+       - GITHUB_TOKEN=${GITHUB_TOKEN}
        # Activer cette variable pour tester la défense (Namespacing)
        # - ENABLE_NAMESPACING=true
      networks:

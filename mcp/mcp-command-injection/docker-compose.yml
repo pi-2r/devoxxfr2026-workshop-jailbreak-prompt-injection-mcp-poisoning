@@ -29,6 +29,7 @@ services:
         NPM_REGISTRY: ${NPM_REGISTRY:-}
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
       - MCP_SERVER_URL=http://mcp-server:3000/sse
     depends_on:
       - mcp-server

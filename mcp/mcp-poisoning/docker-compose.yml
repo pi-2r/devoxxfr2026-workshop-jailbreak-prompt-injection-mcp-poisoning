@@ -13,6 +13,7 @@ services:
     environment:
       # Remplacer cette valeur dans un fichier .env à la racine
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
       # Modèle LLM (défaut: gpt-4o-mini — plus réaliste en production et plus vulnérable aux injections)
       - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
     volumes:
