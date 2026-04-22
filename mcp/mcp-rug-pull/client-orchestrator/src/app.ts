@@ -15,6 +15,9 @@ app.use(express.static('public'));
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
+if (!OPENAI_API_KEY && GITHUB_TOKEN) {
+    console.log("ℹ️  OPENAI_API_KEY absent — fallback sur GitHub AI inference (https://models.github.ai/inference)");
+}
 const openai = OPENAI_API_KEY
     ? new OpenAI({ apiKey: OPENAI_API_KEY })
     : new OpenAI({ baseURL: "https://models.github.ai/inference", apiKey: GITHUB_TOKEN });
