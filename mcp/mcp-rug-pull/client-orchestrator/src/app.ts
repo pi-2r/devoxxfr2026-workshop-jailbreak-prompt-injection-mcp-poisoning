@@ -12,9 +12,14 @@ const app = express();
 app.use(express.json());
 app.use(express.static('public'));
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+const openai = OPENAI_API_KEY
+    ? new OpenAI({ apiKey: OPENAI_API_KEY })
+    : new OpenAI({ baseURL: "https://models.github.ai/inference", apiKey: GITHUB_TOKEN });
+
+const LLM_MODEL = process.env.LLM_MODEL || (OPENAI_API_KEY ? "gpt-4o" : "openai/gpt-4o");
 
 // MCP Client State
 let mcpClient: Client;
@@ -82,7 +87,7 @@ app.post('/api/chat', async (req, res) => {
 
     try {
         const response = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: LLM_MODEL,
             messages,
             tools: mcpTools.length > 0 ? convertMcpToolsToOpenAi(mcpTools) : undefined,
             tool_choice: "auto"
@@ -121,7 +126,7 @@ app.post('/api/chat', async (req, res) => {
 
             // Second appel au LLM pour qu'il résume les résultats des outils
             const followUp = await openai.chat.completions.create({
-                model: "gpt-4o",
+                model: LLM_MODEL,
                 messages,
             });
             const summary = followUp.choices[0].message.content || finalResponse;

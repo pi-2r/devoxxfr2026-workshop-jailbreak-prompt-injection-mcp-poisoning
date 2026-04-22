@@ -12,9 +12,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+const openai = OPENAI_API_KEY
+    ? new OpenAI({ apiKey: OPENAI_API_KEY })
+    : new OpenAI({ baseURL: "https://models.github.ai/inference", apiKey: GITHUB_TOKEN });
+
+const LLM_MODEL = process.env.LLM_MODEL || (OPENAI_API_KEY ? "gpt-4o" : "openai/gpt-4o");
 
 const bankClient = new Client({ name: 'orchestrator', version: '1.0.0' }, { capabilities: {} });
 const fintechClient = new Client({ name: 'orchestrator', version: '1.0.0' }, { capabilities: {} });
@@ -93,7 +98,7 @@ app.post('/chat', async (req, res) => {
         ];
 
         const response = await openai.chat.completions.create({
-            model: 'gpt-4o',
+            model: LLM_MODEL,
             messages,
             tools: allTools.length > 0 ? allTools : undefined,
         });
