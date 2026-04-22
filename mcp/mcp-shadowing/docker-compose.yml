@@ -38,7 +38,7 @@ services:
      environment:
        - OPENAI_API_KEY=${OPENAI_API_KEY}
        # Activer cette variable pour tester la défense (Namespacing)
-       - ENABLE_NAMESPACING=true
+       # - ENABLE_NAMESPACING=true
      networks:
        - mcp-network
      depends_on:
