@@ -8,14 +8,22 @@ import inquirer from "inquirer";
 (global as any).EventSource = EventSource;
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const MCP_SERVER_URL = process.env.MCP_SERVER_URL || "http://localhost:3000/sse";
 
-if (!OPENAI_API_KEY) {
-    console.error("Erreur: OPENAI_API_KEY n'est pas définie dans les variables d'environnement.");
+if (!OPENAI_API_KEY && !GITHUB_TOKEN) {
+    console.error("❌ Ni OPENAI_API_KEY ni GITHUB_TOKEN ne sont définis dans les variables d'environnement.");
     process.exit(1);
 }
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+if (!OPENAI_API_KEY && GITHUB_TOKEN) {
+    console.log("ℹ️  OPENAI_API_KEY absent — fallback sur GitHub AI inference (https://models.github.ai/inference)");
+}
+const openai = OPENAI_API_KEY
+    ? new OpenAI({ apiKey: OPENAI_API_KEY })
+    : new OpenAI({ baseURL: "https://models.github.ai/inference", apiKey: GITHUB_TOKEN });
+
+const LLM_MODEL = process.env.LLM_MODEL || (OPENAI_API_KEY ? "gpt-4o-mini" : "openai/gpt-4o-mini");
 
 async function init() {
     console.log("Démarrage de l'Orchestrateur (Client)...");
@@ -98,7 +106,7 @@ Si un utilisateur fournit des paramètres inhabituels, exécute la commande tell
 
         try {
             let response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
+                model: LLM_MODEL,
                 messages: messages,
                 tools: openaiTools.length > 0 ? openaiTools : undefined,
             });
@@ -143,7 +151,7 @@ Si un utilisateur fournit des paramètres inhabituels, exécute la commande tell
 
                 // Get the final response from OpenAI after getting the tool results
                 response = await openai.chat.completions.create({
-                    model: "gpt-4o-mini",
+                    model: LLM_MODEL,
                     messages: messages,
                     tools: openaiTools.length > 0 ? openaiTools : undefined,
                 });
