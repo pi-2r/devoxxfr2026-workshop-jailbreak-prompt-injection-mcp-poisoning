@@ -157,6 +157,7 @@ Pour les attaques (anciennement orchestrateurs), voici quelques details supplém
 Depuis le terminal de codespace, PyRIT est déjà pré-installé dans `$HOME/PyRIT` (`/home/node/PyRIT`). Vous pouvez vérifier en exécutant la commande suivante :
 
   ```bash
+  source .venv/bin/activate
   uv pip freeze | grep -i Pyrit
   ```
 
@@ -165,6 +166,9 @@ Le dépôt cloné est accessible via :
   ```bash
   PYRIT_REPO="$HOME/PyRIT"
   ```
+
+<details>
+<summary>Installation de PyRIT en local - Ignorer cette étape sur Github Codespace</summary>
 
 ### Installation de PyRIT en local - Ignorer cette étape sur Github Codespace
 
@@ -230,6 +234,7 @@ des dépendances du projet. Par exemple :
 
 <img src="img/pyrit-install.png" alt="Pyrit install" width="600" style="transition:0.3s;">
 
+</details>
 
 ### Stratégies d'attaque
 
