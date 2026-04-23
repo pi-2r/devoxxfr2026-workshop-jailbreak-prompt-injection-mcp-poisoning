@@ -531,7 +531,7 @@ L'alignement par RLHF ou Constitutional AI apprend des **biais** vers le refus, 
 
 Les attaques par **encodage custom**, **langue rare**, **framing narratif nouveau**, ou **suffixe GCG adversarial**, **IMM** exploitent exactement ces zones non couvertes. Et elles sont infinies : pour toute distribution de tâches que tu couvres à l'entraînement, il existe toujours des tâches hors distribution qu'un attaquant peut construire.
 
-Wolf, Wies et al. ([*Fundamental Limitations of Alignment in Large Language Models*, 2024](https://arxiv.org/abs/2304.11082)) ont formalisé ce constat : tant que le modèle conserve la capacité d'exprimer des comportements non alignés — et cette capacité est nécessaire pour qu'il soit utile — il existe toujours un prompt qui peut les déclencher. Mathématiquement : un modèle qui exprime n'importe quel comportement avec probabilité strictement positive est jailbreakable avec assez d'essais.
+Wolf, Wies et al. ([*Fundamental Limitations of Alignment in Large Language Models*, 2024](https://arxiv.org/abs/2304.11082)) ont formalisé ce constat : tant que le modèle conserve la capacité d'exprimer des comportements non alignés et d'intéragir avec son environnement - cette capacité est nécessaire pour qu'il soit utile — il existe toujours un prompt qui peut les déclencher et le risque qu'il soit exploité est non nul. Mathématiquement : un modèle qui peut exprimer un comportement non-désirable avec probabilité strictement positive est jailbreakable avec assez d'essais.
 
 ### Ce que ça implique pour la défense
 
