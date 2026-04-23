@@ -30,12 +30,17 @@ Le dépôt officiel est accessible ici : https://github.com/microsoft/AI-Red-Tea
 
 Pour utiliser le playground, deux options s’offrent à vous :
 
-- Si vous avez suivi les prérequis et installé le playground, rendez-vous à l’adresse suivante :  
-https://home.playground-ms-ai.benvii.com/login?auth=DEVOXX_SECRET_KEY (la valeur de **YOUR_AUTH_KEY** se trouve dans le fichier **.env**) 
-afin de vous connecter en local.
-
 - Si vous n’avez pas installé le playground sur votre machine, vous pouvez y accéder directement via cette URL du 
-codelab : **http://192.168.20.2:5000/login?auth=DEVOXX_SECRET_KEY**.
+codelab : **[https://home.playground-ms-ai.benvii.com/login?auth=DEVOXX_SECRET_KEY](https://home.playground-ms-ai.benvii.com/login?auth=DEVOXX_SECRET_KEY)**.
+
+<details>
+<summary>J'ai le playground en local</summary>
+- Si vous avez suivi les prérequis et installé le playground, rendez-vous à l’adresse suivante :  
+http://localhost:5000/login?auth=YOUR_AUTH_KEY(la valeur de **YOUR_AUTH_KEY** se trouve dans le fichier **.env**) 
+afin de vous connecter en local.
+</details>
+
+
 
 Voici à quoi ressemble l’interface du playground :
 
