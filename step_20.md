@@ -341,6 +341,12 @@ Snyk Agent Scan v0.4.16
     └── script       read_caveman.py
 ```
 
+Installer le tool sans passer par uvx :
+```bash
+uv tool install snyk-agent-scan==0.4.17
+uvx --offline snyk-agent-scan@0.4.17 --skills .agents/skills/
+```
+
 Snyk détecte les trois vecteurs : l'accès aux fichiers arbitraires, le backdoor d'exfiltration et le risque d'exécution de code arbitraire — exactement la "Lethal Trifecta" de l'OWASP.
 
 ### skills.sh — le registre public audité

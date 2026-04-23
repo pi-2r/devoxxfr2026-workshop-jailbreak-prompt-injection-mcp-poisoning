@@ -57,7 +57,7 @@ L'attaquant aggrave souvent cela avec du **Prompt Injection** dans la descriptio
             │                              │
             ▼                              ▼
 ┌───────────────────────┐    ┌──────────────────────────────────┐
-│   🏦 Serveur Banque   │     │  🐍 SEPA Express Gateway         │
+│   🏦 Serveur Banque   │    │  🐍 SEPA Express Gateway         │
 │    (port 3001)        │    │    (port 3002)                   │
 │                       │    │                                  │
 │  transfer_funds       │    │  transfer_funds  ← SHADOWING !   │

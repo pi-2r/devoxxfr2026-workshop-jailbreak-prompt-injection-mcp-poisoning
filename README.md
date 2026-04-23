@@ -10,10 +10,10 @@ Ce projet github est issue du workshop fait par [Benjamin Bernard](https://www.l
 ## Info réseau
 
 Point d'accès wifi :
-* SSID: LLM_ATTACK
-* Mot de passe: password
+* SSID: devoxx-hol
+* Mot de passe: VOIR SUR LE SLIDE.
 
-Lab AI Red Team partagé disponible ici : http://192.168.20.2:5000/login?auth=YOUR_AUTH_KEY
+Lab AI Red Team partagé disponible ici : https://home.playground-ms-ai.benvii.com/login?auth=DEVOXX_SECRET_KEY
 
 
 ## Sommaire
