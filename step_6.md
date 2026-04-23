@@ -71,8 +71,8 @@ Vous pouvez vous exercer à ces techniques sur le lab suivant :<br/>
 >     └──────┬───────┘                     └──────┬───────┘   parmi d'autres
 >            │                                    │
 >     ┌──────▼───────┐                     ┌──────▼───────┐
->     │     USER     │ peut être           │     USER     │ ← celle-ci a 
->     └──────────────┘ override par system └──────────────┘   souvent la priorité
+>     │     USER     │ peut être           │     USER     │ ← celle-ci peut  
+>     └──────────────┘ override par system └──────────────┘   prendre la priorité
 >                                                              de fait
 > ```
 >
@@ -472,7 +472,7 @@ Détecter une prompt injection revient à décider de la propriété suivante su
 > *"Ce bloc de texte, s'il est traité par un LLM, va-t-il modifier le comportement du modèle de façon non voulue par le développeur ?"*
 
 Cette propriété est :
-- **Sémantique** : elle dépend de l'effet du texte sur le comportement du modèle, pas de sa forme lexicale
+- **Sémantique** : elle dépend de l'effet du texte sur le comportement du modèle, pas de sa forme lexicale (propriété syntaxique)
 - **Non triviale** : certains textes sont des injections, d'autres non
 
 → Par Rice : **indécidable dans le cas général**. Aucun détecteur, aussi sophistiqué soit-il, ne peut garantir simultanément zéro faux positif et zéro faux négatif.
@@ -499,13 +499,18 @@ Cette propriété est :
 └────────────────────────────────────────────────────────────────┘
 ```
 
+Toutefois, ceci dit, il est important de noter que mettre en place des guardrails externes (filtrage de prompts, classifieurs, etc.) reste nécessaire et une **bonne pratique** pour détecter les attaques par prompt injection connues.
+
 #### Les travaux qui formalisent ce lien
 
 Plusieurs références font ce lien explicite :
 
 - **James Hugman (2025), [*Prompt Injection is a LangSec Problem: Unsolvable in the General Case*](https://jhugman.com/posts/prompt-injection-langsec/)** — applique le cadre LangSec (Language-theoretic Security, Patterson & Sassaman 2011) aux LLM. Argument central : le langage naturel peut exprimer n'importe quel concept calculable, donc détecter la *harmfulness* est au moins aussi dur que décider n'importe quelle propriété de calcul arbitraire — donc indécidable.
-- **Melo et al. (2024), [*On the Undecidability of Artificial Intelligence Alignment: Machines that Halt*](https://arxiv.org/abs/2408.08995)** — preuve formelle via Rice que l'alignement interne est indécidable. Conséquence constructive proposée : construire des IA **prouvablement alignées par construction** à partir d'un ensemble d'opérations sûres (analogue aux langages à types dépendants comme Coq ou Lean).
+- **Melo et al. (2025), [*Machines that halt resolve the undecidability of artificial intelligence alignment*](https://www.nature.com/articles/s41598-025-99060-2)** — preuve formelle via Rice que l'alignement interne est indécidable. Conséquence constructive proposée : construire des IA **prouvablement alignées par construction** à partir d'un ensemble d'opérations sûres (analogue aux langages à types dépendants comme Coq ou Lean).
 - **Choudhary et al. (2025), [*How Not to Detect Prompt Injections with an LLM*](https://arxiv.org/abs/2507.05630)** — prouve formellement qu'une classe entière de défenses par détection (Known-Answer Detection) a une faille structurelle qui **ne peut pas être réparée par fine-tuning**.
+
+Il est important de noter que même si l'applicabilité du théorème de Rice aux questions d'alignement semble acceptée, des travaux récents sur le problème de l'arrêt, notamment **Sultan et al., (2026), [*LLMs versus the Halting Problem: Revisiting Program Termination Prediction*](https://arxiv.org/html/2601.18987v3)** tendent à montrer que les LLMs, via leurs heuristiques apprises, capturent très bien les cas pratiques malgré les limites imposées par le théorème de Rice. 
+Cette question de la "praticabilité empiriste" vs "impossibilité théorique" est un sujet de débat actif (**Yampolskiy et al. (2022)**, [*Impossibility Results in AI: A Survey*](https://arxiv.org/pdf/2109.00484)): ira-t-on vers un paradigme où la détection parfaite est impossible en théorie, qui en pratique sera suffisamment bonne pour être considérée comme fiable (un peu comme le sont des algorithmes de cryptage qui en théorie sont cassables mais en pratique sûrs car la probabilité de les casser est extrêmement faible).
 
 ### Les limites fondamentales de l'alignement
 
@@ -535,7 +540,7 @@ Wolf, Wies et al. ([*Fundamental Limitations of Alignment in Large Language Mode
 
 ### Ce que ça implique pour la défense
 
-Si détecter parfaitement les injections est **théoriquement impossible**, et si l'alignement ne peut pas créer d'invariants absolus, la conclusion opérationnelle est un **changement de paradigme** :
+Si détecter parfaitement toutes les injections semble **théoriquement impossible**, et si l'alignement ne peut pas créer d'invariants absolus, la conclusion opérationnelle est de ne pas se reposer sur une défense unique mais de chercher une **défense en profondeur**, qui combine plusieurs couches de sécurité :
 
 ```
   ❌ MAUVAIS RAISONNEMENT               ✅ MEILLEUR RAISONNEMENT
@@ -593,8 +598,10 @@ Les principes concrets qui en découlent — et qu'on retrouve dans les bonnes p
 | Ignore Previous Prompt: Attack Techniques For Language Models (Perez et al., 2022)                        | [https://arxiv.org/pdf/2211.09527](https://arxiv.org/pdf/2211.09527)                                                                                                                                                                                                                                                                                                                                                                                              |
 | AI Red Teaming 101 – Full Course (Episodes 1-10)                                      | [https://www.youtube.com/watch?v=DwFVhFdD2fs](https://www.youtube.com/watch?v=DwFVhFdD2fs)                                                                                                                                                                                                                                                                                                                                                                        |
 | Prompt Injection is a LangSec Problem (Hugman, 2025)                                  | [https://jhugman.com/posts/prompt-injection-langsec/](https://jhugman.com/posts/prompt-injection-langsec/)                                                                                                                                                                                                                                                                                                                                                        |
-| On the Undecidability of AI Alignment (Melo et al., 2024)                             | [https://arxiv.org/abs/2408.08995](https://arxiv.org/abs/2408.08995)                                                                                                                                                                                                                                                                                                                                                                                              |
+| LLMs versus the Halting Problem: Revisiting Program Termination Prediction (Sultan et al., 2026)                             | [https://arxiv.org/html/2601.18987v3](https://arxiv.org/html/2601.18987v3)                                                                                                                                                                                                                                                                                                                                                                                              |
+| Impossibility Results in AI: A Survey (Yampolskiy et al., 2022)                             | [https://arxiv.org/pdf/2109.00484](https://arxiv.org/pdf/2109.00484)                                                                                                                                                                                                                                                                                                                                                                                              |
 | How Not to Detect Prompt Injections with an LLM (Choudhary et al., 2025)              | [https://arxiv.org/abs/2507.05630](https://arxiv.org/abs/2507.05630)                                                                                                                                                                                                                                                                                                                                                                                              |
+| Machines that halt resolve the undecidability of artificial intelligence alignment (Melo et al., 2025)                             | [https://www.nature.com/articles/s41598-025-99060-2](https://www.nature.com/articles/s41598-025-99060-2)                                                                                                                                                                                                                                                                                                                                                                                              |
 | Fundamental Limitations of Alignment in LLMs (Wolf, Wies et al., 2024)                | [https://arxiv.org/abs/2304.11082](https://arxiv.org/abs/2304.11082)                                                                                                                                                                                                                                                                                                                                                                                              |
 | Jailbroken: How Does LLM Safety Training Fail? (Wei et al., 2023)                     | [https://arxiv.org/abs/2307.02483](https://arxiv.org/abs/2307.02483)                                                                                                                                                                                                                                                                                                                                                                                              |
 | Refusal in Language Models Is Mediated by a Single Direction (Arditi et al., 2024)    | [https://arxiv.org/abs/2406.11717](https://arxiv.org/abs/2406.11717)                                                                                                                                                                                                                                                                                                                                                                                              |
