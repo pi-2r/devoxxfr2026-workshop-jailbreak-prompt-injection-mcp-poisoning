@@ -334,7 +334,7 @@ Résultat attendu avec la regex : `"Nom d'hôte invalide. Caractères autorisés
 
 ## Solutions
 
-[solutions/step16](solutions/step16)
+[solutions/step16](solutions/step16/README.md)
 
 ## Étape suivante
 

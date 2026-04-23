@@ -31,7 +31,7 @@ Le dépôt officiel est accessible ici : https://github.com/microsoft/AI-Red-Tea
 Pour utiliser le playground, deux options s’offrent à vous :
 
 - Si vous avez suivi les prérequis et installé le playground, rendez-vous à l’adresse suivante :  
-http://localhost:5000/login?auth=YOUR_AUTH_KEY (la valeur de **YOUR_AUTH_KEY** se trouve dans le fichier **.env**) 
+https://home.playground-ms-ai.benvii.com/login?auth=DEVOXX_SECRET_KEY (la valeur de **YOUR_AUTH_KEY** se trouve dans le fichier **.env**) 
 afin de vous connecter en local.
 
 - Si vous n’avez pas installé le playground sur votre machine, vous pouvez y accéder directement via cette URL du 
