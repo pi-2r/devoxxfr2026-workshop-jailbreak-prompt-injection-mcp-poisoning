@@ -5,7 +5,10 @@ pendant le lab :
 * Playground Microsoft
 * Registry docker locale avec SSL : https://docker-registry.lab.benvii.com
 * Registry NPM local avec SSL : https://npm-registry.lab.benvii.com
-* Serveur code-server : https://code-server.lab.benvii.com
+* Registry Python locale avec SSL : https://pypi-registry.lab.benvii.com
+* Code-servers participants : https://&lt;prenom&gt;.code.lab.benvii.com (voir `code-servers/`)
+
+> Cette stack crée le réseau Docker externe `lab_edge` utilisé par `code-servers/` pour exposer son Traefik derrière Caddy. **Démarrer cette stack en premier.**
 
 ## Pré-charger les packages npm dans la registry locale
 

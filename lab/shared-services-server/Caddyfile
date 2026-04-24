@@ -17,3 +17,8 @@ pypi-registry.lab.benvii.com {
   tls /certs/fullchain.pem /certs/privkey.pem
   reverse_proxy python-registry:3141
 }
+
+*.code.lab.benvii.com {
+  tls /certs/code.lab.benvii.com/fullchain.pem /certs/code.lab.benvii.com/privkey.pem
+  reverse_proxy traefik:80
+}
