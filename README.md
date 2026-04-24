@@ -6,6 +6,7 @@ Ce projet github est issue du workshop fait par [Benjamin Bernard](https://www.l
 
 <img src="img/jailbreak-prompt-injection-mcp-poisoning-dont-panic-and-hack-ai-.png"  alt="Jailbreak, Prompt Injection, MCP Poisoning... Don't Panic and Hack AI 🥰 🤖">
 
+**Support / Slides** de présentation présenté pendant le codelab [disponible ici](https://docs.google.com/presentation/d/1fJze_Q0VsvTW0nXkQy6yWIcuHC2uyGcE/edit?usp=sharing&ouid=100952795343864001179&rtpof=true&sd=true).
 
 ## Info réseau
 
